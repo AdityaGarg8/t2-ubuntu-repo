@@ -1,11 +1,11 @@
 Package: apple-t2-audio-config
-Version: 0.3
+Version: 0.4
 Architecture: amd64
 Maintainer: Aditya Garg
-Filename: ./apple-t2-audio-config.deb
-Size: 1618
-MD5sum: 22f81d543481feb48e9c2f124d8744d5
-SHA1: f1afb1d5cd0053d0128134632a35954b32a6d85e
-SHA256: 8b09f03858c68531ae0f353cda869b54379785a329a48c8dcaa3f542ada99064
+Filename: ./apple-t2-audio-config_0.4_amd64.deb
+Size: 1612
+MD5sum: 79199f13bb8b7954bb9ab314b24d8040
+SHA1: a4b6fafccd1c2066fb60b3b978d51cd1ee6428f6
+SHA256: c15827474a656cab4f7f11034e7b0c532e101c97bc86e92f603e4c5e9a91fbb5
 Description: Audio configuration files for T2 Macs
 

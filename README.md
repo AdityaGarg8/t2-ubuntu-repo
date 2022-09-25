@@ -1,4 +1,4 @@
-#APT repository for T2 Macs
+# APT repository for T2 Macs
 
 Run the following to add this repo
 

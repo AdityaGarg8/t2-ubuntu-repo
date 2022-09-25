@@ -1,3 +1,15 @@
+Package: apple-bce
+Version: 0.1
+Architecture: amd64
+Maintainer: Aditya Garg
+Depends: dkms
+Filename: ./apple-bce_0.1_amd64.deb
+Size: 32654
+MD5sum: 8f72c6a429059d378eb737df1385d130
+SHA1: 3c052adaf710307b31bb6ac355a6faccdf2532a2
+SHA256: c0b7466b89d2d6cb0ba1a3dc85a2247fbbd414c270a5458b729a73bace6b6340
+Description: Apple BCE driver for Linux
+
 Package: apple-t2-audio-config
 Version: 0.4
 Architecture: amd64

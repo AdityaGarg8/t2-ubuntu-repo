@@ -1,1 +1,1 @@
-deb https://adityagarg8.github.io/t2-ubuntu-repo ./
+deb [signed-by=/etc/apt/trusted.gpg.d/t2-ubuntu-repo.gpg] https://adityagarg8.github.io/t2-ubuntu-repo ./

@@ -34,26 +34,26 @@ SHA256: c15827474a656cab4f7f11034e7b0c532e101c97bc86e92f603e4c5e9a91fbb5
 Description: Audio configuration files for T2 Macs
 
 Package: t2-kernel-script
-Version: 5.15.70-1
+Version: 5.16
 Architecture: amd64
 Maintainer: Aditya Garg
 Replaces: t2-kernel-script-lts
 Filename: ./t2-kernel-script.deb
-Size: 1368
-MD5sum: 97beb42ed89fe649fb7a6aa392a43ae9
-SHA1: 16bb6d2654db3217221678beddd54aa18c206131
-SHA256: 49936283c69f96c2bb584c8e9aa94caab62f9004a92c69c94d3b72312d81d46e
+Size: 1618
+MD5sum: a1628fe4e0838bfc67a485dea2dc9119
+SHA1: 6dcc88c9e1adb773d1f043c81bd5f14b94f2c749
+SHA256: 1820c3415da3121c17545a97e0f707117a0e2c36dc9e4828cecb6f0c42ca652a
 Description: Kernel upgrade script for Mainline kernels
 
 Package: t2-kernel-script-lts
-Version: 1.2
+Version: 2
 Architecture: amd64
 Maintainer: Aditya Garg
 Replaces: t2-kernel-script
 Filename: ./t2-kernel-script-lts.deb
-Size: 1360
-MD5sum: 20275389c2b54c3395c8362b27cec6ac
-SHA1: f50ac31dc6ef2f7b865a5a542d533aa052c84c58
-SHA256: 31109c6a3c50ec63b8026dfe2604b8ccd5340360759db71b7ad41494131c7ffd
+Size: 1482
+MD5sum: 6c1881b5ddf728f3a4e75f3e86e6fd9e
+SHA1: 4d981482d4c01c4d975855e9e0977687aed28999
+SHA256: 2ceac537a949e4d91dff5767e7d15357029ac4d8258cb9cc3e3531be310f136c
 Description: Kernel upgrade script for LTS kernels
 

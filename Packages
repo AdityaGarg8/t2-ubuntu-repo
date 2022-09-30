@@ -46,14 +46,14 @@ SHA256: 7b70aebdad17a66b3af6c1eaff2a244cf23ce2e8801c1cece37676f9a94c82c9
 Description: Kernel upgrade script for Mainline kernels
 
 Package: t2-kernel-script-lts
-Version: 2.2.2
+Version: 2.2.3
 Architecture: amd64
 Maintainer: Aditya Garg
 Replaces: t2-kernel-script
 Filename: ./t2-kernel-script-lts.deb
-Size: 1528
-MD5sum: 30dd4a81eefdcade47c32b5e53546761
-SHA1: e579077a398da5e17577bb9869a4f82a426e4d9e
-SHA256: 89f70bb48fb4962c8e0961f4c9b6eb2aaab12b7f958ea50122ad83f9e95c3f84
+Size: 1480
+MD5sum: e91a20060aca614e97daf66b7fc75af1
+SHA1: c0555f2313b312caa0be69c1699c49de7475e389
+SHA256: 6d84e228204a9155e7ae78b0e2965f85a50ea68f4ec806da03639fde958a5631
 Description: Kernel upgrade script for LTS kernels
 

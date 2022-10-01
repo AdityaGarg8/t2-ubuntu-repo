@@ -22,6 +22,18 @@ SHA1: feecc79715f5d14c07e94fe844d79862b9301520
 SHA256: b4804e7a446a93886b8dc439ea4f2204bbbe13700b6f49687786e48034c2ef49
 Description: Apple BCE driver for Linux
 
+Package: apple-gmux-t2
+Version: 0.1
+Architecture: amd64
+Maintainer: Aditya Garg
+Depends: dkms
+Filename: ./apple-gmux-t2_0.1_amd64.deb
+Size: 15628
+MD5sum: 8a163fed3af77e18ba92e04c2ec75ff6
+SHA1: e88e32aaa00044a833dd3ab16a580d592cc2a150
+SHA256: 6f112e45f5b5f39fc4ec0fc51abdab8b198a36febd26efb4a5498f51fbe3446f
+Description: Gmux driver for Apple laptops
+
 Package: apple-t2-audio-config
 Version: 0.4
 Architecture: amd64

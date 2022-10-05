@@ -34,6 +34,18 @@ SHA1: e88e32aaa00044a833dd3ab16a580d592cc2a150
 SHA256: 6f112e45f5b5f39fc4ec0fc51abdab8b198a36febd26efb4a5498f51fbe3446f
 Description: Gmux driver for Apple laptops
 
+Package: apple-ibridge
+Version: 0.1
+Architecture: amd64
+Maintainer: Aditya Garg
+Depends: dkms
+Filename: ./apple-ibridge_0.1_amd64.deb
+Size: 83628
+MD5sum: a8b6d131374112dff9550f146fbda4d0
+SHA1: 6c0e3347bc03b2a37feceb3096558de1ba13669c
+SHA256: e978057b81e2071680c1aec934c8c044db95057ed6b91cbcfb22dd1521dec90b
+Description: Apple Touch Bar and ALS driver for Linux
+
 Package: apple-t2-audio-config
 Version: 0.4
 Architecture: amd64

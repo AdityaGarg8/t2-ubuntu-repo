@@ -46,6 +46,18 @@ SHA1: 6c0e3347bc03b2a37feceb3096558de1ba13669c
 SHA256: e978057b81e2071680c1aec934c8c044db95057ed6b91cbcfb22dd1521dec90b
 Description: Apple Touch Bar and ALS driver for Linux
 
+Package: apple-ibridge
+Version: 0.1.1
+Architecture: amd64
+Maintainer: Aditya Garg
+Depends: dkms
+Filename: ./apple-ibridge_0.1.1_amd64.deb
+Size: 84094
+MD5sum: fa67ca5a3961431d71fcf7841d05fc59
+SHA1: 49e9b433371b78d329b5a72452a2e87f4ed3c459
+SHA256: 1531a364f8b1115044067f4df29d16d401db2d3f818e7fb51c7a7fdb26025850
+Description: Apple Touch Bar and ALS driver for Linux
+
 Package: apple-t2-audio-config
 Version: 0.4
 Architecture: amd64

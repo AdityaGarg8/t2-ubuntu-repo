@@ -10,9 +10,9 @@ sudo apt update
 
 You should be able to install and update the following packages with `apt`.
 
-- apple-bce: Exposes Keyboard, Camera, Touchbar, etc as USB devices. Also does audio.
-- apple-ibridge: Touchbar driver, keyboard backlight on mbp16,X (ones where touchbar does not have esc key in it).
-- apple-t2-audio-config: Audio config files for the audio device apple-bce has.
-- apple-gmux-t2: Driver for hybrid graphics on Macs with both AMD and Intel GPU.
-- t2-kernel-script: The kernel update script for Mainline T2 kernels.
-- t2-kernel-script-lts: The kernel update script for LTS T2 kernels.
+- **apple-bce**: Exposes Keyboard, Camera, Touchbar, etc as USB devices. Also does audio.
+- **apple-ibridge**: Touchbar driver, keyboard backlight on mbp16,X (ones where touchbar does not have esc key in it).
+- **apple-t2-audio-config**: Audio config files for the audio device apple-bce has.
+- **apple-gmux-t2**: Driver for hybrid graphics on Macs with both AMD and Intel GPU.
+- **t2-kernel-script**: The kernel update script for Mainline T2 kernels.
+- **t2-kernel-script-lts**: The kernel update script for LTS T2 kernels.

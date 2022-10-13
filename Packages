@@ -94,15 +94,15 @@ SHA256: 07ca156f42423ee41d629f54765398dd17e524de3643682b24e27611eac3f97d
 Description: Kernel upgrade script for Mainline kernels
 
 Package: t2-kernel-script-debian
-Version: 1
+Version: 1.1
 Architecture: amd64
 Maintainer: Aditya Garg
 Replaces: t2-kernel-script, t2-kernel-script-lts
 Filename: ./t2-kernel-script-debian.deb
-Size: 1576
-MD5sum: 74b002e19e65725042a84455456385d6
-SHA1: d5ba9e039cfbf3c9cdc21623c9ec3ecc9c36349b
-SHA256: 20d167689cee5b4994b0b24e8f9c2179d02ef44bed9427992cf62e5f4f970f0a
+Size: 1608
+MD5sum: d1e8cb604f2268c4da31f1cd8ae021b9
+SHA1: b318e1f5e9556ecc9ef6be053f0b062f0636bc2f
+SHA256: 5aeefbd33263fc1c7f49226361339d877e1b53428c2fc7415f8a0b3e946f1453
 Description: Kernel upgrade script for Debian kernels
 
 Package: t2-kernel-script-lts

@@ -22,6 +22,18 @@ SHA1: feecc79715f5d14c07e94fe844d79862b9301520
 SHA256: b4804e7a446a93886b8dc439ea4f2204bbbe13700b6f49687786e48034c2ef49
 Description: Apple BCE driver for Linux
 
+Package: apple-bce
+Version: 0.2.1
+Architecture: amd64
+Maintainer: Aditya Garg
+Depends: dkms
+Filename: ./apple-bce_0.2.1_amd64.deb
+Size: 32922
+MD5sum: b8e16423a0d9c1f9b44664cbb7040b52
+SHA1: 5ab21b161cb161c6cf7d7e638559c7f30b131237
+SHA256: 35fd3eb2fe4e2360a736b59b6c39e93c54296b02e074373215e2a7b10cc1cae8
+Description: Apple BCE driver for Linux
+
 Package: apple-gmux-t2
 Version: 0.1
 Architecture: amd64

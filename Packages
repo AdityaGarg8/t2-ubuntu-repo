@@ -104,6 +104,18 @@ SHA1: dde9f61c7d275cadf3a59d7f23508cfad9fec7cb
 SHA256: f5776b63060696f07f3797ecc6b9ef936d577d5a241599163781d8b331f95c9e
 Description: Audio configuration files for T2 Macs
 
+Package: linux-apfs
+Version: 0.2.1
+Architecture: amd64
+Maintainer: Aditya Garg
+Depends: dkms
+Filename: ./linux-apfs_0.2.1_amd64.deb
+Size: 96852
+MD5sum: b28898628fbcbffc22e5611511a59d32
+SHA1: 9bac0363560b419926c65eeb651c33f6978a5e8f
+SHA256: ed32db2440b171354cd10956e39d1781164ccd0e52e5e79dcbf6c0a39d1e85d3
+Description: Apple File System driver for Linux
+
 Package: t2-kernel-script
 Version: 5.18
 Architecture: amd64

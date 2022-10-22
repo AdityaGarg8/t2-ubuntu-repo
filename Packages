@@ -147,9 +147,9 @@ Maintainer: Aditya Garg
 Replaces: t2-kernel-script, t2-kernel-script-lts
 Filename: ./t2-kernel-script-debian.deb
 Size: 1644
-MD5sum: b8926326db44082b02d5856c4ae18a79
-SHA1: 2f5cb9db69d21dcd97c9600aeb2993458f2f2d59
-SHA256: fd9740dacf62c2f4a1365e7715f4a5ff554da15f643832c47a504bc357f4fe3a
+MD5sum: e67c57030951d5b54ea49390563faa15
+SHA1: d8296f9fee586804d30127b29d5361a721af3509
+SHA256: ceb50b7b44487e93d6b9119709f54ac38cde4a2475c9a6c170fa37bebcf24957
 Description: Kernel upgrade script for Debian kernels
 
 Package: t2-kernel-script-lts

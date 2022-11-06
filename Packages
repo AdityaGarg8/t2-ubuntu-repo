@@ -129,15 +129,15 @@ SHA256: 5d361e07e27166d2025998ee4157e90f0b996609c4cb3fcb3b03add390b76207
 Description: Apple File System driver for Linux
 
 Package: t2-kernel-script
-Version: 6
+Version: 7
 Architecture: amd64
 Maintainer: Aditya Garg
 Replaces: t2-kernel-script-lts, t2-kernel-script-debian
 Filename: ./t2-kernel-script.deb
-Size: 1764
-MD5sum: 546771e12ed21cab0c1acd7e9c9edbce
-SHA1: 6113be81dee8b1749f7120d5a41db9f865e4146a
-SHA256: e31df7afa75fd9f3d951414bc99721230beee446e6692fa47f6dc4168a15ff35
+Size: 2128
+MD5sum: 39d98109f8357384e0f6def96f0a0a37
+SHA1: fdf0dac02561ca229a679f616fc336ffb6b944de
+SHA256: 6f2d58c2973094320541074f46ff59216be0b8dab41f7e9fcd40bc207eb47552
 Description: Kernel upgrade script for Mainline kernels
 
 Package: t2-kernel-script-debian

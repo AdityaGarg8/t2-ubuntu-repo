@@ -58,6 +58,18 @@ SHA1: ae532c76505da2e4784c2ec35362e57498fab9e3
 SHA256: 9b3309e837a24d43e61ae3cb49ab9cfa257b0d251965981d86a3aabfcdf3507c
 Description: Gmux driver for Apple laptops
 
+Package: apple-gmux-t2
+Version: 0.2.1
+Architecture: amd64
+Maintainer: Aditya Garg
+Depends: dkms
+Filename: ./apple-gmux-t2_0.2.1_amd64.deb
+Size: 15396
+MD5sum: 6cd073d613a5f1e147074e3753f92ef7
+SHA1: 5f30ebc02ffcf30def47654e2357351460f14212
+SHA256: 5638a06ffc7a7f08996f99a30d3468d1e59361481b2d393be7062e21c17941bd
+Description: Gmux driver for Apple laptops
+
 Package: apple-ibridge
 Version: 0.1
 Architecture: amd64

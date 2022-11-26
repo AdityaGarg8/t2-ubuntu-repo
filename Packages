@@ -158,10 +158,10 @@ Architecture: amd64
 Maintainer: Aditya Garg
 Replaces: t2-kernel-script, t2-kernel-script-lts
 Filename: ./t2-kernel-script-debian.deb
-Size: 2176
-MD5sum: b2fc549b95a865d57b2edd5acd9436c8
-SHA1: d0840580c44915a9066faa0337c2a00624a711ac
-SHA256: 059da37ae7d7de2c9adbb48b1806f59d153235f25a3b1a453cd5077f87e20788
+Size: 2180
+MD5sum: ab601db590457b6c67cd9af7fe2f586a
+SHA1: e32a3994f245e00f6599e1b98ea85b3a4e5f1a46
+SHA256: f1663873b13a30f546ab6d0124f83808b11e2982e4150806b16d423413108186
 Description: Kernel upgrade script for Debian kernels
 
 Package: t2-kernel-script-lts

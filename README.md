@@ -10,6 +10,8 @@ sudo apt update
 
 You should be able to install and update the following packages with `apt`.
 
+**WARNING** :- apple-bce and apple-ibridge packages should NOT be installed if installing the t2-kernel-script package, as t2 kernels have these drivers built in.
+
 - **apple-bce**: Exposes Keyboard, Camera, Touchbar, etc as USB devices. Also does audio.
 - **apple-ibridge**: Touchbar driver, keyboard backlight on mbp16,X (ones where touchbar does not have esc key in it).
 - **apple-t2-audio-config**: Audio config files for the audio device apple-bce has.

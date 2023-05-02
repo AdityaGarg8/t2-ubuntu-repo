@@ -298,3 +298,15 @@ SHA1: d7838e230b2db054fde4c225a0a649d0a3b8cf38
 SHA256: a9b0593850fb23f5299a2a9cb467d214d096d3c5353f25c2a9757a775dd806c2
 Description: Kernel upgrade script for LTS kernels
 
+Package: t2fand
+Version: 1.1.1-1
+Architecture: amd64
+Maintainer: Aditya Garg
+Depends: python3
+Filename: ./t2fand_1.1.1-1_amd64.deb
+Size: 2888
+MD5sum: 74a8a72ce8993160d649a5e7670ffc8a
+SHA1: 095a1ec31eacd4acd31c13b8475a0a8c341cd7c4
+SHA256: dfbd74bb615dc0c911dc2a4ce376d22b66bb64743f8f051c23c7e4d81002f9f4
+Description: Daemon to control fan speed on T2 Macs
+

@@ -310,3 +310,15 @@ SHA1: 095a1ec31eacd4acd31c13b8475a0a8c341cd7c4
 SHA256: dfbd74bb615dc0c911dc2a4ce376d22b66bb64743f8f051c23c7e4d81002f9f4
 Description: Daemon to control fan speed on T2 Macs
 
+Package: t2fand
+Version: 1.1.1-2
+Architecture: amd64
+Maintainer: Aditya Garg
+Depends: python3
+Filename: ./t2fand_1.1.1-2_amd64.deb
+Size: 2902
+MD5sum: 8a317750fa529f25eff1d9baf563f2f1
+SHA1: a702726987a668a2ecd9e4573a3c18966816c02c
+SHA256: f97680f709d1c89248c208cd004dda02d3692dd9ad0d9790c52a4bcdab5f3558
+Description: Daemon to control fan speed on T2 Macs
+

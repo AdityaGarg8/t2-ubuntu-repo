@@ -17,6 +17,7 @@ You should be able to install and update the following packages with `apt`.
 - **apple-t2-audio-config**: Audio config files for the audio device apple-bce has.
 - **apple-gmux-t2**: Driver for hybrid graphics on Macs with both AMD and Intel GPU.
 - **linux-apfs**: Debian package for the [linux-apfs-rw](https://github.com/linux-apfs/linux-apfs-rw) driver.
+- **t2fand**: Daemon to control fan speed on T2 Macs.
 - **t2-kernel-script**: The kernel update script for Ubuntu Mainline T2 kernels.
 - **t2-kernel-script-lts**: The kernel update script for Ubuntu LTS T2 kernels.
 - **t2-kernel-script-debian**: The kernel update script for Debian Mainline T2 kernels.

@@ -259,6 +259,18 @@ SHA1: ac3044d01f3bebb4a0accd3610cd98a83cdde01d
 SHA256: 8c0897fc68f7188829d47c61c82ef7567b0617a88c347d5115838460547f96af
 Description: Apple File System driver for Linux
 
+Package: linux-apfs
+Version: 0.3.2.0
+Architecture: amd64
+Maintainer: Aditya Garg
+Depends: dkms
+Filename: ./linux-apfs_0.3.2.0_amd64.deb
+Size: 155310
+MD5sum: 96ec5d4e3ae3360dbff281225d19cea8
+SHA1: 7a2e238f255143bd20706ee756bd376ba5885929
+SHA256: 3444f26b5e39d8399036fed2a2e5a0143f6eec1fb637f18e777df8943bc0ca63
+Description: Apple File System driver for Linux
+
 Package: t2-kernel-script
 Version: 7.6
 Architecture: amd64

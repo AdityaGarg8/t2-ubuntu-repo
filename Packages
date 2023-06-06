@@ -295,6 +295,20 @@ SHA1: f75cb5b24d5445000436992f80b9549d3b4c5e93
 SHA256: 219a6756008252ffe067dd1fe5049bf7f04dd45f4957cc088058aa45b916d99a
 Description: Apple File System driver for Linux
 
+Package: t2-apple-audio-dsp-mic
+Version: 0.1.0
+Architecture: amd64
+Maintainer: lemmyg@gmail.com
+Depends: pipewire, pipewire-pulse, wireplumber, lsp-plugins, calf-plugins, swh-plugins
+Filename: ./t2-apple-audio-dsp-mic_0.1.0_amd64.deb
+Size: 1640
+MD5sum: 3816efbc6589bd2c05ad6ecdd8f89a5a
+SHA1: 676b0d8b66f002f55932a755971926f2fade4478
+SHA256: 28cab2c73b1d44b3ea1d05980a8ba1d970c650737133049c3c7cf73640129e80
+Section: sound
+Homepage: https://github.com/lemmyg/t2-apple-audio-dsp/tree/speakers_161
+Description: Pipewire filterchain config for Macbook Pro 16 2019
+
 Package: t2-kernel-script
 Version: 7.6
 Architecture: amd64

@@ -21,3 +21,4 @@ You should be able to install and update the following packages with `apt`.
 - **t2-kernel-script**: The kernel update script for Ubuntu Mainline T2 kernels.
 - **t2-kernel-script-lts**: The kernel update script for Ubuntu LTS T2 kernels.
 - **t2-kernel-script-debian**: The kernel update script for Debian Mainline T2 kernels.
+- **t2-apple-audio-dsp-mic**: Mic configuration files for T2 Macs.

@@ -22,3 +22,4 @@ You should be able to install and update the following packages with `apt`.
 - **t2-kernel-script-lts**: The kernel update script for Ubuntu LTS T2 kernels.
 - **t2-kernel-script-debian**: The kernel update script for Debian Mainline T2 kernels.
 - **t2-apple-audio-dsp-mic**: Mic configuration files for T2 Macs.
+- **t2-apple-audio-dsp-speakers161**: Pipewire filterchain configuration files for Macbook Pro 16 inch, 2019

@@ -35,7 +35,6 @@ jobs:
         env:
           GPG_SIGNING_EMAIL: ${{ secrets.GPG_SIGNING_EMAIL }}
       - name: Push changes to the repo
-        if: env.publish == 'yes'
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}

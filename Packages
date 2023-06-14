@@ -309,6 +309,20 @@ Section: sound
 Homepage: https://github.com/lemmyg/t2-apple-audio-dsp/tree/speakers_161
 Description: Pipewire filterchain config for Macbook Pro 16 2019
 
+Package: t2-apple-audio-dsp-mic
+Version: 0.2.0
+Architecture: amd64
+Maintainer: lemmyg@gmail.com
+Depends: pipewire, pipewire-pulse, wireplumber, swh-plugins
+Filename: ./t2-apple-audio-dsp-mic_0.2.0_amd64.deb
+Size: 2068
+MD5sum: d771fe962f3a749c42eaad1c22327606
+SHA1: f8174e71eca11b70739f109c7d91e3f30c80dc0f
+SHA256: d9d69c9cea1ff02673e81a2a916064634f8f9dd5adf69d193255211663d17eda
+Section: sound
+Homepage: https://github.com/lemmyg/t2-apple-audio-dsp/tree/speakers_161
+Description: Pipewire filterchain config for Macbook Pro 16 2019
+
 Package: t2-apple-audio-dsp-speakers161
 Version: 0.1.0
 Architecture: amd64
@@ -319,6 +333,20 @@ Size: 243816
 MD5sum: 2b297db16e00cbe180d8ea73c1e7f64b
 SHA1: 46a3df2dbadb52ac6106c8c878f5b014d5c4c30b
 SHA256: ee5687a64af68b29367fceca4bc01bc3ea02d7ce4295d96873c9c112fe46e87b
+Section: sound
+Homepage: https://github.com/lemmyg/t2-apple-audio-dsp/tree/speakers_161
+Description: Pipewire filterchain config for Macbook Pro 16 2019
+
+Package: t2-apple-audio-dsp-speakers161
+Version: 0.1.2
+Architecture: amd64
+Maintainer: lemmyg@gmail.com
+Depends: pipewire, pipewire-pulse, wireplumber, lsp-plugins, calf-plugins, swh-plugins
+Filename: ./t2-apple-audio-dsp-speakers161_0.1.2_amd64.deb
+Size: 244168
+MD5sum: 462b0a4f659df07344c2a5c53b489a95
+SHA1: c9160fd39ae1c5a108f7ac6ecaf22fe09b1102c2
+SHA256: 985645698f64b47ffadf1851eb558a9367fd499ef44125b43df8a9cc63a7f145
 Section: sound
 Homepage: https://github.com/lemmyg/t2-apple-audio-dsp/tree/speakers_161
 Description: Pipewire filterchain config for Macbook Pro 16 2019

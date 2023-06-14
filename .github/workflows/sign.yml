@@ -1,0 +1,42 @@
+---
+name: APFS driver update script
+
+on:
+  workflow_dispatch:
+
+jobs:
+  Sign-Package:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: 'Checkout Repo'
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Configure GPG Key
+        run: |
+          echo -n "$GPG_SIGNING_KEY" | base64 --decode | gpg --import
+        env:
+          GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
+      - name: Sign the packages
+        run: |
+          cd ${{ github.workspace }}
+          dpkg-scanpackages --multiversion . > Packages
+          gzip -k -f Packages
+          # Release, Release.gpg & InRelease
+          apt-ftparchive release . > Release
+          gpg --default-key "${GPG_SIGNING_EMAIL}" -abs -o - Release > Release.gpg
+          gpg --default-key "${GPG_SIGNING_EMAIL}" --clearsign -o - Release > InRelease
+          cd ${{ github.workspace }}
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git commit -m "CI: Sign packages" -a
+        env:
+          GPG_SIGNING_EMAIL: ${{ secrets.GPG_SIGNING_EMAIL }}
+      - name: Push changes to the repo
+        if: env.publish == 'yes'
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}

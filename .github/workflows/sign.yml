@@ -1,5 +1,5 @@
 ---
-name: APFS driver update script
+name: Sign Packages
 
 on:
   workflow_dispatch:

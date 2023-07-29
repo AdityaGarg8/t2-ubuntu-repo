@@ -46,114 +46,6 @@ SHA1: 57ce4cee1fbd9832cfa2f003b4b28f37d255d76f
 SHA256: 873ef48d21d300ec66ad18aceea887bba09b790a20b3e5f2f35f39b5be6f28bc
 Description: Apple BCE driver for Linux
 
-Package: apple-gmux-t2
-Version: 0.1
-Architecture: amd64
-Maintainer: Aditya Garg
-Depends: dkms
-Filename: ./apple-gmux-t2_0.1_amd64.deb
-Size: 15628
-MD5sum: 8a163fed3af77e18ba92e04c2ec75ff6
-SHA1: e88e32aaa00044a833dd3ab16a580d592cc2a150
-SHA256: 6f112e45f5b5f39fc4ec0fc51abdab8b198a36febd26efb4a5498f51fbe3446f
-Description: Gmux driver for Apple laptops
-
-Package: apple-gmux-t2
-Version: 0.2
-Architecture: amd64
-Maintainer: Aditya Garg
-Depends: dkms
-Filename: ./apple-gmux-t2_0.2_amd64.deb
-Size: 15672
-MD5sum: a84f07ca6677873a553c128d3415bfad
-SHA1: ae532c76505da2e4784c2ec35362e57498fab9e3
-SHA256: 9b3309e837a24d43e61ae3cb49ab9cfa257b0d251965981d86a3aabfcdf3507c
-Description: Gmux driver for Apple laptops
-
-Package: apple-gmux-t2
-Version: 0.2.1
-Architecture: amd64
-Maintainer: Aditya Garg
-Depends: dkms
-Filename: ./apple-gmux-t2_0.2.1_amd64.deb
-Size: 15396
-MD5sum: 6cd073d613a5f1e147074e3753f92ef7
-SHA1: 5f30ebc02ffcf30def47654e2357351460f14212
-SHA256: 5638a06ffc7a7f08996f99a30d3468d1e59361481b2d393be7062e21c17941bd
-Description: Gmux driver for Apple laptops
-
-Package: apple-gmux-t2
-Version: 0.2.2
-Architecture: amd64
-Maintainer: Aditya Garg
-Depends: dkms
-Filename: ./apple-gmux-t2_0.2.2_amd64.deb
-Size: 15666
-MD5sum: c07397717ab40a9d5702a3f52ef9d41c
-SHA1: 81e38cb671b88f0bf448c0843e25798bc4d75474
-SHA256: 27c27833a68911d49f93a6f90b1e23178c9d6bb377da6fd5aa9979d19cae3125
-Description: Gmux driver for Apple laptops
-
-Package: apple-gmux-t2
-Version: 0.2.3
-Architecture: amd64
-Maintainer: Aditya Garg
-Depends: dkms
-Filename: ./apple-gmux-t2_0.2.3_amd64.deb
-Size: 16448
-MD5sum: 395dff8d7ee6f1dfddcb492aae02f1da
-SHA1: eaa0374e3bf5ab310bb1b6ce3f3ce3e00b0d6fa6
-SHA256: d21de46795f0aaf19a427bce3346866a38c67b5cae829c3eedde66f352649241
-Description: Gmux driver for Apple laptops
-
-Package: apple-gmux-t2
-Version: 0.2.4
-Architecture: amd64
-Maintainer: Aditya Garg
-Depends: dkms
-Filename: ./apple-gmux-t2_0.2.4_amd64.deb
-Size: 16464
-MD5sum: 830a0b6846682c1e44b9d7529bcc83b1
-SHA1: eeb9fe522e811305eed7a808d3cdc73d78a13d85
-SHA256: 2a1995531ae416bc10abf9468e2bfda2c6414bfc7f827564918206236304b6a9
-Description: Gmux driver for Apple laptops
-
-Package: apple-gmux-t2
-Version: 0.2.5
-Architecture: amd64
-Maintainer: Aditya Garg
-Depends: dkms
-Filename: ./apple-gmux-t2_0.2.5_amd64.deb
-Size: 16464
-MD5sum: 8ba9d16241bd142dd393bfb40932acf2
-SHA1: d8d993c4ef2e79525381edac12c26b0b45c8e3ce
-SHA256: d0c6f6b335b318ea629fc8912bd7ef125ec4b918095b8d2b1db2ed9d51961574
-Description: Gmux driver for Apple laptops
-
-Package: apple-ibridge
-Version: 0.1
-Architecture: amd64
-Maintainer: Aditya Garg
-Depends: dkms
-Filename: ./apple-ibridge_0.1_amd64.deb
-Size: 83628
-MD5sum: a8b6d131374112dff9550f146fbda4d0
-SHA1: 6c0e3347bc03b2a37feceb3096558de1ba13669c
-SHA256: e978057b81e2071680c1aec934c8c044db95057ed6b91cbcfb22dd1521dec90b
-Description: Apple Touch Bar and ALS driver for Linux
-
-Package: apple-ibridge
-Version: 0.1.1
-Architecture: amd64
-Maintainer: Aditya Garg
-Depends: dkms
-Filename: ./apple-ibridge_0.1.1_amd64.deb
-Size: 84094
-MD5sum: fa67ca5a3961431d71fcf7841d05fc59
-SHA1: 49e9b433371b78d329b5a72452a2e87f4ed3c459
-SHA256: 1531a364f8b1115044067f4df29d16d401db2d3f818e7fb51c7a7fdb26025850
-Description: Apple Touch Bar and ALS driver for Linux
-
 Package: apple-t2-audio-config
 Version: 0.4
 Architecture: amd64
@@ -186,6 +78,18 @@ MD5sum: 0e46d5395d83b4b8a3a7b1fac554f18c
 SHA1: 9e73433af8784aca1a66fa3dccc67cc96d0430cd
 SHA256: 862bdda00f9015a48dd3f554ef0f43ff6ce878422eb541f87f827c3de7f24e6f
 Description: Audio configuration files for T2 Macs
+
+Package: apple-touchbar
+Version: 0.1
+Architecture: amd64
+Maintainer: Aditya Garg
+Depends: dkms
+Filename: ./apple-touchbar_0.1_amd64.deb
+Size: 90694
+MD5sum: f770e7f86a682e18dfcd145a9e2dd480
+SHA1: 31770c1a1256adae60e9072e5e6437558f4f5b97
+SHA256: 8092b0132e457baa70c3488833424f573f980776e75b474aefc813b07193f514
+Description: Apple Touch Bar driver for Linux
 
 Package: linux-apfs
 Version: 0.2.2
@@ -433,16 +337,16 @@ SHA256: 5368d562d4ca118d85977ca7b7f2331cc5414b76f223f45bb139fe8dd0b65568
 Description: Kernel upgrade script for Mainline kernels
 
 Package: t2-kernel-script-debian
-Version: 1.4.3
+Version: 1.4.4
 Architecture: amd64
 Maintainer: Aditya Garg
 Depends: curl, wget
 Replaces: t2-kernel-script, t2-kernel-script-lts
 Filename: ./t2-kernel-script-debian.deb
-Size: 2166
-MD5sum: de36c20b9c5ba565a2e1a58c7776bb43
-SHA1: 235ef850f3f8d0fdc4eaaa90d4132cc326a68d73
-SHA256: e1d24ec90c1ed749186000f673f350028d722e5430c7f54382c933007b226b9b
+Size: 1800
+MD5sum: 06c5be90914fc372bfc64bb3fbed40ca
+SHA1: 24580b4e6cd4842d666c59be80a8cd36b24091e6
+SHA256: 165c9ac554de8bbbde5fbde189e9d510bd68d9512948bb66b62b395377550e2e
 Description: Kernel upgrade script for Debian kernels
 
 Package: t2-kernel-script-lts

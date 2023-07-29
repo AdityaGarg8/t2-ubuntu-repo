@@ -103,6 +103,18 @@ SHA1: 7fcb8f73004a3495e7dc696ed5be86715e4a1db7
 SHA256: 11edba47c688462f3ba46e943100b721e845607420ee1e4df11957d6ca5cf82b
 Description: Apple Touch Bar driver for Linux
 
+Package: bcm5974-t2
+Version: 0.1
+Architecture: amd64
+Maintainer: Aditya Garg
+Depends: dkms
+Filename: ./bcm5974-t2_0.1_amd64.deb
+Size: 14946
+MD5sum: 16f2d6305a34a63a5ef99d96c7e84e16
+SHA1: cf6e295bf0732f66008c98f3405e871f98401c72
+SHA256: aa8888dbb693481004847bf4c97ecd23c60beb016a6a499e51d854dcda905758
+Description: Apple USB BCM5974 multitouch driver for T2 Macs
+
 Package: linux-apfs
 Version: 0.2.2
 Architecture: amd64

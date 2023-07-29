@@ -91,6 +91,18 @@ SHA1: 31770c1a1256adae60e9072e5e6437558f4f5b97
 SHA256: 8092b0132e457baa70c3488833424f573f980776e75b474aefc813b07193f514
 Description: Apple Touch Bar driver for Linux
 
+Package: apple-touchbar
+Version: 0.1.1
+Architecture: amd64
+Maintainer: Aditya Garg
+Depends: dkms
+Filename: ./apple-touchbar_0.1.1_amd64.deb
+Size: 32776
+MD5sum: a1d363193bac3b551232da5a958a1692
+SHA1: 7fcb8f73004a3495e7dc696ed5be86715e4a1db7
+SHA256: 11edba47c688462f3ba46e943100b721e845607420ee1e4df11957d6ca5cf82b
+Description: Apple Touch Bar driver for Linux
+
 Package: linux-apfs
 Version: 0.2.2
 Architecture: amd64

@@ -324,16 +324,16 @@ Homepage: https://github.com/lemmyg/t2-apple-audio-dsp/tree/speakers_161
 Description: Pipewire filterchain config for Macbook Pro 16 2019
 
 Package: t2-kernel-script
-Version: 7.7.1
+Version: 7.7.2
 Architecture: amd64
 Maintainer: Aditya Garg
 Depends: curl, wget, libnotify-bin
 Replaces: t2-kernel-script-lts, t2-kernel-script-debian
 Filename: ./t2-kernel-script.deb
-Size: 2400
-MD5sum: c7a854ab04903d4cdadd78abd9909e80
-SHA1: 5e10d73a74c43cafb059ed9c6e0e5388c202e48b
-SHA256: f89ccf38d9e38a47535a5753795741543dc980ca66b452bb2f70d4a5d9f72b73
+Size: 2386
+MD5sum: 676196437a520f11320d4611b551b3e9
+SHA1: 0db6d3a5fddcca54fc6c8db2430138d039d87848
+SHA256: c29ba52788ca6d17302349f1d87abdc18bbcd4fc70e3234f9bd80e4608fc7af5
 Description: Kernel upgrade script for Mainline kernels
 
 Package: t2-kernel-script-debian

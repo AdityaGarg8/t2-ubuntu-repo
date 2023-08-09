@@ -1,49 +1,13 @@
 Package: apple-bce
-Version: 0.1
-Architecture: amd64
-Maintainer: Aditya Garg
-Depends: dkms
-Filename: ./apple-bce_0.1_amd64.deb
-Size: 32826
-MD5sum: e9b07d05dc8e909ceb115e28ffb7cb65
-SHA1: 9262d8b79b88b679a36a4d84169fece961ed09e8
-SHA256: 5b5163c81d3e95cb1dbaff858c0b8f1d3e801d67b2f7e7184d1b311bf2a50b67
-Description: Apple BCE driver for Linux
-
-Package: apple-bce
-Version: 0.2
-Architecture: amd64
-Maintainer: Aditya Garg
-Depends: dkms
-Filename: ./apple-bce_0.2_amd64.deb
-Size: 91602
-MD5sum: 6faf6436bbd61222f5cc5718eadc506d
-SHA1: feecc79715f5d14c07e94fe844d79862b9301520
-SHA256: b4804e7a446a93886b8dc439ea4f2204bbbe13700b6f49687786e48034c2ef49
-Description: Apple BCE driver for Linux
-
-Package: apple-bce
-Version: 0.2.1
-Architecture: amd64
-Maintainer: Aditya Garg
-Depends: dkms
-Filename: ./apple-bce_0.2.1_amd64.deb
-Size: 32922
-MD5sum: b8e16423a0d9c1f9b44664cbb7040b52
-SHA1: 5ab21b161cb161c6cf7d7e638559c7f30b131237
-SHA256: 35fd3eb2fe4e2360a736b59b6c39e93c54296b02e074373215e2a7b10cc1cae8
-Description: Apple BCE driver for Linux
-
-Package: apple-bce
 Version: 0.2.2
 Architecture: amd64
 Maintainer: Aditya Garg
 Depends: dkms
 Filename: ./apple-bce_0.2.2_amd64.deb
-Size: 32972
-MD5sum: 1a7633c83e89d945e189c69e01b0ce46
-SHA1: 57ce4cee1fbd9832cfa2f003b4b28f37d255d76f
-SHA256: 873ef48d21d300ec66ad18aceea887bba09b790a20b3e5f2f35f39b5be6f28bc
+Size: 36938
+MD5sum: 333519f771a53accd7d5e2fbbbd78afb
+SHA1: 95964df7f094ce4c295e79de7d1ba653bef5e496
+SHA256: 1592ba2fb035944ae5bfa815bce13ab5cbd7f25c6339012d07ee31bbd1b62d03
 Description: Apple BCE driver for Linux
 
 Package: apple-t2-audio-config
@@ -55,17 +19,6 @@ Size: 1612
 MD5sum: 79199f13bb8b7954bb9ab314b24d8040
 SHA1: a4b6fafccd1c2066fb60b3b978d51cd1ee6428f6
 SHA256: c15827474a656cab4f7f11034e7b0c532e101c97bc86e92f603e4c5e9a91fbb5
-Description: Audio configuration files for T2 Macs
-
-Package: apple-t2-audio-config
-Version: 0.4.1
-Architecture: amd64
-Maintainer: Aditya Garg
-Filename: ./apple-t2-audio-config_0.4.1_amd64.deb
-Size: 1632
-MD5sum: 149607b9b41b9dcf24325ffdc477a0d4
-SHA1: dde9f61c7d275cadf3a59d7f23508cfad9fec7cb
-SHA256: f5776b63060696f07f3797ecc6b9ef936d577d5a241599163781d8b331f95c9e
 Description: Audio configuration files for T2 Macs
 
 Package: apple-t2-audio-config
@@ -97,11 +50,23 @@ Architecture: amd64
 Maintainer: Aditya Garg
 Depends: dkms
 Filename: ./apple-touchbar_0.1.1_amd64.deb
-Size: 32776
-MD5sum: a1d363193bac3b551232da5a958a1692
-SHA1: 7fcb8f73004a3495e7dc696ed5be86715e4a1db7
-SHA256: 11edba47c688462f3ba46e943100b721e845607420ee1e4df11957d6ca5cf82b
+Size: 35448
+MD5sum: dbf27eecaf63cd301be532f50ce9ee64
+SHA1: c8de80d4173ab6476fff8c855a6227c724f91e4f
+SHA256: ec76a8a4621aa549278d8a2cd1430b9cb05d41671f500d9f1c35b53b42d5c04c
 Description: Apple Touch Bar driver for Linux
+
+Package: applesmc-t2
+Version: 0.1
+Architecture: amd64
+Maintainer: Aditya Garg
+Depends: dkms
+Filename: ./applesmc-t2_0.1_amd64.deb
+Size: 18960
+MD5sum: 266170d2fe707765e996438d884efeca
+SHA1: e3e9acfcddd71d2b7c19eca87b062931a1c9cdd5
+SHA256: 0de3f3fa7cb2544670498f58e54951bab87fc2a84f422970f6742ab4f9645b82
+Description: Apple System Management Controller driver for T2 Macs
 
 Package: bcm5974-t2
 Version: 0.1
@@ -109,10 +74,10 @@ Architecture: amd64
 Maintainer: Aditya Garg
 Depends: dkms
 Filename: ./bcm5974-t2_0.1_amd64.deb
-Size: 14946
-MD5sum: 16f2d6305a34a63a5ef99d96c7e84e16
-SHA1: cf6e295bf0732f66008c98f3405e871f98401c72
-SHA256: aa8888dbb693481004847bf4c97ecd23c60beb016a6a499e51d854dcda905758
+Size: 15712
+MD5sum: 43fdd89ef758e8204a8e7acd731cb9ab
+SHA1: f2f307f3dfddbd869a67c52803a32ef115f9ecb9
+SHA256: 2da1d56c61866c3429772a446cdf82d19e0970d0d63283f149e15f38c7ff81ab
 Description: Apple USB BCM5974 multitouch driver for T2 Macs
 
 Package: linux-apfs

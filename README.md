@@ -14,6 +14,7 @@ You should be able to install and update the following packages with `apt`.
 
 - **apple-bce**: Exposes Keyboard, Camera, Touchbar, etc as USB devices. Also does audio.
 - **apple-touchbar**: Driver for touchbar and keyboard backlight on T2 Macs.
+- **applesmc-t2**: Driver for the System Management Controller on T2 Macs.
 - **apple-t2-audio-config**: Audio config files for the audio device apple-bce has.
 - **bcm5974-t2**: Driver for trackpad gestures.
 - **linux-apfs**: Debian package for the [linux-apfs-rw](https://github.com/linux-apfs/linux-apfs-rw) driver.

@@ -68,6 +68,18 @@ SHA1: e3e9acfcddd71d2b7c19eca87b062931a1c9cdd5
 SHA256: 0de3f3fa7cb2544670498f58e54951bab87fc2a84f422970f6742ab4f9645b82
 Description: Apple System Management Controller driver for T2 Macs
 
+Package: applesmc-t2
+Version: 0.1.1
+Architecture: amd64
+Maintainer: Aditya Garg
+Depends: dkms
+Filename: ./applesmc-t2_0.1.1_amd64.deb
+Size: 18970
+MD5sum: f23376b34a224a3de81edd5d7688481e
+SHA1: 0b4545eee9bb216dba9842ac1cd6a2e5af66eb31
+SHA256: 6529c413760ef596246293be59b8dc0c31820eb29545ac2df379d95dd9847360
+Description: Apple System Management Controller driver for T2 Macs
+
 Package: bcm5974-t2
 Version: 0.1
 Architecture: amd64
@@ -78,6 +90,18 @@ Size: 15712
 MD5sum: 43fdd89ef758e8204a8e7acd731cb9ab
 SHA1: f2f307f3dfddbd869a67c52803a32ef115f9ecb9
 SHA256: 2da1d56c61866c3429772a446cdf82d19e0970d0d63283f149e15f38c7ff81ab
+Description: Apple USB BCM5974 multitouch driver for T2 Macs
+
+Package: bcm5974-t2
+Version: 0.1.1
+Architecture: amd64
+Maintainer: Aditya Garg
+Depends: dkms
+Filename: ./bcm5974-t2_0.1.1_amd64.deb
+Size: 15718
+MD5sum: f1bbf5ad9c274bd038e16e8bcae86563
+SHA1: 33d5b9c19f4d143c131615c2dea8d6776d85e7e2
+SHA256: 7f477fcc49f9457f1e585a97a843422ccf6e1f99722277cf8cf1be8ff2204173
 Description: Apple USB BCM5974 multitouch driver for T2 Macs
 
 Package: linux-apfs

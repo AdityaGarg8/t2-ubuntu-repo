@@ -10,7 +10,7 @@ sudo apt update
 
 You should be able to install and update the following packages with `apt`.
 
-**WARNING** :- **apple-bce**, **apple-ibridge** and **apple-gmux-t2** packages should NOT be installed if installing the t2-kernel-script package, as t2 kernels have these drivers built in.
+**WARNING** :- **apple-bce**, **apple-ibridge**, **applesmc-t2** and **bcm5974-t2** packages should NOT be installed if installing the t2-kernel-script package, as t2 kernels have these drivers built in.
 
 - **apple-bce**: Exposes Keyboard, Camera, Touchbar, etc as USB devices. Also does audio.
 - **apple-touchbar**: Driver for touchbar and keyboard backlight on T2 Macs.
@@ -24,3 +24,7 @@ You should be able to install and update the following packages with `apt`.
 - **t2-kernel-script-debian**: The kernel update script for Debian Mainline T2 kernels.
 - **t2-apple-audio-dsp-mic**: Mic configuration files for T2 Macs.
 - **t2-apple-audio-dsp-speakers161**: Pipewire filterchain configuration files for Macbook Pro 16 inch, 2019
+
+## Donate
+
+If you've really loved the work I've done so far for T2 Macs, and wanna help me out financially, you can donate me (AdityaGarg8) by following the instructions given [here](https://wiki.t2linux.org/contribute/#support-our-maintainers).

@@ -23,12 +23,16 @@ jobs:
       - name: Get the source code
         id: publish
         run: |
+          COMMIT_HASH=250ab5583b2468a9d6fcb5ec5cdc8e751ede8987
+          VERSION=0.1.1-1
           sudo apt update -y
           sudo apt-get install -y gir1.2-coglpango-1.0 gir1.2-pango-1.0 libcogl-pango-dev libghc-gi-pango-dev \
           libghc-pango-dev libghc-yi-frontend-pango-dev libpango1.0-dev libudev-dev libinput-dev
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
           git clone https://github.com/kekrby/tiny-dfr.git
           cd tiny-dfr
-          git checkout 250ab5583b2468a9d6fcb5ec5cdc8e751ede8987
+          git checkout ${COMMIT_HASH}
           cp ${{ github.workspace }}/.github/patches/*.patch ./
           git am ./*.patch
           cargo b --release
@@ -47,7 +51,7 @@ jobs:
           cd DEBIAN
 
           echo "Package: tiny-dfr-t2" > control
-          echo "Version: 0.1.1-1" >> control
+          echo "Version: ${VERSION}" >> control
           echo "Maintainer: Aditya Garg" >> control
           echo "Architecture: amd64" >> control
           echo "Description: Function row daemon for touchbar on T2 Macs" >> control
@@ -74,6 +78,8 @@ jobs:
           gpg --default-key "${GPG_SIGNING_EMAIL}" --clearsign -o - Release > InRelease
           cd ${{ github.workspace }}
           rm -r ./tiny-dfr
+          git add .
+          
         env:
           GPG_SIGNING_EMAIL: ${{ secrets.GPG_SIGNING_EMAIL }}
       - name: Push changes to the repo

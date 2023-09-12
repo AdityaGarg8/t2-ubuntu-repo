@@ -50,11 +50,11 @@ jobs:
           mkdir DEBIAN
           cd DEBIAN
 
-          echo "Package: tiny-dfr-t2" > control
+          echo "Package: tiny-dfr" > control
           echo "Version: ${VERSION}" >> control
           echo "Maintainer: Aditya Garg" >> control
           echo "Architecture: amd64" >> control
-          echo "Description: Function row daemon for touchbar on T2 Macs" >> control
+          echo "Description: Function row daemon for touchbar on Macs" >> control
           echo "Depends: systemd" >> control
 
           echo "systemctl enable --now tiny-dfr.service" > postinst

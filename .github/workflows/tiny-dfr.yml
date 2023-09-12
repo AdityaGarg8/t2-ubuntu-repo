@@ -1,0 +1,83 @@
+---
+name: Create tiny-dfr package
+
+on:
+  workflow_dispatch:
+
+jobs:
+  Publish:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: 'Checkout Repo'
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Configure GPG Key
+        run: |
+          echo -n "$GPG_SIGNING_KEY" | base64 -di | gpg --import
+        env:
+          GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
+
+      - name: Get the source code
+        id: publish
+        run: |
+          sudo apt update -y
+          sudo apt-get install -y gir1.2-coglpango-1.0 gir1.2-pango-1.0 libcogl-pango-dev libghc-gi-pango-dev \
+          libghc-pango-dev libghc-yi-frontend-pango-dev libpango1.0-dev libudev-dev libinput-dev
+          git clone https://github.com/kekrby/tiny-dfr.git
+          cd tiny-dfr
+          git checkout 250ab5583b2468a9d6fcb5ec5cdc8e751ede8987
+          cp ${{ github.workspace }}/.github/patches/*.patch ./
+          git am ./*.patch
+          cargo b --release
+          mkdir deb
+          cd deb
+          mkdir usr
+          cd usr
+          mkdir bin
+          cd ..
+          cd ..
+          cp -r ./etc ./deb
+          cp -r ./share ./deb/usr
+          cp ./target/release/tiny-dfr ./deb/usr/bin
+          cd deb
+          mkdir DEBIAN
+          cd DEBIAN
+
+          echo "Package: tiny-dfr-t2" > control
+          echo "Version: 0.1.1-1" >> control
+          echo "Maintainer: Aditya Garg" >> control
+          echo "Architecture: amd64" >> control
+          echo "Description: Function row daemon for touchbar on T2 Macs" >> control
+          echo "Depends: systemd" >> control
+
+          echo "systemctl enable --now tiny-dfr.service > postinst
+          echo "systemctl disable --now tiny-dfr.service" > prerm
+
+          chmod 755 ./postinst
+          chmod 755 ./prerm
+
+          cd ${{ github.workspace }}/tiny-dfr
+          dpkg-deb --build --root-owner-group -Zgzip deb
+
+          mv ./deb.deb ${{ github.workspace }}
+          cd ${{ github.workspace }}
+          # Packages & Packages.gz
+          dpkg-name ./deb.deb
+          dpkg-scanpackages --multiversion . > Packages
+          gzip -k -f Packages
+          # Release, Release.gpg & InRelease
+          apt-ftparchive release . > Release
+          gpg --default-key "${GPG_SIGNING_EMAIL}" -abs -o - Release > Release.gpg
+          gpg --default-key "${GPG_SIGNING_EMAIL}" --clearsign -o - Release > InRelease
+          cd ${{ github.workspace }}
+          rm -r ./tiny-dfr
+        env:
+          GPG_SIGNING_EMAIL: ${{ secrets.GPG_SIGNING_EMAIL }}
+      - name: Push changes to the repo
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}

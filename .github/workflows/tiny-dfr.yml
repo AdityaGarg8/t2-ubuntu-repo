@@ -57,7 +57,7 @@ jobs:
           echo "Description: Function row daemon for touchbar on T2 Macs" >> control
           echo "Depends: systemd" >> control
 
-          echo "systemctl enable --now tiny-dfr.service > postinst
+          echo "systemctl enable --now tiny-dfr.service" > postinst
           echo "systemctl disable --now tiny-dfr.service" > prerm
 
           chmod 755 ./postinst
@@ -79,7 +79,7 @@ jobs:
           cd ${{ github.workspace }}
           rm -r ./tiny-dfr
           git add .
-          
+          git commit -m "Update tiny-dfr to ${VERSION}"
         env:
           GPG_SIGNING_EMAIL: ${{ secrets.GPG_SIGNING_EMAIL }}
       - name: Push changes to the repo

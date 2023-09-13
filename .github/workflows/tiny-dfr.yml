@@ -26,6 +26,7 @@ jobs:
           COMMIT_HASH=1096dc43961be411362be6cecf1d9a2fe641e9e8
           VERSION=0.1.1-1
           sudo apt update -y
+          sudo apt upgrade -y
           sudo apt-get install -y gir1.2-coglpango-1.0 gir1.2-pango-1.0 libcogl-pango-dev libghc-gi-pango-dev \
           libghc-pango-dev libghc-yi-frontend-pango-dev libpango1.0-dev libudev-dev libinput-dev
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"

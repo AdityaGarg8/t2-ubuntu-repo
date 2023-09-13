@@ -10,6 +10,18 @@ SHA1: 95964df7f094ce4c295e79de7d1ba653bef5e496
 SHA256: 1592ba2fb035944ae5bfa815bce13ab5cbd7f25c6339012d07ee31bbd1b62d03
 Description: Apple BCE driver for Linux
 
+Package: apple-bce
+Version: 0.2.3
+Architecture: amd64
+Maintainer: Aditya Garg
+Depends: dkms
+Filename: ./apple-bce_0.2.3_amd64.deb
+Size: 36690
+MD5sum: 99f7c09a86e9935031d7cf4bfe8ae8bc
+SHA1: 841f1afa03991404d38ec2c6412e56146c70f1e6
+SHA256: 4f297388c1ce07f2a26698f32d487fec01acec66ccf76a8d2d8647c38e326ae6
+Description: Apple BCE driver for Linux
+
 Package: apple-t2-audio-config
 Version: 0.4
 Architecture: amd64

@@ -23,7 +23,7 @@ jobs:
       - name: Get the source code
         id: publish
         run: |
-          COMMIT_HASH=82b1ce77d442ab4df5403a49b340ac7167173c6c
+          COMMIT_HASH=37667c6875bdc550403a22a5924a93df7fb181f4
           VERSION=0.1.2-2
           sudo apt update -y
           sudo apt upgrade -y
@@ -58,9 +58,20 @@ jobs:
           echo "Description: Function row daemon for touchbar on Macs" >> control
           echo "Depends: systemd" >> control
 
+          #echo "if [ -f /etc/tiny-dfr.conf ]" > preinst
+          #echo "then" >> preinst
+          #echo "cp /etc/tiny-dfr.conf /etc/tiny-dfr.conf.orj" >> preinst
+          #echo "fi" >> preinst
+
           echo "systemctl enable --now tiny-dfr.service" > postinst
+          #echo "if [ -f /etc/tiny-dfr.conf.orj ]" >> postinst
+          #echo "then" >> postinst
+          #echo "echo \"Configuration file of the previous installation have been saved to /etc/tiny-dfr.conf.orj. You may refer to that to modify your new config\"" >> postinst
+          #echo "fi" >> postinst
+  
           echo "systemctl disable --now tiny-dfr.service" > prerm
 
+          #chmod 755 ./preinst
           chmod 755 ./postinst
           chmod 755 ./prerm
 

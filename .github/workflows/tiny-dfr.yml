@@ -23,15 +23,15 @@ jobs:
       - name: Get the source code
         id: publish
         run: |
-          COMMIT_HASH=61223862921d2b1d4f88436ad9c89ddc879a5699
-          VERSION=0.1.2-1
+          COMMIT_HASH=82b1ce77d442ab4df5403a49b340ac7167173c6c
+          VERSION=0.1.2-2
           sudo apt update -y
           sudo apt upgrade -y
           sudo apt-get install -y gir1.2-coglpango-1.0 gir1.2-pango-1.0 libcogl-pango-dev libghc-gi-pango-dev \
           libghc-pango-dev libghc-yi-frontend-pango-dev libpango1.0-dev libudev-dev libinput-dev
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
-          git clone https://github.com/kekrby/tiny-dfr.git
+          git clone https://github.com/AdityaGarg8/tiny-dfr.git
           cd tiny-dfr
           git checkout ${COMMIT_HASH}
           cp ${{ github.workspace }}/.github/patches/*.patch ./

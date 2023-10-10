@@ -23,7 +23,7 @@ jobs:
       - name: Get the source code
         id: publish
         run: |
-          COMMIT_HASH=590b5044332f047565367b74cc9494207df849a3
+          COMMIT_HASH=667dffe36821a4894227e4e8e6de8e668bfa4f48
           VERSION=0.1.2-3
           sudo apt update -y
           sudo apt upgrade -y

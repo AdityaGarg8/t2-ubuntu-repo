@@ -505,9 +505,9 @@ Architecture: amd64
 Maintainer: Aditya Garg
 Depends: systemd
 Filename: ./tiny-dfr_0.1.2-3_amd64.deb
-Size: 4420644
-MD5sum: b548e153e1d1ef4312df5a6d6302a2c0
-SHA1: b82493d4f75212fc3aaf2b6d548e41a87ff2237b
-SHA256: 8fa4a40ba8868d8b12506311094ee05cbee6593b4c09c30ab69c06903eb813c7
+Size: 4420052
+MD5sum: bccb3ce1145c6a84c88e04c80a1a34a9
+SHA1: f6aba350c161f9507b8a383f83fe95b47ad5899b
+SHA256: 01e79337b64444a8d75e0ac36f0059b8f3316390398f71d70e41c1cb5e1e0846
 Description: Function row daemon for touchbar on Macs
 

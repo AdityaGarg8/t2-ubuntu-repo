@@ -24,7 +24,7 @@ jobs:
         id: publish
         run: |
           COMMIT_HASH=7419ca8637f642cbdc8cf55fd3be460352a89f1a
-          VERSION=0.1.2-4
+          VERSION=0.1.2-5
           sudo apt update -y
           sudo apt upgrade -y
           sudo apt-get install -y gir1.2-coglpango-1.0 gir1.2-pango-1.0 libcogl-pango-dev libghc-gi-pango-dev \
@@ -47,6 +47,9 @@ jobs:
           cp -r ./etc ./deb
           cp -r ./share ./deb/usr
           cp ./target/release/tiny-dfr ./deb/usr/bin
+          cp ${{ github.workspace }}/.github/scripts/touchbar ./deb/usr/bin
+          chmod a+x ./deb/usr/bin/tiny-dfr
+          chmod a+x ./deb/usr/bin/touchbar
           cd deb
           mkdir DEBIAN
           cd DEBIAN
@@ -58,20 +61,20 @@ jobs:
           echo "Description: Function row daemon for touchbar on Macs" >> control
           echo "Depends: systemd" >> control
 
-          #echo "if [ -f /etc/tiny-dfr.conf ]" > preinst
-          #echo "then" >> preinst
-          #echo "cp /etc/tiny-dfr.conf /etc/tiny-dfr.conf.orj" >> preinst
-          #echo "fi" >> preinst
+          echo "if [ -f /etc/tiny-dfr.conf ]" > preinst
+          echo "then" >> preinst
+          echo "cp /etc/tiny-dfr.conf /etc/tiny-dfr.conf.orj" >> preinst
+          echo "fi" >> preinst
 
-          echo "systemctl enable --now tiny-dfr.service" > postinst
-          #echo "if [ -f /etc/tiny-dfr.conf.orj ]" >> postinst
-          #echo "then" >> postinst
-          #echo "echo \"Configuration file of the previous installation have been saved to /etc/tiny-dfr.conf.orj. You may refer to that to modify your new config\"" >> postinst
-          #echo "fi" >> postinst
+          echo "if [ -f /etc/tiny-dfr.conf.orj ]" > postinst
+          echo "then" >> postinst
+          echo "touchbar --restore" >> postinst
+          echo "fi" >> postinst
+          echo "systemctl enable --now tiny-dfr.service" >> postinst
   
           echo "systemctl disable --now tiny-dfr.service" > prerm
 
-          #chmod 755 ./preinst
+          chmod 755 ./preinst
           chmod 755 ./postinst
           chmod 755 ./prerm
 

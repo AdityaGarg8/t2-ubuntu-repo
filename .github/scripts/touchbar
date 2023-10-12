@@ -1,0 +1,237 @@
+#!/bin/bash
+
+case "$1" in
+
+(--mode)
+
+get_mode () {
+cat <<EOF
+
+1. Function keys
+2. Media controls
+3. Media controls + App shortcuts
+EOF
+read mode_no
+
+case "$mode_no" in
+
+(1)
+mode=function
+;;
+
+(2)
+mode=special
+;;
+
+(3)
+mode=specialextended
+;;
+
+(*)
+echo "Invalid input. Aborting!"
+exit 1
+esac
+}
+
+echo -e "\nEnter the mode do you want to display by default on the touchbar:"
+get_mode
+sed -i "s/primary_layer.*/primary_layer = \"$mode\"/g" /etc/tiny-dfr.conf
+echo -e "\nEnter the mode that you want to be displayed on the touchbar after pressing fn key:"
+get_mode
+sed -i "s/secondary_layer.*/secondary_layer = \"$mode\"/g" /etc/tiny-dfr.conf
+echo -e "\nSuccess!"
+;;
+
+(--font)
+echo -e "\nYou shall be shown list of installed fonts. Choose a font from the list you want to use."
+echo
+read -p "Press enter to continue"
+echo
+fc-list --format="%{family[0]}\n" | sort | uniq
+echo -e "\nType the font from the above list you want to use and press enter."
+read font
+sed -i "s/font.*/font = \"${font}\"/g" /etc/tiny-dfr.conf
+echo -e "\nSuccess!"
+;;
+
+(--icons)
+echo -e "\nYou shall be shown list of installed icon themes. Choose an icon theme from the list you want to use."
+echo
+read -p "Press Enter to continue..."
+echo
+ls /usr/share/tiny-dfr | sort
+echo -e "\nType the icon theme from the above list you want to use and press enter."
+read icon
+sed -i '/^\[ui\]/{:a;n;/^\[/b;s/icon_theme.*/icon_theme = "'"$icon"'"/;ba}' /etc/tiny-dfr.conf
+echo -e "\nSuccess!"
+;;
+
+(--apps)
+echo "You shall be given a list of installed applications, the command which executes them and their icon name"
+echo
+read -p "Press Enter to continue..."
+echo
+
+get_desktop_entries () {
+desktop_files_dir="/usr/share/applications"
+
+for desktop_file in "$desktop_files_dir"/*.desktop; do
+    if [ -f "$desktop_file" ]; then
+        app_name=$(grep -m 1 '^Name=' "$desktop_file" | cut -d'=' -f2)
+        app_exec=$(grep -m 1 '^Exec=' "$desktop_file" | cut -d'=' -f2)
+        app_icon=$(grep -m 1 '^Icon=' "$desktop_file" | cut -d'=' -f2)
+        echo "Name: $app_name"
+        echo "Command: $app_exec"
+        echo -e "Icon name: $app_icon\n"
+    fi
+done
+}
+
+get_desktop_entries
+
+echo "Do you want to search for a particular app? (y/N)"
+read input
+if [[ ($input = y) || ($input = Y) ]]
+then
+echo -e "\nType the exact name of the app (case insensitive) and press enter"
+read app_name
+echo
+get_desktop_entries | grep -A 2 -x -i "Name: ${app_name}"
+echo
+read -p "Press Enter to continue..."
+fi
+
+cat <<EOF
+
+Now we shall be binding the key you wish to use as an app shortcut.
+
+To do this, you need to use the settings of your Desktop Environment to add custom shortcuts (Eg: In GNOME, it is Settings > Keyboard > Keyboard Shortcuts > Custom Shortcuts).
+
+You can be asked for Name, Command and Shortcut key when adding the shortcut.
+
+Name field can be any name you wish to assign to that shortcut.
+
+In the Command field, paste the command for your application from the list of apps displayed above.
+Note: If the command of your app has a % in the end (Eg: gnome-text-editor %U), remove that (Eg after removing: gnome-text-editor)
+
+For the Shortcut key, tap on the key on the touchbar you wish to assign.
+
+EOF
+read -p "After you have performed this setting, press Enter to continue..."
+
+cat <<EOF
+
+
+Now we shall be adding the app icon of your app to the touchbar.
+
+You shall be displayed a list of installed themes in your system.
+
+EOF
+read -p "Press Enter to continue..."
+echo
+ls /usr/share/tiny-dfr | sort; ls /usr/share/icons | sort
+
+cat <<EOF
+
+From the list of themes displayed above type the theme you want to use for your apps and press enter. If you wanna use the theme set already, simply press enter without entering a theme name
+EOF
+read app_theme
+if [[ $app_theme = "" ]]
+then
+true
+else
+sed -i "s/app_icon_theme.*/app_icon_theme = \"$app_theme\"/g" /etc/tiny-dfr.conf
+fi
+
+cat <<EOF
+
+Now enter the position of the shortcut (1-4, 1 being the leftmost and 4 being the rightmost) on the touchbar you want to assign the app icon to.
+
+If you just wanted to set the app theme, simply press enter without entering any value to continue.
+EOF
+read position
+if [[ $position = "" ]]
+then
+cat <<EOF
+
+Theme set successfully!
+
+Note: If your touchbar has frozen, try restarting the daemon first by running \`sudo touchbar --restart\`. If it doesn't work even after restarting 3 times, try using a different theme for your app icons. You can also run \`sudo tiny-dfr\` to get logs of any possible error.
+EOF
+exit 0
+else
+position_new=app${position}_icon
+fi
+cat <<EOF
+
+
+From the list of apps that was displayed above, type the exact name of the icon and press enter.
+
+Note: If the name of icon contains a "." (Eg: org.gnome.Terminal), append its extension at the end after typing the name (Eg: org.gnome.Terminal.png). You can get the extension of the icon by searching it in /usr/share/<app theme you set>. Although in most cases it is .png, and rarely it is .svg.
+
+EOF
+read app_icon
+sed -i "s/$position_new.*/$position_new = \"$app_icon\"/g" /etc/tiny-dfr.conf
+
+cat <<EOF
+
+App icon set successfully! 
+
+Note: If your touchbar has frozen, try restarting the daemon first by running \`sudo touchbar --restart\`. If it doesn't work even after restarting 3 times, try using a different theme for your app icons. You can also run \`sudo tiny-dfr\` to get logs of any possible error.
+EOF
+
+#gsettings set org.gnome.shell.keybindings toggle-application-view "['<Super>a', 'LaunchB']"
+;;
+
+(--restore)
+if [ -f /etc/tiny-dfr.conf.orj ]
+then
+echo "Restoring previous configuration from /etc/tiny-dfr.conf.orj"
+else
+echo "No file found for backup"
+exit 1
+fi
+
+check_for_entry () {
+local $1
+cat /etc/tiny-dfr.conf.orj | grep -w $1
+}
+
+for entry in "primary_layer" "secondary_layer" "font" "icon_theme" "app_icon_theme" "app1_icon" "app2_icon" "app3_icon" "app4_icon"
+do
+checked_entry=$(check_for_entry $entry)
+if [[ ${checked_entry} = "" ]]
+then
+true
+elif [[ ${entry} = icon_theme ]]
+then
+sed -i '/^\[ui\]/{:a;n;/^\[/b;s/icon_theme.*/'"${checked_entry}"'/;ba}' /etc/tiny-dfr.conf
+else
+sed -i "s/${entry}.*/${checked_entry}/g" /etc/tiny-dfr.conf | true
+fi
+done
+echo "Restored successfully"
+cat <<EOF
+
+Note: If your touchbar has frozen, try restarting the daemon first by running \`sudo touchbar --restart\`. If it doesn't work even after restarting 3 times, try using a different theme for your app icons. You can also run \`sudo tiny-dfr\` to get logs of any possible error.
+EOF
+;;
+
+(--restart)
+echo "Restarting the daemon"
+systemctl disable --now tiny-dfr.service
+sleep 3
+systemctl enable --now tiny-dfr.service
+;;
+(*)
+cat <<EOF
+--mode    : Set the default touchbar mode
+--font    : Set font for the function keys
+--icons   : Set the icon theme for the media control icons and utility apps
+--apps    : Setup app shortcuts
+--restore : Restore a previous configuration stored at /etc/tiny-dfr.conf.orj
+--restart : Restart the daemon (Useful if touchbar has frozen)
+EOF
+;;
+
+esac

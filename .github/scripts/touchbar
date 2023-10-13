@@ -192,6 +192,31 @@ EOF
 
 #gsettings set org.gnome.shell.keybindings toggle-application-view "['<Super>a', 'LaunchB']"
 ;;
+(--time)
+cat <<EOF
+Choose the time format you want to use:
+
+1. 12 hr
+2. 24 hr
+EOF
+read time_format
+if [[ $time_format = 1 ]]
+then
+sed -i "s/use_24_hr.*/use_24_hr = 0/g" /etc/tiny-dfr.conf
+elif [[ $time_format = 2 ]]
+then
+sed -i "s/use_24_hr.*/use_24_hr = 1/g" /etc/tiny-dfr.conf
+else
+echo "Invalid input!"
+exit 1
+fi
+cat <<EOF
+
+Time format changed successfully!
+
+Note: If your touchbar has frozen, try restarting the daemon first by running \`sudo touchbar --restart\`. If it doesn't work even after restarting 3 times, try using a different theme for your app icons. You can also run \`sudo tiny-dfr\` to get logs of any possible error.
+EOF
+;;
 
 (--restore)
 if [ -f /etc/tiny-dfr.conf.orj ]
@@ -207,7 +232,7 @@ local $1
 cat /etc/tiny-dfr.conf.orj | grep -w $1
 }
 
-for entry in "primary_layer" "secondary_layer" "font" "icon_theme" "app_icon_theme" "app1_icon" "app2_icon" "app3_icon" "app4_icon"
+for entry in "primary_layer" "secondary_layer" "font" "icon_theme" "app_icon_theme" "app1_icon" "app2_icon" "app3_icon" "app4_icon" "use_24_hr"
 do
 checked_entry=$(check_for_entry $entry)
 if [[ ${checked_entry} = "" ]]
@@ -239,6 +264,7 @@ cat <<EOF
 --font    : Set font for the function keys
 --icons   : Set the icon theme for the media control icons and utility apps
 --apps    : Setup app shortcuts
+--time    : Choose between 12 and 24 hr clock
 --restore : Restore a previous configuration stored at /etc/tiny-dfr.conf.orj
 --restart : Restart the daemon (Useful if touchbar has frozen)
 EOF

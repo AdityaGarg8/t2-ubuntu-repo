@@ -39,7 +39,12 @@ sed -i "s/primary_layer.*/primary_layer = \"$mode\"/g" /etc/tiny-dfr.conf
 echo -e "\nEnter the mode that you want to be displayed on the touchbar after pressing fn key:"
 get_mode
 sed -i "s/secondary_layer.*/secondary_layer = \"$mode\"/g" /etc/tiny-dfr.conf
-echo -e "\nSuccess!"
+cat <<EOF
+
+Mode set successfully!
+
+Note: If your touchbar has frozen, try restarting the daemon first by running \`sudo touchbar --restart\`. If it doesn't work even after restarting 3 times, try using a different theme for your app icons. You can also run \`sudo tiny-dfr\` to get logs of any possible error.
+EOF
 ;;
 
 (--font)
@@ -63,7 +68,12 @@ ls /usr/share/tiny-dfr | sort
 echo -e "\nType the icon theme from the above list you want to use and press enter."
 read icon
 sed -i '/^\[ui\]/{:a;n;/^\[/b;s/icon_theme.*/icon_theme = "'"$icon"'"/;ba}' /etc/tiny-dfr.conf
-echo -e "\nSuccess!"
+cat <<EOF
+
+Icon theme set successfully!
+
+Note: If your touchbar has frozen, try restarting the daemon first by running \`sudo touchbar --restart\`. If it doesn't work even after restarting 3 times, try using a different theme for your app icons. You can also run \`sudo tiny-dfr\` to get logs of any possible error.
+EOF
 ;;
 
 (--apps)

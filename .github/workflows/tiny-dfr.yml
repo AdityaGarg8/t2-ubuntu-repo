@@ -23,8 +23,8 @@ jobs:
       - name: Get the source code
         id: publish
         run: |
-          COMMIT_HASH=99a8857e88f79400559cc79a02c2b0ae055d2afc
-          VERSION=0.1.2-7
+          COMMIT_HASH=029e1874f1db25e068e8c3899a2c5a0fbad62769
+          VERSION=0.1.2-8
           sudo apt update -y
           sudo apt upgrade -y
           sudo apt-get install -y gir1.2-coglpango-1.0 gir1.2-pango-1.0 libcogl-pango-dev libghc-gi-pango-dev \

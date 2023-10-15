@@ -41,7 +41,7 @@ echo "Invalid input. Aborting!"
 exit 1
 fi
 echo "Changing default mode ..."
-sed -i "s/options apple-touchbar fnmode=.*/options apple-touchbar fnmode=$tb/g" etc/modprobe.d/tiny-dfr.conf
+sed -i "s/options apple-touchbar fnmode=.*/options apple-touchbar fnmode=$tb/g" /etc/modprobe.d/tiny-dfr.conf
 bash -c "echo $tb > /sys/class/input/*/device/fnmode"
 echo "Done!"
 ;;

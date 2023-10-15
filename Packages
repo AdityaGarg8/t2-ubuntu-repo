@@ -571,3 +571,15 @@ SHA1: abe727f9f0480b0a5eba6537e7c11d36c0ab34d4
 SHA256: f7de0b7fe27323a4cf25c30c522ea56b962f1ed72b55a3da87a661d07e1ef42a
 Description: Function row daemon for touchbar on Macs
 
+Package: tiny-dfr
+Version: 0.1.2-9
+Architecture: amd64
+Maintainer: Aditya Garg
+Depends: systemd
+Filename: ./tiny-dfr_0.1.2-9_amd64.deb
+Size: 4483428
+MD5sum: b14068ca9f5d8f94af23412f58c72276
+SHA1: dea8abf8e25c9c3a62933b2d2d88d3585255ad96
+SHA256: dddd74fb4038302fdf9facd3f7c03030fd8c959dd9004fd00f17375608e1e602
+Description: Function row daemon for touchbar on Macs
+

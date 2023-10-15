@@ -24,11 +24,13 @@ jobs:
         id: publish
         run: |
           COMMIT_HASH=66d208120d00910f251bd3c97bbe5c1a240368bc
-          VERSION=0.1.2-9
+          VERSION=0.1.2-10
+          curl -s --compressed "https://adityagarg8.github.io/t2-ubuntu-repo/KEY.gpg" | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/t2-ubuntu-repo.gpg >/dev/null
+          sudo curl -s --compressed -o /etc/apt/sources.list.d/t2.list "https://adityagarg8.github.io/t2-ubuntu-repo/t2.list"
           sudo apt update -y
           sudo apt upgrade -y
           sudo apt-get install -y gir1.2-coglpango-1.0 gir1.2-pango-1.0 libcogl-pango-dev libghc-gi-pango-dev \
-          libghc-pango-dev libghc-yi-frontend-pango-dev libpango1.0-dev libudev-dev libinput-dev
+          libghc-pango-dev libghc-yi-frontend-pango-dev libpango1.0-dev libudev-dev libinput-dev apple-touchbar
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
           git clone https://github.com/AdityaGarg8/tiny-dfr.git
@@ -42,11 +44,13 @@ jobs:
           mkdir usr
           cd usr
           mkdir bin
+          mkdir src
           cd ..
           cd ..
           cp -r ./etc ./deb
           cp -r ./share ./deb/usr
           cp ./target/release/tiny-dfr ./deb/usr/bin
+          cp -r /usr/src/apple-touchbar-0.1 ./deb/usr/src
           mv ./deb/etc/udev/rules.d/* ./deb/usr/share/tiny-dfr
           mv ./deb/etc/systemd/system/* ./deb/usr/share/tiny-dfr
           cp ${{ github.workspace }}/.github/scripts/touchbar ./deb/usr/bin
@@ -72,6 +76,8 @@ jobs:
           echo "then" >> postinst
           echo "touchbar --restore" >> postinst
           echo "fi" >> postinst
+          echo 'if [ ! -f /etc/modprobe.d/tiny-dfr.conf ]' >> postinst
+          echo 'then' >> postinst
           echo "for rule in /usr/share/tiny-dfr/*.rules" >> postinst
           echo "do" >> postinst
           echo 'rule_file=$(echo $rule | rev | cut -d "/" -f 1 | rev)' >> postinst
@@ -83,17 +89,27 @@ jobs:
           echo 'cp /usr/share/tiny-dfr/$service_file /etc/systemd/system/$service_file' >> postinst
           echo "done" >> postinst
           echo "systemctl enable --now tiny-dfr.service" >> postinst
+          echo "fi" >> postinst
 
-          echo "systemctl disable --now tiny-dfr.service" > prerm
+          echo 'if [ -f /etc/systemd/system/tiny-dfr.service ]' > prerm
+          echo "then" >> prerm
+          echo "systemctl disable --now tiny-dfr.service" >> prerm
+          echo "fi" >> prerm
           echo "for rule in /usr/share/tiny-dfr/*.rules" >> prerm
           echo "do" >> prerm
           echo 'rule_file=$(echo $rule | rev | cut -d "/" -f 1 | rev)' >> prerm
-          echo 'rm /etc/udev/rules.d/$rule_file' >> prerm
+          echo 'if [ -f /etc/udev/rules.d/$rule_file ]' >> prerm
+          echo "then" >> prerm
+          echo 'rm -v /etc/udev/rules.d/$rule_file' >> prerm
+          echo 'fi' >> prerm
           echo "done" >> prerm
           echo "for service in /usr/share/tiny-dfr/*.service" >> prerm
           echo "do" >> prerm
           echo 'service_file=$(echo $service | rev | cut -d "/" -f 1 | rev)' >> prerm
-          echo 'rm /etc/systemd/system/$service_file' >> prerm
+          echo 'if [ -f /etc/udev/rules.d/$service_file ]' >> prerm
+          echo "then" >> prerm
+          echo 'rm -v /etc/udev/rules.d/$service_file' >> prerm
+          echo 'fi' >> prerm
           echo "done" >> prerm
 
           chmod 755 ./preinst

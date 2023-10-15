@@ -21,6 +21,52 @@
 # WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
 # IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+if [ -f /etc/modprobe.d/tiny-dfr.conf ]
+then
+
+case "$1" in
+
+(--mode)
+echo "Select Touch Bar mode"
+echo
+echo "0: Only show F1-F12"
+echo "1: Show media and brightness controls, use the fn key to switch to F1-F12"
+echo "2: Show F1-F12, use the fn key to switch to media and brightness controls"
+echo "3: Only show media and brightness controls"
+echo "4: Only show the escape key"
+read tb
+if [[ $tb != 0 && $tb != 1 && $tb != 2 && $tb != 3 && $tb != 4 ]]
+then
+echo "Invalid input. Aborting!"
+exit 1
+fi
+echo "Changing default mode ..."
+sed -i "s/options apple-touchbar fnmode=.*/options apple-touchbar fnmode=$tb/g" etc/modprobe.d/tiny-dfr.conf
+bash -c "echo $tb > /sys/class/input/*/device/fnmode"
+echo "Done!"
+;;
+
+(--switch)
+echo -e "Switching to advanced version\n"
+dkms remove -m apple-touchbar -v 0.1 --all || true
+rm -v /etc/modprobe.d/tiny-dfr.conf
+cp -v /usr/share/tiny-dfr/*.rules /etc/udev/rules.d
+cp -v /usr/share/tiny-dfr/*.service /etc/systemd/system
+systemctl enable --now tiny-dfr.service
+echo -e "\nRestart your Mac to enable the touchbar"
+;;
+
+(*)
+cat <<EOF
+--mode    : Set the default touchbar mode
+--switch  : Use advanced version of touchbar
+EOF
+;;
+
+esac
+
+else
+
 case "$1" in
 
 (--mode)
@@ -273,6 +319,30 @@ Note: If your touchbar has frozen, try restarting the daemon first by running \`
 EOF
 ;;
 
+(--switch)
+echo -e "Switching to basic version\n"
+cat <<EOF > /etc/modprobe.d/tiny-dfr.conf
+blacklist appletbdrm
+blacklist hid_appletb_kbd
+blacklist hid_appletb_bl
+
+options apple-touchbar fnmode=1
+EOF
+systemctl disable --now tiny-dfr.service
+for rule in /usr/share/tiny-dfr/*.rules
+do
+rule_file=$(echo $rule | rev | cut -d "/" -f 1 | rev)
+rm -v /etc/udev/rules.d/$rule_file
+done
+for service in /usr/share/tiny-dfr/*.service
+do
+service_file=$(echo $service | rev | cut -d "/" -f 1 | rev)
+rm -v /etc/systemd/system/$service_file
+done
+dkms install -m apple-touchbar -v 0.1 || true
+echo -e "\nRestart your Mac to enable the touchbar"
+;;
+
 (--restart)
 echo "Restarting the daemon"
 systemctl disable --now tiny-dfr.service
@@ -288,7 +358,10 @@ cat <<EOF
 --time    : Choose between 12 and 24 hr clock
 --restore : Restore a previous configuration stored at /etc/tiny-dfr.conf.orj
 --restart : Restart the daemon (Useful if touchbar has frozen)
+--switch  : Use basic version of touchbar
 EOF
 ;;
 
 esac
+
+fi

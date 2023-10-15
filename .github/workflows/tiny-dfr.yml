@@ -75,12 +75,12 @@ jobs:
           echo "for rule in /usr/share/tiny-dfr/*.rules" >> postinst
           echo "do" >> postinst
           echo 'rule_file=$(echo $rule | rev | cut -d "/" -f 1 | rev)' >> postinst
-          echo 'ln -s /usr/share/tiny-dfr/$rule_file /etc/udev/rules.d/$rule_file' >> postinst
+          echo 'cp /usr/share/tiny-dfr/$rule_file /etc/udev/rules.d/$rule_file' >> postinst
           echo "done" >> postinst
           echo "for service in /usr/share/tiny-dfr/*.service" >> postinst
           echo "do" >> postinst
           echo 'service_file=$(echo $service | rev | cut -d "/" -f 1 | rev)' >> postinst
-          echo 'ln -s /usr/share/tiny-dfr/$service_file /etc/systemd/system/$service_file' >> postinst
+          echo 'cp /usr/share/tiny-dfr/$service_file /etc/systemd/system/$service_file' >> postinst
           echo "done" >> postinst
           echo "systemctl enable --now tiny-dfr.service" >> postinst
 

@@ -85,7 +85,7 @@ echo -e "\nYou shall be shown list of installed icon themes. Choose an icon them
 echo
 read -p "Press Enter to continue..."
 echo
-ls /usr/share/tiny-dfr | sort
+ls /usr/share/tiny-dfr/icons | sort
 echo -e "\nType the icon theme from the above list you want to use and press enter."
 read icon
 sed -i '/^\[ui\]/{:a;n;/^\[/b;s/icon_theme.*/icon_theme = "'"$icon"'"/;ba}' /etc/tiny-dfr.conf

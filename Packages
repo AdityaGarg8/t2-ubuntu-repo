@@ -62,10 +62,10 @@ Architecture: amd64
 Maintainer: Aditya Garg
 Depends: dkms
 Filename: ./apple-touchbar_0.1.1_amd64.deb
-Size: 35448
-MD5sum: dbf27eecaf63cd301be532f50ce9ee64
-SHA1: c8de80d4173ab6476fff8c855a6227c724f91e4f
-SHA256: ec76a8a4621aa549278d8a2cd1430b9cb05d41671f500d9f1c35b53b42d5c04c
+Size: 35426
+MD5sum: dba157940ffc3c6085f82894a635ee6a
+SHA1: f8371f70d24cc2d63d024cc58fecd0239b793629
+SHA256: f89a431dadd4ed007ee768a27920e4cbc86688929e924204db09614dedef1a7e
 Description: Apple Touch Bar driver for Linux
 
 Package: applesmc-t2

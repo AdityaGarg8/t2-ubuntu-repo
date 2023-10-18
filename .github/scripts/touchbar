@@ -52,8 +52,8 @@ dkms remove -m apple-touchbar -v 0.1 --all || true
 rm -v /etc/modprobe.d/tiny-dfr.conf
 cp -v /usr/share/tiny-dfr/*.rules /etc/udev/rules.d
 cp -v /usr/share/tiny-dfr/*.service /etc/systemd/system
-systemctl enable --now tiny-dfr.service
-echo -e "\nRestart your Mac to enable the touchbar"
+systemctl enable tiny-dfr.service
+echo -e "\nAdvanced version shall be enabled next time you restart your Mac"
 ;;
 
 (*)
@@ -328,7 +328,7 @@ blacklist hid_appletb_bl
 
 options apple-touchbar fnmode=1
 EOF
-systemctl disable --now tiny-dfr.service
+systemctl disable tiny-dfr.service
 for rule in /usr/share/tiny-dfr/*.rules
 do
 rule_file=$(echo $rule | rev | cut -d "/" -f 1 | rev)
@@ -340,7 +340,7 @@ service_file=$(echo $service | rev | cut -d "/" -f 1 | rev)
 rm -v /etc/systemd/system/$service_file
 done
 dkms install -m apple-touchbar -v 0.1 || true
-echo -e "\nRestart your Mac to enable the touchbar"
+echo -e "\nBasic version shall be enabled next time you restart your Mac"
 ;;
 
 (--restart)

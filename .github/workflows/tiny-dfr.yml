@@ -25,10 +25,18 @@ jobs:
         run: |
           COMMIT_HASH=28a31568bb9eb67851e06bdf883409a9e14ca5a3
           VERSION=0.1.3-1
+          cat <<EOF | sudo tee /etc/apt/sources.list
+          deb http://archive.ubuntu.com/ubuntu/ mantic main restricted universe multiverse
+          deb-src http://archive.ubuntu.com/ubuntu/ mantic main restricted universe multiverse
+          deb http://archive.ubuntu.com/ubuntu/ mantic-security main restricted universe multiverse
+          deb-src http://archive.ubuntu.com/ubuntu/ mantic-security main restricted universe multiverse
+          deb http://archive.ubuntu.com/ubuntu/ mantic-updates main restricted universe multiverse
+          deb-src http://archive.ubuntu.com/ubuntu/ mantic-updates main restricted universe multiverse
+          EOF
           curl -s --compressed "https://adityagarg8.github.io/t2-ubuntu-repo/KEY.gpg" | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/t2-ubuntu-repo.gpg >/dev/null
           sudo curl -s --compressed -o /etc/apt/sources.list.d/t2.list "https://adityagarg8.github.io/t2-ubuntu-repo/t2.list"
           sudo apt update -y
-          sudo apt upgrade -y
+          #sudo apt upgrade -y
           sudo apt-get install -y gir1.2-coglpango-1.0 gir1.2-pango-1.0 libcogl-pango-dev libghc-gi-pango-dev \
           libghc-pango-dev libghc-yi-frontend-pango-dev libpango1.0-dev libudev-dev libinput-dev apple-touchbar
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"

@@ -24,7 +24,7 @@ jobs:
         id: publish
         run: |
           COMMIT_HASH=9524d9a45280b29dcaf6aa6645f62e9346dd63dc
-          VERSION=0.1.3-4
+          VERSION=0.1.3-5
           curl -s --compressed "https://adityagarg8.github.io/t2-ubuntu-repo/KEY.gpg" | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/t2-ubuntu-repo.gpg >/dev/null
           sudo curl -s --compressed -o /etc/apt/sources.list.d/t2.list "https://adityagarg8.github.io/t2-ubuntu-repo/t2.list"
           sudo apt update -y
@@ -89,7 +89,11 @@ jobs:
           echo 'cp /usr/share/tiny-dfr/$service_file /etc/systemd/system/$service_file' >> postinst
           echo "done" >> postinst
           echo "systemctl enable --now tiny-dfr.service" >> postinst
+          echo "else" >> postinst
+          echo "dkms add -m apple-touchbar -v 0.1" >> postinst
+          echo "dkms build -m apple-touchbar -v 0.1 && dkms install -m apple-touchbar -v 0.1 || true" >> postinst
           echo "fi" >> postinst
+          echo "echo \"You may have to restart your Mac in case of a new installation\"" >> postinst
 
           echo 'if [ -f /etc/systemd/system/tiny-dfr.service ]' > prerm
           echo "then" >> prerm
@@ -111,6 +115,10 @@ jobs:
           echo 'rm -v /etc/udev/rules.d/$service_file' >> prerm
           echo 'fi' >> prerm
           echo "done" >> prerm
+          echo 'if [ -f /etc/modprobe.d/tiny-dfr.conf ]' >> prerm
+          echo 'then' >> prerm
+          echo "dkms remove -m apple-touchbar -v 0.1 --all || true" >> prerm
+          echo "fi" >> prerm
 
           chmod 755 ./preinst
           chmod 755 ./postinst

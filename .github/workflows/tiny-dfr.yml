@@ -23,8 +23,8 @@ jobs:
       - name: Get the source code
         id: publish
         run: |
-          COMMIT_HASH=9524d9a45280b29dcaf6aa6645f62e9346dd63dc
-          VERSION=0.1.3-5
+          COMMIT_HASH=c82fd8f9d6d1267a4f84611ebdd0bb35469335a9
+          VERSION=0.1.4-1
           curl -s --compressed "https://adityagarg8.github.io/t2-ubuntu-repo/KEY.gpg" | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/t2-ubuntu-repo.gpg >/dev/null
           sudo curl -s --compressed -o /etc/apt/sources.list.d/t2.list "https://adityagarg8.github.io/t2-ubuntu-repo/t2.list"
           sudo apt update -y

@@ -102,10 +102,10 @@ esac
 
 echo -e "\nEnter the mode do you want to display by default on the touchbar:"
 get_mode
-sed -i "s/primary_layer.*/primary_layer = \"$mode\"/g" /etc/tiny-dfr.conf
+sed -i "s/primary_layer[ ]*=.*/primary_layer = \"$mode\"/g" /etc/tiny-dfr.conf
 echo -e "\nEnter the mode that you want to be displayed on the touchbar after pressing fn key:"
 get_mode
-sed -i "s/secondary_layer.*/secondary_layer = \"$mode\"/g" /etc/tiny-dfr.conf
+sed -i "s/secondary_layer[ ]*=.*/secondary_layer = \"$mode\"/g" /etc/tiny-dfr.conf
 cat <<EOF
 
 Mode set successfully!

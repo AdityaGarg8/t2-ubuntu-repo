@@ -123,7 +123,12 @@ fc-list --format="%{family[0]}\n" | sort | uniq
 echo -e "\nType the font from the above list you want to use and press enter."
 read font
 sed -i "s/font.*/font = \"${font}\"/g" /etc/tiny-dfr.conf
-echo -e "\nSuccess!"
+cat <<EOF
+
+Font set successfully!
+
+Note: If your touchbar has frozen, try restarting the daemon first by running \`sudo touchbar --restart\`. If it doesn't work even after restarting 3 times, try using a different theme for your app icons. You can also run \`sudo tiny-dfr\` to get logs of any possible error.
+EOF
 ;;
 
 (--icons)
@@ -134,7 +139,7 @@ echo
 ls /usr/share/tiny-dfr/icons | sort
 echo -e "\nType the icon theme from the above list you want to use and press enter."
 read icon
-sed -i '/^\[ui\]/{:a;n;/^\[/b;s/icon_theme.*/icon_theme = "'"$icon"'"/;ba}' /etc/tiny-dfr.conf
+sed -i "s/media_icon_theme.*/media_icon_theme = \"$icon\"/g" /etc/tiny-dfr.conf
 cat <<EOF
 
 Icon theme set successfully!
@@ -222,7 +227,7 @@ fi
 
 cat <<EOF
 
-Now enter the position of the shortcut (1-4, 1 being the leftmost and 4 being the rightmost) on the touchbar you want to assign the app icon to.
+Now enter the position of the shortcut (1-4; 1 is app1 key, 2 is app2 and so on) on the touchbar you want to assign the app icon to.
 
 If you just wanted to set the app theme, simply press enter without entering any value to continue.
 EOF
@@ -237,7 +242,7 @@ Note: If your touchbar has frozen, try restarting the daemon first by running \`
 EOF
 exit 0
 else
-position_new=app${position}_icon
+position_new=Prog${position}
 fi
 cat <<EOF
 
@@ -248,7 +253,7 @@ Note: If the name of icon contains a "." (Eg: org.gnome.Terminal), append its ex
 
 EOF
 read app_icon
-sed -i "s/$position_new.*/$position_new = \"$app_icon\"/g" /etc/tiny-dfr.conf
+sed -i "s/.*$position_new.*/    { label = \"$app_icon\", key = \"Key::$position_new\", mode = \"app\"},/g" /etc/tiny-dfr.conf
 
 cat <<EOF
 
@@ -298,26 +303,177 @@ echo "No file found for backup"
 exit 1
 fi
 
+cat <<EOF >/etc/tiny-dfr.conf
+[ui]
+primary_layer = "specialextended"
+secondary_layer = "function"
+font = "sans-serif"
+media_icon_theme = "tiny-dfr-icons"
+app_icon_theme = "hicolor"
+
+[time]
+use_24_hr = 1
+EOF
+
 check_for_entry () {
 local $1
 cat /etc/tiny-dfr.conf.orj | grep -w $1
 }
 
-for entry in "primary_layer" "secondary_layer" "font" "icon_theme" "app_icon_theme" "app1_icon" "app2_icon" "app3_icon" "app4_icon" "use_24_hr"
+for entry in "primary_layer" "secondary_layer" "font" "media_icon_theme" "app_icon_theme" "use_24_hr"
 do
 checked_entry=$(check_for_entry $entry)
 if [[ ${checked_entry} = "" ]]
 then
 true
-elif [[ ${entry} = icon_theme ]]
-then
-sed -i '/^\[ui\]/{:a;n;/^\[/b;s/icon_theme.*/'"${checked_entry}"'/;ba}' /etc/tiny-dfr.conf
 else
 sed -i "s/${entry}.*/${checked_entry}/g" /etc/tiny-dfr.conf | true
 fi
 done
-echo "Restored successfully"
+
+layers () {
+local $1
+start_tag="[layers.$1]"
+end_tag="]"
+
+found_section=false
+
+while IFS= read -r line; do
+    if [[ $line == *"$start_tag"* ]]; then
+        found_section=true
+        echo "$line"
+    elif $found_section; then
+        echo "$line"
+        if [[ $line == *"$end_tag"* ]]; then
+            break
+        fi
+    fi
+done < "/etc/tiny-dfr.conf.orj"
+}
+
+for layer in "primary_layer_buttons" "secondary_layer_buttons" "tertiary_layer_buttons" "tertiary2_layer_buttons" "tertiary3_layer_buttons"
+do
+checked_layer=$(layers $layer)
+if [[ ${checked_layer} = "" ]]
+then
+case ${layer} in
+
+(primary_layer_buttons)
+cat <<EOF >>/etc/tiny-dfr.conf
+
+[layers.primary_layer_buttons]
+buttons = [
+    { label = "F1", key = "Key::F1", mode = "text" },
+    { label = "F2", key = "Key::F2", mode = "text" },
+    { label = "F3", key = "Key::F3", mode = "text" },
+    { label = "F4", key = "Key::F4", mode = "text" },
+    { label = "F5", key = "Key::F5", mode = "text" },
+    { label = "F6", key = "Key::F6", mode = "text" },
+    { label = "F7", key = "Key::F7", mode = "text" },
+    { label = "F8", key = "Key::F8", mode = "text" },
+    { label = "F9", key = "Key::F9", mode = "text" },
+    { label = "F10", key = "Key::F10", mode = "text" },
+    { label = "F11", key = "Key::F11", mode = "text" },
+    { label = "F12", key = "Key::F12", mode = "text" },
+]
+EOF
+;;
+
+(secondary_layer_buttons)
+cat <<EOF >>/etc/tiny-dfr.conf
+
+[layers.secondary_layer_buttons]
+buttons = [
+    { label = "display-brightness-low-symbolic",    key = "Key::BrightnessDown", mode = "media"},
+    { label = "display-brightness-high-symbolic",   key = "Key::BrightnessUp", mode = "media"},
+    { label = "microphone-disabled-symbolic",       key = "Key::MicMute", mode = "media"},
+    { label = "system-search-symbolic",             key = "Key::Search", mode = "media"},
+    { label = "keyboard-brightness-low-symbolic",   key = "Key::IllumDown", mode = "media"},
+    { label = "keyboard-brightness-high-symbolic",  key = "Key::IllumUp", mode = "media"},
+    { label = "media-seek-backward-symbolic",       key = "Key::PreviousSong", mode = "media"},
+    { label = "media-playback-start-symbolic",      key = "Key::PlayPause", mode = "media"},
+    { label = "media-seek-forward-symbolic",        key = "Key::NextSong", mode = "media"},
+    { label = "audio-volume-muted-symbolic",        key = "Key::Mute", mode = "media"},
+    { label = "audio-volume-low-symbolic",          key = "Key::VolumeDown", mode = "media"},
+    { label = "audio-volume-high-symbolic",         key = "Key::VolumeUp", mode = "media"},
+]
+EOF
+;;
+
+(tertiary_layer_buttons)
+cat <<EOF >>/etc/tiny-dfr.conf
+
+[layers.tertiary_layer_buttons]
+buttons = [
+    { label = "app1",                           key = "Key::Prog1", mode = "app"},
+    { label = "app2",                           key = "Key::Prog2", mode = "app"},
+    { label = "app3",                           key = "Key::Prog3", mode = "app"},
+    { label = "app4",                           key = "Key::Prog4", mode = "app"},
+    { label = "go-next-symbolic",               key = "Key::Macro1", mode = "media"},
+    { mode = "time"},
+    { mode = "blank"},
+    { mode = "blank"},
+    { label = "audio-volume-low-symbolic",      key = "Key::VolumeDown", mode = "media"},
+    { label = "audio-volume-high-symbolic",     key = "Key::VolumeUp", mode = "media"},
+    { label = "media-playback-start-symbolic",  key = "Key::PlayPause", mode = "media"},
+    { label = "system-search-symbolic",         key = "Key::Search", mode = "media"},
+    { label = "go-next-symbolic",               key = "Key::Macro3", mode = "media"},
+]
+EOF
+;;
+
+(tertiary2_layer_buttons)
+cat <<EOF >>/etc/tiny-dfr.conf
+
+[layers.tertiary2_layer_buttons]
+buttons = [
+    { label = "go-previous-symbolic",            key = "Key::Macro2", mode = "media"},
+    { label = "web-browser-symbolic",            key = "Key::WWW", mode = "media"},
+    { label = "accessories-calculator-symbolic", key = "Key::Calc", mode = "media"},
+    { label = "system-file-manager-symbolic",    key = "Key::File", mode = "media"},
+    { label = "view-app-grid-symbolic",          key = "Key::AllApplications", mode = "media"},
+    { mode = "time"},
+    { mode = "blank"},
+    { mode = "blank"},
+    { label = "audio-volume-low-symbolic",      key = "Key::VolumeDown", mode = "media"},
+    { label = "audio-volume-high-symbolic",     key = "Key::VolumeUp", mode = "media"},
+    { label = "media-playback-start-symbolic",  key = "Key::PlayPause", mode = "media"},
+    { label = "system-search-symbolic",         key = "Key::Search", mode = "media"},
+    { label = "go-next-symbolic",               key = "Key::Macro3", mode = "media"},
+]
+EOF
+;;
+
+(tertiary3_layer_buttons)
+cat <<EOF >>/etc/tiny-dfr.conf
+
+[layers.tertiary3_layer_buttons]
+buttons = [
+    { label = "go-previous-symbolic",               key = "Key::Macro2", mode = "media"},
+    { label = "display-brightness-low-symbolic",    key = "Key::BrightnessDown", mode = "media"},
+    { label = "display-brightness-high-symbolic",   key = "Key::BrightnessUp", mode = "media"},
+    { label = "microphone-disabled-symbolic",       key = "Key::MicMute", mode = "media"},
+    { label = "keyboard-brightness-low-symbolic",   key = "Key::IllumDown", mode = "media"},
+    { label = "keyboard-brightness-high-symbolic",  key = "Key::IllumUp", mode = "media"},
+    { label = "media-seek-backward-symbolic",       key = "Key::PreviousSong", mode = "media"},
+    { label = "media-playback-start-symbolic",      key = "Key::PlayPause", mode = "media"},
+    { label = "media-seek-forward-symbolic",        key = "Key::NextSong", mode = "media"},
+    { label = "audio-volume-muted-symbolic",        key = "Key::Mute", mode = "media"},
+    { label = "audio-volume-low-symbolic",          key = "Key::VolumeDown", mode = "media"},
+    { label = "audio-volume-high-symbolic",         key = "Key::VolumeUp", mode = "media"},
+]
+EOF
+;;
+esac
+
+else
+echo -e "\n${checked_layer}" >> /etc/tiny-dfr.conf
+fi
+done
+
 cat <<EOF
+
+Restored successfully!
 
 Note: If your touchbar has frozen, try restarting the daemon first by running \`sudo touchbar --restart\`. If it doesn't work even after restarting 3 times, try using a different theme for your app icons. You can also run \`sudo tiny-dfr\` to get logs of any possible error.
 EOF

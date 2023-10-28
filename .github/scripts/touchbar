@@ -515,7 +515,7 @@ cat <<EOF
 --font    : Set font for the function keys
 --icons   : Set the icon theme for the media control icons and utility apps
 --apps    : Setup app shortcuts
---time    : Choose between 12 and 24 hr clock
+--time    : Choose between 12 and 24 hr clock, or hide time and date
 --restore : Restore a previous configuration stored at /etc/tiny-dfr.conf.orj
 --restart : Restart the daemon (Useful if touchbar has frozen)
 --switch  : Use basic version of touchbar

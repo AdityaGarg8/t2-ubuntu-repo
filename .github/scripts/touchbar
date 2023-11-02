@@ -266,6 +266,19 @@ EOF
 ;;
 (--time)
 cat <<EOF
+Choose your desired setting:
+
+1. Change Date and Time format
+2. Change locales (language)
+EOF
+read time_setting
+
+case "$time_setting" in
+
+(1)
+
+cat <<EOF
+
 Choose the time format you want to use:
 
 1. 12 hr
@@ -294,6 +307,33 @@ Note: If your touchbar has frozen, try restarting the daemon first by running \`
 EOF
 ;;
 
+(2)
+cat <<EOF
+
+If you want to use the same locale as your system, simply press enter.
+If you want a locale other than the one used by your system, type the locale and then press enter.
+
+Current locale used by the Touch Bar: $(cat /etc/tiny-dfr.conf | grep locale | cut -d "\"" -f 2)
+Current locale used by your system: $(echo $LC_TIME | cut -d "." -f 1)
+EOF
+read locale
+if [[ $locale = "" ]]
+then
+sed -i "s/locale.*/locale = \"$(echo $LC_TIME | cut -d "." -f 1)\"/g" /etc/tiny-dfr.conf
+else
+sed -i "s/locale.*/locale = \"$locale\"/g" /etc/tiny-dfr.conf
+fi
+cat <<EOF
+
+Locale changed successfully!
+
+Note: If your touchbar has frozen, try restarting the daemon first by running \`sudo touchbar --restart\`. If it doesn't work even after restarting 3 times, try using a different theme for your app icons. You can also run \`sudo tiny-dfr\` to get logs of any possible error.
+EOF
+;;
+
+esac
+;;
+
 (--restore)
 if [ -f /etc/tiny-dfr.conf.orj ]
 then
@@ -313,6 +353,7 @@ app_icon_theme = "hicolor"
 
 [time]
 use_24_hr = 1
+locale = "en_US"
 EOF
 
 check_for_entry () {
@@ -320,7 +361,7 @@ local $1
 cat /etc/tiny-dfr.conf.orj | grep -w $1
 }
 
-for entry in "primary_layer" "secondary_layer" "font" "media_icon_theme" "app_icon_theme" "use_24_hr"
+for entry in "primary_layer" "secondary_layer" "font" "media_icon_theme" "app_icon_theme" "use_24_hr" "locale"
 do
 checked_entry=$(check_for_entry $entry)
 if [[ ${checked_entry} = "" ]]

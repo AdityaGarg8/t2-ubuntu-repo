@@ -1,0 +1,23 @@
+From f2739c45ca277bc349eee325a2588b57f6d9fecf Mon Sep 17 00:00:00 2001
+From: Aditya Garg <gargaditya08@live.com>
+Date: Thu, 2 Nov 2023 13:03:53 +0530
+Subject: [PATCH] Add install target to systemd service
+
+---
+ etc/systemd/system/tiny-dfr.service | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/etc/systemd/system/tiny-dfr.service b/etc/systemd/system/tiny-dfr.service
+index 78c2392..82596ea 100644
+--- a/etc/systemd/system/tiny-dfr.service
++++ b/etc/systemd/system/tiny-dfr.service
+@@ -6,3 +6,6 @@ BindsTo=dev-tiny_dfr_display.device dev-tiny_dfr_backlight.device
+ [Service]
+ ExecStart=/usr/bin/tiny-dfr
+ Restart=always
++
++[Install]
++WantedBy=multi-user.target
+-- 
+2.34.1
+

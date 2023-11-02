@@ -23,8 +23,9 @@ jobs:
       - name: Get the source code
         id: publish
         run: |
+          REPO=https://github.com/AdityaGarg8/tiny-dfr.git
           COMMIT_HASH=0b0312b6f62ee6e3a2bcf09fdf79864bdbed07e7
-          VERSION=0.1.4-4
+          VERSION=0.1.4-5
           curl -s --compressed "https://adityagarg8.github.io/t2-ubuntu-repo/KEY.gpg" | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/t2-ubuntu-repo.gpg >/dev/null
           sudo curl -s --compressed -o /etc/apt/sources.list.d/t2.list "https://adityagarg8.github.io/t2-ubuntu-repo/t2.list"
           sudo apt update -y
@@ -33,7 +34,7 @@ jobs:
           libghc-pango-dev libghc-yi-frontend-pango-dev libpango1.0-dev libudev-dev libinput-dev apple-touchbar
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
-          git clone https://github.com/AdityaGarg8/tiny-dfr.git
+          git clone ${REPO}
           cd tiny-dfr
           git checkout ${COMMIT_HASH}
           cp ${{ github.workspace }}/.github/patches/*.patch ./
@@ -81,19 +82,19 @@ jobs:
           echo "for rule in /usr/share/tiny-dfr/*.rules" >> postinst
           echo "do" >> postinst
           echo 'rule_file=$(echo $rule | rev | cut -d "/" -f 1 | rev)' >> postinst
-          echo 'cp /usr/share/tiny-dfr/$rule_file /etc/udev/rules.d/$rule_file' >> postinst
+          echo 'cp -v /usr/share/tiny-dfr/$rule_file /etc/udev/rules.d/$rule_file' >> postinst
           echo "done" >> postinst
           echo "for service in /usr/share/tiny-dfr/*.service" >> postinst
           echo "do" >> postinst
           echo 'service_file=$(echo $service | rev | cut -d "/" -f 1 | rev)' >> postinst
-          echo 'cp /usr/share/tiny-dfr/$service_file /etc/systemd/system/$service_file' >> postinst
+          echo 'cp -v /usr/share/tiny-dfr/$service_file /etc/systemd/system/$service_file' >> postinst
           echo "done" >> postinst
           echo "systemctl enable --now tiny-dfr.service" >> postinst
           echo "else" >> postinst
           echo "dkms add -m apple-touchbar -v 0.1" >> postinst
           echo "dkms build -m apple-touchbar -v 0.1 && dkms install -m apple-touchbar -v 0.1 || true" >> postinst
           echo "fi" >> postinst
-          echo "echo \"You may have to restart your Mac in case of a new installation\"" >> postinst
+          echo "echo -e \"\\nYou may have to restart your Mac in case of a new installation\"" >> postinst
 
           echo 'if [ -f /etc/systemd/system/tiny-dfr.service ]' > prerm
           echo "then" >> prerm

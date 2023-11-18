@@ -21,6 +21,14 @@
 # WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
 # IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+create_config () {
+if [ ! -f /etc/tiny-dfr/config.toml ]
+then
+mkdir -p /etc/tiny-dfr
+cp /usr/share/tiny-dfr/config.toml /etc/tiny-dfr/config.toml
+fi
+}
+
 if [ -f /etc/modprobe.d/tiny-dfr.conf ]
 then
 
@@ -70,9 +78,10 @@ else
 case "$1" in
 
 (--mode)
+create_config
 
-get_mode () {
 cat <<EOF
+Enter the mode you want to be displayed by default on the touchbar:
 
 1. Function keys
 2. Media controls
@@ -83,29 +92,51 @@ read mode_no
 case "$mode_no" in
 
 (1)
-mode=function
+cat <<EOF
+
+Enter the mode you want to be displayed on the touchbar when fn key is pressed:
+
+1. Media controls
+2. Media controls + App shortcuts
+EOF
+read sp_ext
+
+case "$sp_ext" in
+
+(1)
+sed -i "s/SpecialExtendedMode.*/SpecialExtendedMode = false/g" /etc/tiny-dfr/config.toml
 ;;
 
 (2)
-mode=special
-;;
-
-(3)
-mode=specialextended
+sed -i "s/SpecialExtendedMode.*/SpecialExtendedMode = true/g" /etc/tiny-dfr/config.toml
 ;;
 
 (*)
 echo "Invalid input. Aborting!"
 exit 1
-esac
-}
+;;
 
-echo -e "\nEnter the mode do you want to display by default on the touchbar:"
-get_mode
-sed -i "s/primary_layer[ ]*=.*/primary_layer = \"$mode\"/g" /etc/tiny-dfr.conf
-echo -e "\nEnter the mode that you want to be displayed on the touchbar after pressing fn key:"
-get_mode
-sed -i "s/secondary_layer[ ]*=.*/secondary_layer = \"$mode\"/g" /etc/tiny-dfr.conf
+esac
+
+sed -i "s/MediaLayerDefault.*/MediaLayerDefault = false/g" /etc/tiny-dfr/config.toml
+;;
+
+(2)
+sed -i "s/SpecialExtendedMode.*/SpecialExtendedMode = false/g" /etc/tiny-dfr/config.toml
+sed -i "s/MediaLayerDefault.*/MediaLayerDefault = true/g" /etc/tiny-dfr/config.toml
+;;
+
+(3)
+sed -i "s/SpecialExtendedMode.*/SpecialExtendedMode = true/g" /etc/tiny-dfr/config.toml
+sed -i "s/MediaLayerDefault.*/MediaLayerDefault = true/g" /etc/tiny-dfr/config.toml
+;;
+
+(*)
+echo "Invalid input. Aborting!"
+exit 1
+;;
+
+esac
 cat <<EOF
 
 Mode set successfully!
@@ -115,6 +146,8 @@ EOF
 ;;
 
 (--font)
+create_config
+
 echo -e "\nYou shall be shown list of installed fonts. Choose a font from the list you want to use."
 echo
 read -p "Press enter to continue"
@@ -122,7 +155,42 @@ echo
 fc-list --format="%{family[0]}\n" | sort | uniq
 echo -e "\nType the font from the above list you want to use and press enter."
 read font
-sed -i "s/font.*/font = \"${font}\"/g" /etc/tiny-dfr.conf
+cat <<EOF
+
+Enter the desired formatting option of the font you want:
+
+1. Normal
+2. Bold
+3. Italic
+4. Both Bold and Italic
+EOF
+read format
+
+case "$format" in
+
+(1)
+sed -i "s/FontTemplate.*/FontTemplate = \"${font}\"/g" /etc/tiny-dfr/config.toml
+;;
+
+(2)
+sed -i "s/FontTemplate.*/FontTemplate = \"${font}:bold\"/g" /etc/tiny-dfr/config.toml
+;;
+
+(3)
+sed -i "s/FontTemplate.*/FontTemplate = \"${font}:italic\"/g" /etc/tiny-dfr/config.toml
+;;
+
+(4)
+sed -i "s/FontTemplate.*/FontTemplate = \"${font}:bold:italic\"/g" /etc/tiny-dfr/config.toml
+;;
+
+(*)
+echo "Invalid input. Aborting!"
+exit 1
+;;
+
+esac
+
 cat <<EOF
 
 Font set successfully!
@@ -132,6 +200,8 @@ EOF
 ;;
 
 (--icons)
+create_config
+
 echo -e "\nYou shall be shown list of installed icon themes. Choose an icon theme from the list you want to use."
 echo
 read -p "Press Enter to continue..."
@@ -139,7 +209,7 @@ echo
 ls /usr/share/tiny-dfr/icons | sort
 echo -e "\nType the icon theme from the above list you want to use and press enter."
 read icon
-sed -i "s/media_icon_theme.*/media_icon_theme = \"$icon\"/g" /etc/tiny-dfr.conf
+sed -i "s/MediaIconTheme.*/MediaIconTheme = \"$icon\"/g" /etc/tiny-dfr/config.toml
 cat <<EOF
 
 Icon theme set successfully!
@@ -149,6 +219,8 @@ EOF
 ;;
 
 (--apps)
+create_config
+
 echo "You shall be given a list of installed applications, the command which executes them and their icon name"
 echo
 read -p "Press Enter to continue..."
@@ -222,7 +294,7 @@ if [[ $app_theme = "" ]]
 then
 true
 else
-sed -i "s/app_icon_theme.*/app_icon_theme = \"$app_theme\"/g" /etc/tiny-dfr.conf
+sed -i "s/AppIconTheme.*/AppIconTheme = \"$app_theme\"/g" /etc/tiny-dfr/config.toml
 fi
 
 cat <<EOF
@@ -253,7 +325,7 @@ Note: If the name of icon contains a "." (Eg: org.gnome.Terminal), append its ex
 
 EOF
 read app_icon
-sed -i "s/.*$position_new.*/    { label = \"$app_icon\", key = \"Key::$position_new\", mode = \"app\"},/g" /etc/tiny-dfr.conf
+sed -i "s/.*$position_new.*/        { Icon = \"$app_icon\", Action = \"$position_new\", Mode = \"App\"},/g" /etc/tiny-dfr/config.toml
 
 cat <<EOF
 
@@ -264,10 +336,95 @@ EOF
 
 #gsettings set org.gnome.shell.keybindings toggle-application-view "['<Super>a', 'LaunchB']"
 ;;
-(--time)
+
+(--display)
+create_config
+
 cat <<EOF
 Choose your desired setting:
+1. Enable/disable pixel shifting:
 
+   Enabling pixel shifting shall slowly shift the entire screen contents.
+   In theory this helps with screen longevity.
+
+2. Show/hide button outlines:
+
+   Use this setting to hide button outlines of Media and Function keys.
+   Enabling this will make this effect of pixel shifting less noticeable to the eye.
+EOF
+read display_setting
+
+case "$display_setting" in
+
+(1)
+cat <<EOF
+
+Choose the desired option:
+
+1. Enable pixel shifting
+2. Disable pixel shifting
+EOF
+read pixel_setting
+
+case "$pixel_setting" in
+
+(1)
+sed -i "s/EnablePixelShift.*/EnablePixelShift = true/g" /etc/tiny-dfr/config.toml
+;;
+
+(2)
+sed -i "s/EnablePixelShift.*/EnablePixelShift = false/g" /etc/tiny-dfr/config.toml
+;;
+
+(*)
+echo "Invalid input. Aborting!"
+exit 1
+;;
+
+esac
+
+;;
+
+(2)
+cat <<EOF
+
+Choose the desired option:
+
+1. Show button outlines
+2. Hide button outlines
+EOF
+read button_outline
+
+case "$button_outline" in
+
+(1)
+sed -i "s/ShowButtonOutlines.*/ShowButtonOutlines = true/g" /etc/tiny-dfr/config.toml
+;;
+
+(2)
+sed -i "s/ShowButtonOutlines.*/ShowButtonOutlines = false/g" /etc/tiny-dfr/config.toml
+;;
+
+(*)
+echo "Invalid input. Aborting!"
+exit 1
+;;
+
+esac
+;;
+
+(*)
+echo "Invalid input. Aborting!"
+exit 1
+;;
+
+esac
+;;
+(--time)
+create_config
+
+cat <<EOF
+Choose your desired setting:
 1. Change Date and Time format
 2. Change locales (language)
 EOF
@@ -283,18 +440,14 @@ Choose the time format you want to use:
 
 1. 12 hr
 2. 24 hr
-3. Do not display time and date on the touchbar
 EOF
 read time_format
 if [[ $time_format = 1 ]]
 then
-sed -i "s/use_24_hr.*/use_24_hr = 0/g" /etc/tiny-dfr.conf
+sed -i "s/Show24HrTime.*/Show24HrTime = false/g" /etc/tiny-dfr/config.toml
 elif [[ $time_format = 2 ]]
 then
-sed -i "s/use_24_hr.*/use_24_hr = 1/g" /etc/tiny-dfr.conf
-elif [[ $time_format = 3 ]]
-then
-sed -i "s/use_24_hr.*/use_24_hr = 2/g" /etc/tiny-dfr.conf
+sed -i "s/Show24HrTime.*/Show24HrTime = true/g" /etc/tiny-dfr/config.toml
 else
 echo "Invalid input!"
 exit 1
@@ -312,19 +465,17 @@ cat <<EOF
 
 If you want to use the same locale as your system, simply press enter.
 If you want a locale other than the one used by your system, type the locale and then press enter.
-
-Current locale used by the Touch Bar: $(cat /etc/tiny-dfr.conf | grep locale | cut -d "\"" -f 2)
+Current locale used by the Touch Bar: $(cat /etc/tiny-dfr/config.toml | grep Locale | cut -d "\"" -f 2)
 Current locale used by your system: $(echo $LC_TIME | cut -d "." -f 1)
 EOF
 read locale
 if [[ $locale = "" ]]
 then
-sed -i "s/locale.*/locale = \"$(echo $LC_TIME | cut -d "." -f 1)\"/g" /etc/tiny-dfr.conf
+sed -i "s/Locale.*/Locale = \"$(echo $LC_TIME | cut -d "." -f 1)\"/g" /etc/tiny-dfr/config.toml
 else
-sed -i "s/locale.*/locale = \"$locale\"/g" /etc/tiny-dfr.conf
+sed -i "s/Locale.*/Locale = \"$locale\"/g" /etc/tiny-dfr/config.toml
 fi
 cat <<EOF
-
 Locale changed successfully!
 
 Note: If your touchbar has frozen, try restarting the daemon first by running \`sudo touchbar --restart\`. If it doesn't work even after restarting 3 times, try using a different theme for your app icons. You can also run \`sudo tiny-dfr\` to get logs of any possible error.
@@ -335,46 +486,88 @@ esac
 ;;
 
 (--restore)
-if [ -f /etc/tiny-dfr.conf.orj ]
+create_config
+
+if [ -f /etc/tiny-dfr/config.toml.orj ]
 then
-echo "Restoring previous configuration from /etc/tiny-dfr.conf.orj"
+echo "Restoring previous configuration from /etc/tiny-dfr/config.toml.orj"
 else
 echo "No file found for backup"
 exit 1
 fi
 
-cat <<EOF >/etc/tiny-dfr.conf
-[ui]
-primary_layer = "specialextended"
-secondary_layer = "function"
-font = "sans-serif"
-media_icon_theme = "tiny-dfr-icons"
-app_icon_theme = "hicolor"
+cat <<EOF >/etc/tiny-dfr/config.toml
+# tiny-dfr config template. Do not edit this file directly, instead
+# copy it to /etc/tiny-dfr/config.toml and edit that copy.
+# The daemon will merge those two files, giving preference to the one in /etc
 
-[time]
-use_24_hr = 1
-locale = "en_US"
+# F{number} keys are shown when Fn is not pressed by default.
+# Set this to true if you want the media keys to be shown without Fn pressed
+MediaLayerDefault = false
+
+# Set this to true if you want to show app shortcuts, date and time and other
+# extended features in the Media layer.
+SpecialExtendedMode = false
+
+# Set this to false if you want to hide the button outline,
+# leaving only the text/logo
+ShowButtonOutlines = true
+
+# Set this to true to slowly shift the entire screen contents.
+# In theory this helps with screen longevity, but macos does not bother doint it
+# Disabling ShowButtonOutlines will make this effect less noticeable to the eye
+EnablePixelShift = false
+
+# Set this to false if you want to display time in 12hr format,
+# instead of 24hr
+Show24HrTime = true
+
+# Set this to the locale you want to use to display the time and date
+Locale = "en_US"
+
+# Set this to the fontconfig pattern to be used to pick a font for text labels
+# Some examples are:
+# "" - default regular sans-serif font
+# ":bold" - default bold sans-serif font
+# For full reference on accepted values see the fontconfig user guide,
+# section "Font Names"
+# https://www.freedesktop.org/software/fontconfig/fontconfig-user.html
+FontTemplate = ":bold"
+
+# Set this to the icon theme you want to use for Media controls.
+# Theme can be from "/usr/share/tiny-dfr/icons", "/etc/tiny-dfr/icons" or "/usr/share/icons"
+MediaIconTheme = "tiny-dfr-icons"
+
+# Set this to the icon theme you want to use for App icons.
+# Theme can be from "/usr/share/tiny-dfr/icons", "/etc/tiny-dfr/icons" or "/usr/share/icons"
+AppIconTheme = "hicolor"
+
+# This key defines the contents of the primary layer
+# (the one with F{number} keys)
+# You can change the individual buttons, add, or remove them
+# Any number of keys that is greater than 0 is allowed
+# however rendering will start to break around 24 keys
 EOF
 
 check_for_entry () {
 local $1
-cat /etc/tiny-dfr.conf.orj | grep -w $1
+cat /etc/tiny-dfr/config.toml.orj | grep -w $1 | grep -v "#"
 }
 
-for entry in "primary_layer" "secondary_layer" "font" "media_icon_theme" "app_icon_theme" "use_24_hr" "locale"
+for entry in "MediaLayerDefault" "SpecialExtendedMode" "ShowButtonOutlines" "EnablePixelShift" "Show24HrTime" "Locale" "FontTemplate" "MediaIconTheme" "AppIconTheme"
 do
 checked_entry=$(check_for_entry $entry)
 if [[ ${checked_entry} = "" ]]
 then
 true
 else
-sed -i "s/${entry}.*/${checked_entry}/g" /etc/tiny-dfr.conf | true
+sed -i "s/${entry}.*/${checked_entry}/g" /etc/tiny-dfr/config.toml || true
 fi
 done
 
 layers () {
 local $1
-start_tag="[layers.$1]"
+start_tag="$1 = ["
 end_tag="]"
 
 found_section=false
@@ -389,126 +582,138 @@ while IFS= read -r line; do
             break
         fi
     fi
-done < "/etc/tiny-dfr.conf.orj"
+done < "/etc/tiny-dfr/config.toml.orj"
 }
 
-for layer in "primary_layer_buttons" "secondary_layer_buttons" "tertiary_layer_buttons" "tertiary2_layer_buttons" "tertiary3_layer_buttons"
+for layer in "PrimaryLayerKeys" "MediaLayerKeys" "AppLayerKeys1" "AppLayerKeys2" "AppLayerKeys3"
 do
 checked_layer=$(layers $layer)
 if [[ ${checked_layer} = "" ]]
 then
 case ${layer} in
 
-(primary_layer_buttons)
-cat <<EOF >>/etc/tiny-dfr.conf
-
-[layers.primary_layer_buttons]
-buttons = [
-    { label = "F1", key = "Key::F1", mode = "text" },
-    { label = "F2", key = "Key::F2", mode = "text" },
-    { label = "F3", key = "Key::F3", mode = "text" },
-    { label = "F4", key = "Key::F4", mode = "text" },
-    { label = "F5", key = "Key::F5", mode = "text" },
-    { label = "F6", key = "Key::F6", mode = "text" },
-    { label = "F7", key = "Key::F7", mode = "text" },
-    { label = "F8", key = "Key::F8", mode = "text" },
-    { label = "F9", key = "Key::F9", mode = "text" },
-    { label = "F10", key = "Key::F10", mode = "text" },
-    { label = "F11", key = "Key::F11", mode = "text" },
-    { label = "F12", key = "Key::F12", mode = "text" },
+(PrimaryLayerKeys)
+cat <<EOF >>/etc/tiny-dfr/config.toml
+PrimaryLayerKeys = [
+    # Action defines the key code to send when the button is pressed
+    # Text defines the button label
+    # Icon specifies the icon to be used for the button.
+    # Do not include the .svg or .png extension in the file name.
+    # Icons are looked up in the theme set as MediaIconTheme and then hicolor
+    # Only one of Text or Icon is allowed,
+    # if both are present, the behavior is undefined.
+    # For the list of supported key codes see
+    # https://docs.rs/input-linux/latest/input_linux/enum.Key.html
+    # Note that the escape key is not specified here, as it is added
+    # automatically on Macs without a physical one
+    { Text = "F1",  Action = "F1"  },
+    { Text = "F2",  Action = "F2"  },
+    { Text = "F3",  Action = "F3"  },
+    { Text = "F4",  Action = "F4"  },
+    { Text = "F5",  Action = "F5"  },
+    { Text = "F6",  Action = "F6"  },
+    { Text = "F7",  Action = "F7"  },
+    { Text = "F8",  Action = "F8"  },
+    { Text = "F9",  Action = "F9"  },
+    { Text = "F10", Action = "F10" },
+    { Text = "F11", Action = "F11" },
+    { Text = "F12", Action = "F12" }
 ]
 EOF
 ;;
 
-(secondary_layer_buttons)
-cat <<EOF >>/etc/tiny-dfr.conf
+(MediaLayerKeys)
+cat <<EOF >>/etc/tiny-dfr/config.toml
 
-[layers.secondary_layer_buttons]
-buttons = [
-    { label = "display-brightness-low-symbolic",    key = "Key::BrightnessDown", mode = "media"},
-    { label = "display-brightness-high-symbolic",   key = "Key::BrightnessUp", mode = "media"},
-    { label = "microphone-disabled-symbolic",       key = "Key::MicMute", mode = "media"},
-    { label = "system-search-symbolic",             key = "Key::Search", mode = "media"},
-    { label = "keyboard-brightness-low-symbolic",   key = "Key::IllumDown", mode = "media"},
-    { label = "keyboard-brightness-high-symbolic",  key = "Key::IllumUp", mode = "media"},
-    { label = "media-seek-backward-symbolic",       key = "Key::PreviousSong", mode = "media"},
-    { label = "media-playback-start-symbolic",      key = "Key::PlayPause", mode = "media"},
-    { label = "media-seek-forward-symbolic",        key = "Key::NextSong", mode = "media"},
-    { label = "audio-volume-muted-symbolic",        key = "Key::Mute", mode = "media"},
-    { label = "audio-volume-low-symbolic",          key = "Key::VolumeDown", mode = "media"},
-    { label = "audio-volume-high-symbolic",         key = "Key::VolumeUp", mode = "media"},
+# This key defines the contents of the media key layer
+MediaLayerKeys = [
+    { Icon = "display-brightness-low-symbolic",   Action = "BrightnessDown", Mode = "Media"},
+    { Icon = "display-brightness-high-symbolic",  Action = "BrightnessUp",   Mode = "Media"},
+    { Icon = "microphone-disabled-symbolic",      Action = "MicMute",        Mode = "Media"},
+    { Icon = "system-search-symbolic",            Action = "Search",         Mode = "Media"},
+    { Icon = "keyboard-brightness-low-symbolic",  Action = "IllumDown",      Mode = "Media"},
+    { Icon = "keyboard-brightness-high-symbolic", Action = "IllumUp",        Mode = "Media"},
+    { Icon = "media-seek-backward-symbolic",      Action = "PreviousSong",   Mode = "Media"},
+    { Icon = "media-playback-start-symbolic",     Action = "PlayPause",      Mode = "Media"},
+    { Icon = "media-seek-forward-symbolic",       Action = "NextSong",       Mode = "Media"},
+    { Icon = "audio-volume-muted-symbolic",       Action = "Mute",           Mode = "Media"},
+    { Icon = "audio-volume-low-symbolic",         Action = "VolumeDown",     Mode = "Media"},
+    { Icon = "audio-volume-high-symbolic",        Action = "VolumeUp",       Mode = "Media"}
 ]
 EOF
 ;;
 
-(tertiary_layer_buttons)
-cat <<EOF >>/etc/tiny-dfr.conf
+(AppLayerKeys1)
+cat <<EOF >>/etc/tiny-dfr/config.toml
 
-[layers.tertiary_layer_buttons]
-buttons = [
-    { label = "app1",                           key = "Key::Prog1", mode = "app"},
-    { label = "app2",                           key = "Key::Prog2", mode = "app"},
-    { label = "app3",                           key = "Key::Prog3", mode = "app"},
-    { label = "app4",                           key = "Key::Prog4", mode = "app"},
-    { label = "go-next-symbolic",               key = "Key::Macro1", mode = "media"},
-    { mode = "time"},
-    { mode = "blank"},
-    { mode = "blank"},
-    { label = "audio-volume-low-symbolic",      key = "Key::VolumeDown", mode = "media"},
-    { label = "audio-volume-high-symbolic",     key = "Key::VolumeUp", mode = "media"},
-    { label = "media-playback-start-symbolic",  key = "Key::PlayPause", mode = "media"},
-    { label = "system-search-symbolic",         key = "Key::Search", mode = "media"},
-    { label = "go-next-symbolic",               key = "Key::Macro3", mode = "media"},
+# This key defines the contents of the main app key layer
+# Macro1 key switches to AppLayerKeys1
+# Macro2 key switches to AppLayerKeys2
+# Macro3 key switches to AppLayerKeys3
+AppLayerKeys1 = [
+    { Icon = "app1",                          Action = "Prog1",      Mode = "App"},
+    { Icon = "app2",                          Action = "Prog2",      Mode = "App"},
+    { Icon = "app3",                          Action = "Prog3",      Mode = "App"},
+    { Icon = "app4",                          Action = "Prog4",      Mode = "App"},
+    { Icon = "go-next-symbolic",              Action = "Macro2",     Mode = "Media"},
+    { Action = "Time",    Mode = "Time"},
+    { Action = "Unknown", Mode = "Blank"},
+    { Action = "Unknown", Mode = "Blank"},
+    { Icon = "audio-volume-low-symbolic",     Action = "VolumeDown", Mode = "Media"},
+    { Icon = "audio-volume-high-symbolic",    Action = "VolumeUp",   Mode = "Media"},
+    { Icon = "media-playback-start-symbolic", Action = "PlayPause",  Mode = "Media"},
+    { Icon = "system-search-symbolic",        Action = "Search",     Mode = "Media"},
+    { Icon = "go-next-symbolic",              Action = "Macro3",     Mode = "Media"}
 ]
 EOF
 ;;
 
-(tertiary2_layer_buttons)
-cat <<EOF >>/etc/tiny-dfr.conf
+(AppLayerKeys2)
+cat <<EOF >>/etc/tiny-dfr/config.toml
 
-[layers.tertiary2_layer_buttons]
-buttons = [
-    { label = "go-previous-symbolic",            key = "Key::Macro2", mode = "media"},
-    { label = "web-browser-symbolic",            key = "Key::WWW", mode = "media"},
-    { label = "accessories-calculator-symbolic", key = "Key::Calc", mode = "media"},
-    { label = "system-file-manager-symbolic",    key = "Key::File", mode = "media"},
-    { label = "view-app-grid-symbolic",          key = "Key::AllApplications", mode = "media"},
-    { mode = "time"},
-    { mode = "blank"},
-    { mode = "blank"},
-    { label = "audio-volume-low-symbolic",      key = "Key::VolumeDown", mode = "media"},
-    { label = "audio-volume-high-symbolic",     key = "Key::VolumeUp", mode = "media"},
-    { label = "media-playback-start-symbolic",  key = "Key::PlayPause", mode = "media"},
-    { label = "system-search-symbolic",         key = "Key::Search", mode = "media"},
-    { label = "go-next-symbolic",               key = "Key::Macro3", mode = "media"},
+# This key defines the contents of the app key layer showing additional apps
+AppLayerKeys2 = [
+    { Icon = "go-previous-symbolic",            Action = "Macro1",          Mode = "Media"},
+    { Icon = "web-browser-symbolic",            Action = "WWW",             Mode = "Media"},
+    { Icon = "accessories-calculator-symbolic", Action = "Calc",            Mode = "Media"},
+    { Icon = "system-file-manager-symbolic",    Action = "File",            Mode = "Media"},
+    { Icon = "view-app-grid-symbolic",          Action = "AllApplications", Mode = "Media"},
+    { Action = "Time",    Mode = "Time"},
+    { Action = "Unknown", Mode = "Blank"},
+    { Action = "Unknown", Mode = "Blank"},
+    { Icon = "audio-volume-low-symbolic",       Action = "VolumeDown",      Mode = "Media"},
+    { Icon = "audio-volume-high-symbolic",      Action = "VolumeUp",        Mode = "Media"},
+    { Icon = "media-playback-start-symbolic",   Action = "PlayPause",       Mode = "Media"},
+    { Icon = "system-search-symbolic",          Action = "Search",          Mode = "Media"},
+    { Icon = "go-next-symbolic",                Action = "Macro3",          Mode = "Media"}
 ]
 EOF
 ;;
 
-(tertiary3_layer_buttons)
-cat <<EOF >>/etc/tiny-dfr.conf
+(AppLayerKeys3)
+cat <<EOF >>/etc/tiny-dfr/config.toml
 
-[layers.tertiary3_layer_buttons]
-buttons = [
-    { label = "go-previous-symbolic",               key = "Key::Macro2", mode = "media"},
-    { label = "display-brightness-low-symbolic",    key = "Key::BrightnessDown", mode = "media"},
-    { label = "display-brightness-high-symbolic",   key = "Key::BrightnessUp", mode = "media"},
-    { label = "microphone-disabled-symbolic",       key = "Key::MicMute", mode = "media"},
-    { label = "keyboard-brightness-low-symbolic",   key = "Key::IllumDown", mode = "media"},
-    { label = "keyboard-brightness-high-symbolic",  key = "Key::IllumUp", mode = "media"},
-    { label = "media-seek-backward-symbolic",       key = "Key::PreviousSong", mode = "media"},
-    { label = "media-playback-start-symbolic",      key = "Key::PlayPause", mode = "media"},
-    { label = "media-seek-forward-symbolic",        key = "Key::NextSong", mode = "media"},
-    { label = "audio-volume-muted-symbolic",        key = "Key::Mute", mode = "media"},
-    { label = "audio-volume-low-symbolic",          key = "Key::VolumeDown", mode = "media"},
-    { label = "audio-volume-high-symbolic",         key = "Key::VolumeUp", mode = "media"},
+# This key defines the contents of the app key layer showing all media icons
+AppLayerKeys3 = [
+    { Icon = "go-previous-symbolic",              Action = "Macro1",         Mode = "Media"},
+    { Icon = "display-brightness-low-symbolic",   Action = "BrightnessDown", Mode = "Media"},
+    { Icon = "display-brightness-high-symbolic",  Action = "BrightnessUp",   Mode = "Media"},
+    { Icon = "microphone-disabled-symbolic",      Action = "MicMute",        Mode = "Media"},
+    { Icon = "keyboard-brightness-low-symbolic",  Action = "IllumDown",      Mode = "Media"},
+    { Icon = "keyboard-brightness-high-symbolic", Action = "IllumUp",        Mode = "Media"},
+    { Icon = "media-seek-backward-symbolic",      Action = "PreviousSong",   Mode = "Media"},
+    { Icon = "media-playback-start-symbolic",     Action = "PlayPause",      Mode = "Media"},
+    { Icon = "media-seek-forward-symbolic",       Action = "NextSong",       Mode = "Media"},
+    { Icon = "audio-volume-muted-symbolic",       Action = "Mute",           Mode = "Media"},
+    { Icon = "audio-volume-low-symbolic",         Action = "VolumeDown",     Mode = "Media"},
+    { Icon = "audio-volume-high-symbolic",        Action = "VolumeUp",       Mode = "Media"}
 ]
 EOF
 ;;
 esac
 
 else
-echo -e "\n${checked_layer}" >> /etc/tiny-dfr.conf
+echo -e "\n${checked_layer}" >> /etc/tiny-dfr/config.toml
 fi
 done
 
@@ -556,8 +761,9 @@ cat <<EOF
 --font    : Set font for the function keys
 --icons   : Set the icon theme for the media control icons and utility apps
 --apps    : Setup app shortcuts
---time    : Choose between 12 and 24 hr clock, or hide time and date
---restore : Restore a previous configuration stored at /etc/tiny-dfr.conf.orj
+--display : Enable/disable pixel shifting and displaying of button outlines
+--time    : Choose between 12 and 24 hr clock
+--restore : Restore a previous configuration stored at /etc/tiny-dfr/config.toml.orj
 --restart : Restart the daemon (Useful if touchbar has frozen)
 --switch  : Use basic version of touchbar
 EOF

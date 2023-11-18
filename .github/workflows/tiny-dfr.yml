@@ -24,8 +24,8 @@ jobs:
         id: publish
         run: |
           REPO=https://github.com/AdityaGarg8/tiny-dfr.git
-          COMMIT_HASH=a6a501bb35e7172d5b3f562cca77abef276341f2
-          VERSION=0.1.4-5
+          COMMIT_HASH=1ee8f0ca3a26d7681d73e86d4a40ea4ccd101b44
+          VERSION=0.2.0-1
           curl -s --compressed "https://adityagarg8.github.io/t2-ubuntu-repo/KEY.gpg" | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/t2-ubuntu-repo.gpg >/dev/null
           sudo curl -s --compressed -o /etc/apt/sources.list.d/t2.list "https://adityagarg8.github.io/t2-ubuntu-repo/t2.list"
           sudo apt update -y
@@ -48,6 +48,8 @@ jobs:
           mkdir src
           cd ..
           cd ..
+          mkdir -p ./etc/tiny-dfr
+          cp ./share/tiny-dfr/config.toml ./etc/tiny-dfr/config.toml
           cp -r ./etc ./deb
           cp -r ./share ./deb/usr
           cp ./target/release/tiny-dfr ./deb/usr/bin
@@ -68,12 +70,12 @@ jobs:
           echo "Description: Function row daemon for touchbar on Macs" >> control
           echo "Depends: systemd, dkms" >> control
 
-          echo "if [ -f /etc/tiny-dfr.conf ]" > preinst
+          echo "if [ -f /etc/tiny-dfr/config.toml ]" > preinst
           echo "then" >> preinst
-          echo "cp /etc/tiny-dfr.conf /etc/tiny-dfr.conf.orj" >> preinst
+          echo "cp /etc/tiny-dfr/config.toml /etc/tiny-dfr/config.toml.orj" >> preinst
           echo "fi" >> preinst
 
-          echo "if [ -f /etc/tiny-dfr.conf.orj ]" > postinst
+          echo "if [ -f /etc/tiny-dfr/config.toml.orj ]" > postinst
           echo "then" >> postinst
           echo "touchbar --restore" >> postinst
           echo "fi" >> postinst

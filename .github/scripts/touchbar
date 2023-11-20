@@ -148,6 +148,15 @@ EOF
 (--font)
 create_config
 
+cat <<EOF
+
+Choose the font renderer you want to use
+
+1. FreeType (Default renderer)
+2. Cairo (Recommended if FreeType is not rendering font properly)
+EOF
+read renderer
+
 echo -e "\nYou shall be shown list of installed fonts. Choose a font from the list you want to use."
 echo
 read -p "Press enter to continue"
@@ -166,22 +175,76 @@ Enter the desired formatting option of the font you want:
 EOF
 read format
 
-case "$format" in
+case "$renderer" in
 
 (1)
-sed -i "s/FontTemplate.*/FontTemplate = \"${font}\"/g" /etc/tiny-dfr/config.toml
+sed -i "s/FontRenderer.*/FontRenderer = \"FreeType\"/g" /etc/tiny-dfr/config.toml
 ;;
 
 (2)
+sed -i "s/FontRenderer.*/FontRenderer = \"Cairo\"/g" /etc/tiny-dfr/config.toml
+sed -i "s/FontStyle.*/FontStyle = \"${font}\"/g" /etc/tiny-dfr/config.toml
+;;
+
+(*)
+echo "Invalid input. Aborting!"
+exit 1
+;;
+
+esac
+
+case "$format" in
+
+(1)
+if [[ $renderer = 1 ]]
+then
+sed -i "s/FontTemplate.*/FontTemplate = \"${font}\"/g" /etc/tiny-dfr/config.toml
+
+elif [[ $renderer = 2 ]]
+then
+sed -i "s/Bold.*/Bold = false/g" /etc/tiny-dfr/config.toml
+sed -i "s/Italic.*/Italic = false/g" /etc/tiny-dfr/config.toml
+
+fi
+;;
+
+(2)
+if [[ $renderer = 1 ]]
+then
 sed -i "s/FontTemplate.*/FontTemplate = \"${font}:bold\"/g" /etc/tiny-dfr/config.toml
+
+elif [[ $renderer = 2 ]]
+then
+sed -i "s/Bold.*/Bold = true/g" /etc/tiny-dfr/config.toml
+sed -i "s/Italic.*/Italic = false/g" /etc/tiny-dfr/config.toml
+
+fi
 ;;
 
 (3)
+if [[ $renderer = 1 ]]
+then
 sed -i "s/FontTemplate.*/FontTemplate = \"${font}:italic\"/g" /etc/tiny-dfr/config.toml
+
+elif [[ $renderer = 2 ]]
+then
+sed -i "s/Bold.*/Bold = false/g" /etc/tiny-dfr/config.toml
+sed -i "s/Italic.*/Italic = true/g" /etc/tiny-dfr/config.toml
+
+fi
 ;;
 
 (4)
+if [[ $renderer = 1 ]]
+then
 sed -i "s/FontTemplate.*/FontTemplate = \"${font}:bold:italic\"/g" /etc/tiny-dfr/config.toml
+
+elif [[ $renderer = 2 ]]
+then
+sed -i "s/Bold.*/Bold = true/g" /etc/tiny-dfr/config.toml
+sed -i "s/Italic.*/Italic = true/g" /etc/tiny-dfr/config.toml
+
+fi
 ;;
 
 (*)
@@ -525,6 +588,20 @@ Show24HrTime = true
 # Set this to the locale you want to use to display the time and date
 Locale = "en_US"
 
+# Set this to choose the font renderer.
+# You can choose between "cairo" and "freetype"
+FontRenderer = "freetype"
+
+# Cairo font renderer settings:
+
+# Set FontStyle to the name of the font to be used for cairo as a renderer
+# Set Bold/Italic to true to enable this formatting
+FontStyle = "sans-serif"
+Bold = true
+Italic = false
+
+# FreeType font renderer settings:
+
 # Set this to the fontconfig pattern to be used to pick a font for text labels
 # Some examples are:
 # "" - default regular sans-serif font
@@ -554,7 +631,7 @@ local $1
 cat /etc/tiny-dfr/config.toml.orj | grep -w $1 | grep -v "#"
 }
 
-for entry in "MediaLayerDefault" "SpecialExtendedMode" "ShowButtonOutlines" "EnablePixelShift" "Show24HrTime" "Locale" "FontTemplate" "MediaIconTheme" "AppIconTheme"
+for entry in "MediaLayerDefault" "SpecialExtendedMode" "ShowButtonOutlines" "EnablePixelShift" "Show24HrTime" "Locale" "FontRenderer" "FontStyle" "Bold" "Italic" "FontTemplate" "MediaIconTheme" "AppIconTheme"
 do
 checked_entry=$(check_for_entry $entry)
 if [[ ${checked_entry} = "" ]]

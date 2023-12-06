@@ -137,6 +137,10 @@ exit 1
 ;;
 
 esac
+
+sleep 0.5
+touch /etc/tiny-dfr/config.toml
+
 cat <<EOF
 
 Mode set successfully!
@@ -254,6 +258,9 @@ exit 1
 
 esac
 
+sleep 0.5
+touch /etc/tiny-dfr/config.toml
+
 cat <<EOF
 
 Font set successfully!
@@ -273,6 +280,10 @@ ls /usr/share/tiny-dfr/icons | sort
 echo -e "\nType the icon theme from the above list you want to use and press enter."
 read icon
 sed -i "s/MediaIconTheme.*/MediaIconTheme = \"$icon\"/g" /etc/tiny-dfr/config.toml
+
+sleep 0.5
+touch /etc/tiny-dfr/config.toml
+
 cat <<EOF
 
 Icon theme set successfully!
@@ -358,6 +369,8 @@ then
 true
 else
 sed -i "s/AppIconTheme.*/AppIconTheme = \"$app_theme\"/g" /etc/tiny-dfr/config.toml
+sleep 1
+touch /etc/tiny-dfr/config.toml
 fi
 
 cat <<EOF
@@ -389,6 +402,9 @@ Note: If the name of icon contains a "." (Eg: org.gnome.Terminal), append its ex
 EOF
 read app_icon
 sed -i "s/.*$position_new.*/        { Icon = \"$app_icon\", Action = \"$position_new\", Mode = \"App\"},/g" /etc/tiny-dfr/config.toml
+
+sleep 1
+touch /etc/tiny-dfr/config.toml
 
 cat <<EOF
 
@@ -482,20 +498,13 @@ exit 1
 ;;
 
 esac
+
+sleep 1
+touch /etc/tiny-dfr/config.toml
+
 ;;
 (--time)
 create_config
-
-cat <<EOF
-Choose your desired setting:
-1. Change Date and Time format
-2. Change locales (language)
-EOF
-read time_setting
-
-case "$time_setting" in
-
-(1)
 
 cat <<EOF
 
@@ -507,45 +516,43 @@ EOF
 read time_format
 if [[ $time_format = 1 ]]
 then
-sed -i "s/Show24HrTime.*/Show24HrTime = false/g" /etc/tiny-dfr/config.toml
+format=12hr
 elif [[ $time_format = 2 ]]
 then
-sed -i "s/Show24HrTime.*/Show24HrTime = true/g" /etc/tiny-dfr/config.toml
+format=24hr
 else
 echo "Invalid input!"
 exit 1
 fi
+
 cat <<EOF
 
-Time format changed successfully!
-
-Note: If your touchbar has frozen, try restarting the daemon first by running \`sudo touchbar --restart\`. If it doesn't work even after restarting 3 times, try using a different theme for your app icons. You can also run \`sudo tiny-dfr\` to get logs of any possible error.
-EOF
-;;
-
-(2)
-cat <<EOF
+Choose the locale you want to use:
 
 If you want to use the same locale as your system, simply press enter.
+
 If you want a locale other than the one used by your system, type the locale and then press enter.
-Current locale used by the Touch Bar: $(cat /etc/tiny-dfr/config.toml | grep Locale | cut -d "\"" -f 2)
+
 Current locale used by your system: $(echo $LC_TIME | cut -d "." -f 1)
 EOF
 read locale
 if [[ $locale = "" ]]
 then
-sed -i "s/Locale.*/Locale = \"$(echo $LC_TIME | cut -d "." -f 1)\"/g" /etc/tiny-dfr/config.toml
-else
-sed -i "s/Locale.*/Locale = \"$locale\"/g" /etc/tiny-dfr/config.toml
+locale=$(echo $LC_TIME | cut -d "." -f 1)
 fi
+
+sed -i "s/.*Mode = \"Time\".*/    { Action = \"Time\",    Mode = \"Time\", Format = \"$format\", Locale = \"$locale\"},/g" /etc/tiny-dfr/config.toml
+
+sleep 0.5
+touch /etc/tiny-dfr/config.toml
+
 cat <<EOF
+
 Locale changed successfully!
 
 Note: If your touchbar has frozen, try restarting the daemon first by running \`sudo touchbar --restart\`. If it doesn't work even after restarting 3 times, try using a different theme for your app icons. You can also run \`sudo tiny-dfr\` to get logs of any possible error.
 EOF
-;;
 
-esac
 ;;
 
 (--restore)
@@ -580,13 +587,6 @@ ShowButtonOutlines = true
 # In theory this helps with screen longevity, but macos does not bother doint it
 # Disabling ShowButtonOutlines will make this effect less noticeable to the eye
 EnablePixelShift = false
-
-# Set this to false if you want to display time in 12hr format,
-# instead of 24hr
-Show24HrTime = true
-
-# Set this to the locale you want to use to display the time and date
-Locale = "en_US"
 
 # Set this to choose the font renderer.
 # You can choose between "cairo" and "freetype"
@@ -631,7 +631,7 @@ local $1
 cat /etc/tiny-dfr/config.toml.orj | grep -w $1 | grep -v "#"
 }
 
-for entry in "MediaLayerDefault" "SpecialExtendedMode" "ShowButtonOutlines" "EnablePixelShift" "Show24HrTime" "Locale" "FontRenderer" "FontStyle" "Bold" "Italic" "FontTemplate" "MediaIconTheme" "AppIconTheme"
+for entry in "MediaLayerDefault" "SpecialExtendedMode" "ShowButtonOutlines" "EnablePixelShift" "FontRenderer" "FontStyle" "Bold" "Italic" "FontTemplate" "MediaIconTheme" "AppIconTheme"
 do
 checked_entry=$(check_for_entry $entry)
 if [[ ${checked_entry} = "" ]]
@@ -675,8 +675,10 @@ PrimaryLayerKeys = [
     # Action defines the key code to send when the button is pressed
     # Text defines the button label
     # Icon specifies the icon to be used for the button.
-    # Do not include the .svg or .png extension in the file name.
-    # Icons are looked up in the theme set as MediaIconTheme and then hicolor
+    # Icons can either be svgs or pngs, with svgs being preferred
+    # For best results with pngs, they should be 48x48
+    # Do not include the extension in the file name.
+    # Icons are looked up in /etc/tiny-dfr first and then in /usr/share/tiny-dfr
     # Only one of Text or Icon is allowed,
     # if both are present, the behavior is undefined.
     # For the list of supported key codes see
@@ -733,7 +735,7 @@ AppLayerKeys1 = [
     { Icon = "app3",                          Action = "Prog3",      Mode = "App"},
     { Icon = "app4",                          Action = "Prog4",      Mode = "App"},
     { Icon = "go-next-symbolic",              Action = "Macro2",     Mode = "Media"},
-    { Action = "Time",    Mode = "Time"},
+    { Action = "Time",                        Mode = "Time",         Format = "24hr", Locale = "en_US"},
     { Action = "Unknown", Mode = "Blank"},
     { Action = "Unknown", Mode = "Blank"},
     { Icon = "audio-volume-low-symbolic",     Action = "VolumeDown", Mode = "Media"},
@@ -755,7 +757,7 @@ AppLayerKeys2 = [
     { Icon = "accessories-calculator-symbolic", Action = "Calc",            Mode = "Media"},
     { Icon = "system-file-manager-symbolic",    Action = "File",            Mode = "Media"},
     { Icon = "view-app-grid-symbolic",          Action = "AllApplications", Mode = "Media"},
-    { Action = "Time",    Mode = "Time"},
+    { Action = "Time",                          Mode = "Time",              Format = "24hr", Locale = "en_US"},
     { Action = "Unknown", Mode = "Blank"},
     { Action = "Unknown", Mode = "Blank"},
     { Icon = "audio-volume-low-symbolic",       Action = "VolumeDown",      Mode = "Media"},
@@ -793,6 +795,9 @@ else
 echo -e "\n${checked_layer}" >> /etc/tiny-dfr/config.toml
 fi
 done
+
+sleep 1
+touch /etc/tiny-dfr/config.toml
 
 cat <<EOF
 

@@ -24,8 +24,8 @@ jobs:
         id: publish
         run: |
           REPO=https://github.com/AdityaGarg8/tiny-dfr.git
-          COMMIT_HASH=aeee3360420cd5a8f2c178d49999bf577728bb42
-          VERSION=0.2.0-2
+          COMMIT_HASH=b7307f1b40365048d0367d212d26d4f95d85dc2b
+          VERSION=0.2.0-3
           curl -s --compressed "https://adityagarg8.github.io/t2-ubuntu-repo/KEY.gpg" | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/t2-ubuntu-repo.gpg >/dev/null
           sudo curl -s --compressed -o /etc/apt/sources.list.d/t2.list "https://adityagarg8.github.io/t2-ubuntu-repo/t2.list"
           sudo apt update -y

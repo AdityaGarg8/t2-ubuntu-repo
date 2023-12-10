@@ -397,8 +397,6 @@ cat <<EOF
 
 From the list of apps that was displayed above, type the exact name of the icon and press enter.
 
-Note: If the name of icon contains a "." (Eg: org.gnome.Terminal), append its extension at the end after typing the name (Eg: org.gnome.Terminal.png). You can get the extension of the icon by searching it in /usr/share/<app theme you set>. Although in most cases it is .png, and rarely it is .svg.
-
 EOF
 read app_icon
 sed -i "s/.*$position_new.*/        { Icon = \"$app_icon\", Action = \"$position_new\", Mode = \"App\"},/g" /etc/tiny-dfr/config.toml

@@ -675,8 +675,15 @@ PrimaryLayerKeys = [
     # Icon specifies the icon to be used for the button.
     # Icons can either be svgs or pngs, with svgs being preferred
     # For best results with pngs, they should be 48x48
-    # Do not include the extension in the file name.
+    # Do not include the extension in the icon name.
     # Icons are looked up in /etc/tiny-dfr first and then in /usr/share/tiny-dfr
+    # If you add a custom Path of icon, then that shall be used instead of icon name.
+    # eg: Path = "/usr/share/pixmaps/discord.png" will use only the icon present
+    # at this location
+    # Mode = app will use AppIconTheme, Media will use MediaIconTheme for icons,
+    # unless Path is specified.
+    # You can also add Background = true or Background = false to show or
+    # hide the button outline for individual buttons.
     # Only one of Text or Icon is allowed,
     # if both are present, the behavior is undefined.
     # For the list of supported key codes see

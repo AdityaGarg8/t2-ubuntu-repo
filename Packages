@@ -490,14 +490,14 @@ SHA256: 8593bbe4abcc7be2a4a78d7be74334d0d4e243aa58dddbe8ee999988eabeb21b
 Description: Daemon to control fan speed on T2 Macs
 
 Package: tiny-dfr
-Version: 0.2.0-4
+Version: 0.2.0-5
 Architecture: amd64
 Maintainer: Aditya Garg
 Depends: systemd, dkms
-Filename: ./tiny-dfr_0.2.0-4_amd64.deb
-Size: 3671704
-MD5sum: a93fdd432576495bdb5ed120c36690fc
-SHA1: bf2e6dc674f516014be78499f998473c41445f8b
-SHA256: 39a890224a9baf665424b84c7fe0b0e5919090485015e255a45aeedc11665796
+Filename: ./tiny-dfr_0.2.0-5_amd64.deb
+Size: 3670780
+MD5sum: 6ed76e0e2be4e4d09a531bcbbb17ba0f
+SHA1: eb5aa80621fd9f8969d8c33ad0a03b67c2b32d0e
+SHA256: 98337d52d97863fa78959e3c1e48907ae174da571c9921a83e9a17e27b55e665
 Description: Function row daemon for touchbar on Macs
 

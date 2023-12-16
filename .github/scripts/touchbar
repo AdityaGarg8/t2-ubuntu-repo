@@ -758,10 +758,10 @@ cat <<EOF >>/etc/tiny-dfr/config.toml
 # This key defines the contents of the app key layer showing additional apps
 AppLayerKeys2 = [
     { Icon = "go-previous-symbolic",            Action = "Macro1",          Mode = "Media"},
-    { Icon = "web-browser-symbolic",            Action = "WWW",             Mode = "Media"},
-    { Icon = "accessories-calculator-symbolic", Action = "Calc",            Mode = "Media"},
-    { Icon = "system-file-manager-symbolic",    Action = "File",            Mode = "Media"},
-    { Icon = "view-app-grid-symbolic",          Action = "AllApplications", Mode = "Media"},
+    { Icon = "web-browser-symbolic",            Action = "WWW",             Mode = "Media", Background = false},
+    { Icon = "accessories-calculator-symbolic", Action = "Calc",            Mode = "Media", Background = false},
+    { Icon = "system-file-manager-symbolic",    Action = "File",            Mode = "Media", Background = false},
+    { Icon = "view-app-grid-symbolic",          Action = "AllApplications", Mode = "Media", Background = false},
     { Action = "Time",                          Mode = "Time",              Format = "24hr", Locale = "en_US"},
     { Action = "Unknown", Mode = "Blank"},
     { Action = "Unknown", Mode = "Blank"},

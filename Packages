@@ -116,6 +116,18 @@ SHA1: 33d5b9c19f4d143c131615c2dea8d6776d85e7e2
 SHA256: 7f477fcc49f9457f1e585a97a843422ccf6e1f99722277cf8cf1be8ff2204173
 Description: Apple USB BCM5974 multitouch driver for T2 Macs
 
+Package: bcm5974-t2
+Version: 0.1.2
+Architecture: amd64
+Maintainer: Aditya Garg
+Depends: dkms
+Filename: ./bcm5974-t2_0.1.2_amd64.deb
+Size: 14938
+MD5sum: 2636ead7d7272520da49a27f43a35bc4
+SHA1: b8dab7190aa02b356972bcabf74af0d53798401c
+SHA256: 264c6cc2420184b274ef6c6cb87aba903bd03d9dec9dec8daa675cb1116bf42a
+Description: Apple USB BCM5974 multitouch driver for T2 Macs
+
 Package: linux-apfs
 Version: 0.2.2
 Architecture: amd64

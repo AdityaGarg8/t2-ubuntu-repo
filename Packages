@@ -446,10 +446,10 @@ Maintainer: Aditya Garg
 Depends: curl, wget
 Replaces: t2-kernel-script, t2-kernel-script-lts
 Filename: ./t2-kernel-script-debian.deb
-Size: 1782
-MD5sum: 6cf6cb5b1d407b1575e26c06b15bb0b4
-SHA1: f0978b552202e85bc30c487f935a51156b8da18c
-SHA256: c9d1b54881f0811e84c3e80468dfeecbc05934d2a472c77c987e48bb7db47377
+Size: 1778
+MD5sum: 56fcd61bc10bd37d64e532702510d902
+SHA1: 508889e6e03971508277d0a138f7ec83b025a735
+SHA256: 3daf550918d237687b19b1f24642361d5b997e0fbc770bc92db234110dc77830
 Description: Kernel upgrade script for Debian kernels
 
 Package: t2-kernel-script-lts

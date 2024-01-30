@@ -1,0 +1,95 @@
+---
+name: Create t2fanrd package
+
+on:
+  workflow_dispatch:
+
+jobs:
+  Publish:
+    runs-on: ubuntu-22.04
+    steps:
+
+      - name: 'Checkout Repo'
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Configure GPG Key
+        run: |
+          echo -n "$GPG_SIGNING_KEY" | base64 -di | gpg --import
+        env:
+          GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
+
+      - name: Get the source code
+        id: publish
+        run: |
+          REPO=https://github.com/GnomedDev/T2FanRD.git
+          COMMIT_HASH=03d35ba4f74a430b775c05933cf11f1646501842
+          VERSION=0.1.0-1
+          #curl -s --compressed "https://adityagarg8.github.io/t2-ubuntu-repo/KEY.gpg" | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/t2-ubuntu-repo.gpg >/dev/null
+          #sudo curl -s --compressed -o /etc/apt/sources.list.d/t2.list "https://adityagarg8.github.io/t2-ubuntu-repo/t2.list"
+          sudo apt update -y
+          #sudo apt upgrade -y
+          sudo apt-get install -y cargo
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git clone ${REPO}
+          cd T2FanRD
+          git checkout ${COMMIT_HASH}
+          cargo b --release
+          mkdir deb
+          cd deb
+          mkdir usr
+          cd usr
+          mkdir bin
+          cd ..
+          cd ..
+          mkdir -p ./etc/systemd/system
+          wget https://raw.githubusercontent.com/t2linux/fedora/main/t2fanrd/t2fanrd.service
+          cp ./t2fanrd.service ./etc/systemd/system/t2fanrd.service
+          cp -r ./etc ./deb
+          cp ./target/release/t2fanrd ./deb/usr/bin
+          chmod a+x ./deb/usr/bin/t2fanrd
+          cd deb
+          mkdir DEBIAN
+          cd DEBIAN
+
+          echo "Package: t2fanrd" > control
+          echo "Version: ${VERSION}" >> control
+          echo "Maintainer: Aditya Garg" >> control
+          echo "Architecture: amd64" >> control
+          echo "Description: Fan Daemon for T2 Macs" >> control
+          echo "Depends: systemd" >> control
+
+          echo "systemctl enable --now t2fanrd.service" > postinst
+
+          echo "systemctl disable --now t2fanrd.service" >> prerm
+
+          chmod 755 ./postinst
+          chmod 755 ./prerm
+
+          cd ${{ github.workspace }}/T2FanRD
+          dpkg-deb --build --root-owner-group -Zgzip deb
+
+          mv ./deb.deb ${{ github.workspace }}
+          cd ${{ github.workspace }}
+          # Packages & Packages.gz
+          rm ./t2fanrd*.deb || true
+          dpkg-name ./deb.deb
+          dpkg-scanpackages --multiversion . > Packages
+          gzip -k -f Packages
+          # Release, Release.gpg & InRelease
+          apt-ftparchive release . > Release
+          gpg --default-key "${GPG_SIGNING_EMAIL}" -abs -o - Release > Release.gpg
+          gpg --default-key "${GPG_SIGNING_EMAIL}" --clearsign -o - Release > InRelease
+          cd ${{ github.workspace }}
+          rm -r ./T2FanRD
+          git add .
+          git commit -m "Update t2fanrd to ${VERSION}"
+        env:
+          GPG_SIGNING_EMAIL: ${{ secrets.GPG_SIGNING_EMAIL }}
+      - name: Push changes to the repo
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}

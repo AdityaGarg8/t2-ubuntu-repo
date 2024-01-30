@@ -61,9 +61,11 @@ jobs:
           echo "Description: Fan Daemon for T2 Macs" >> control
           echo "Depends: systemd" >> control
 
-          echo "systemctl enable --now t2fanrd.service" > postinst
+          echo "chmod a+x /etc/systemd/system/t2fanrd.service" > postinst
+          echo "chmod a+x /usr/bin/t2fanrd" >> postinst
+          echo "systemctl enable --now t2fanrd.service" >> postinst
 
-          echo "systemctl disable --now t2fanrd.service" >> prerm
+          echo "systemctl disable --now t2fanrd.service" > prerm
 
           chmod 755 ./postinst
           chmod 755 ./prerm

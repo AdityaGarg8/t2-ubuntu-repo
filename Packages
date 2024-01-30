@@ -489,41 +489,17 @@ SHA1: e4b896d9ba65a17974e3ae3d968a899cc0187d8f
 SHA256: ae75e446e8f6559f2b81c047d37e740289d26e8f57f41f2c092bbf4ddf4ed11f
 Description: Kernel upgrade script for LTS kernels
 
-Package: t2fand
-Version: 1.1.1-1
+Package: t2fanrd
+Version: 0.1.0-1
 Architecture: amd64
 Maintainer: Aditya Garg
-Depends: python3
-Filename: ./t2fand_1.1.1-1_amd64.deb
-Size: 2888
-MD5sum: 74a8a72ce8993160d649a5e7670ffc8a
-SHA1: 095a1ec31eacd4acd31c13b8475a0a8c341cd7c4
-SHA256: dfbd74bb615dc0c911dc2a4ce376d22b66bb64743f8f051c23c7e4d81002f9f4
-Description: Daemon to control fan speed on T2 Macs
-
-Package: t2fand
-Version: 1.1.1-2
-Architecture: amd64
-Maintainer: Aditya Garg
-Depends: python3
-Filename: ./t2fand_1.1.1-2_amd64.deb
-Size: 2902
-MD5sum: 8a317750fa529f25eff1d9baf563f2f1
-SHA1: a702726987a668a2ecd9e4573a3c18966816c02c
-SHA256: f97680f709d1c89248c208cd004dda02d3692dd9ad0d9790c52a4bcdab5f3558
-Description: Daemon to control fan speed on T2 Macs
-
-Package: t2fand
-Version: 1.1.1-3
-Architecture: amd64
-Maintainer: Aditya Garg
-Depends: python3
-Filename: ./t2fand_1.1.1-3_amd64.deb
-Size: 2922
-MD5sum: 5233f3156fc655c805656800299edf95
-SHA1: 40d244da622a13aa91f0dd738f495c0658d64b1c
-SHA256: 8593bbe4abcc7be2a4a78d7be74334d0d4e243aa58dddbe8ee999988eabeb21b
-Description: Daemon to control fan speed on T2 Macs
+Depends: systemd
+Filename: ./t2fanrd_0.1.0-1_amd64.deb
+Size: 252644
+MD5sum: f6ae419e0152c5d5d39009f87a86670b
+SHA1: 3a03a4cd29112abc20e4eb73ac00c4a673e0b30e
+SHA256: a1d80e73120a856ef7668243762671097759850236cadcdec930219c612771eb
+Description: Fan Daemon for T2 Macs
 
 Package: tiny-dfr
 Version: 0.2.0-6

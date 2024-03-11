@@ -296,6 +296,18 @@ SHA1: 92a38b2c4a9b12456b1030cf8f33e9e87fc49e34
 SHA256: 0fde0d083fb013e0de7ba3043dfa1a62bda88373fc38377678ed8a1635b3ce79
 Description: Apple File System driver for Linux
 
+Package: linux-apfs
+Version: 0.3.8.0
+Architecture: amd64
+Maintainer: Aditya Garg
+Depends: dkms
+Filename: ./linux-apfs_0.3.8.0_amd64.deb
+Size: 160140
+MD5sum: 87519062a73666cdaf488e1eff64aaf0
+SHA1: 701cfcfa68f2f495bd6fd350a706d36cc3fd9135
+SHA256: f8e65a8216dc640c517b20c77d4c0c268ffdecf0d1342443fdeee16429f1a291
+Description: Apple File System driver for Linux
+
 Package: t2-apple-audio-dsp-mic
 Version: 0.1.0
 Architecture: amd64

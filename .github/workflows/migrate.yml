@@ -25,7 +25,6 @@ jobs:
           rm -r ./.github
 
       - name: Release
-        if: github.ref == 'refs/heads/Mainline'
         uses: softprops/action-gh-release@v1
         with:
           files: ${{ github.workspace }}/t2-ubuntu-repo/*

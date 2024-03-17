@@ -1,0 +1,35 @@
+---
+name: Migrate
+
+# yamllint disable-line rule:truthy
+on:
+  workflow_dispatch:
+
+jobs:
+  Migrate:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Free up disk space for the CI
+        uses: AdityaGarg8/remove-unwanted-software@v1
+        with:
+          remove-android: 'true'
+          remove-dotnet: 'true'
+          remove-haskell: 'true'
+
+      - name: Build script
+        id: build
+        run: |
+          git clone https://github.com/AdityaGarg8/t2-ubuntu-repo
+          cd t2-ubuntu-repo
+          rm -r ./.git
+          rm -r ./.github
+
+      - name: Release
+        if: github.ref == 'refs/heads/Mainline'
+        uses: softprops/action-gh-release@v1
+        with:
+          files: ${{ github.workspace }}/t2-ubuntu-repo/*
+          tag_name: packages
+          draft: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

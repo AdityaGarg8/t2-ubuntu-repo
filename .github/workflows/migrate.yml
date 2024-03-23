@@ -28,7 +28,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: ${{ github.workspace }}/t2-ubuntu-repo/*
-          tag_name: packages
+          tag_name: jammy
           draft: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

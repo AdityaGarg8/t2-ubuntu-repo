@@ -50,7 +50,7 @@ jobs:
           git checkout ${COMMIT_HASH} && \
           cp /repo/.github/patches/*.patch ./ && \
           git am ./*.patch && \
-          cargo b --release && \
+          $HOME/.cargo/bin/cargo b --release && \
           mkdir deb && \
           cd deb && \
           mkdir usr && \

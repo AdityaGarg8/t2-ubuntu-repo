@@ -48,7 +48,7 @@ jobs:
           git clone ${REPO} && \
           cd tiny-dfr && \
           git checkout ${COMMIT_HASH} && \
-          cp $(pwd)/.github/patches/*.patch ./ && \
+          cp /repo/.github/patches/*.patch ./ && \
           git am ./*.patch && \
           cargo b --release && \
           mkdir deb && \
@@ -67,7 +67,7 @@ jobs:
           cp -r /usr/src/apple-touchbar-0.1 ./deb/usr/src && \
           mv ./deb/etc/udev/rules.d/* ./deb/usr/share/tiny-dfr && \
           mv ./deb/etc/systemd/system/* ./deb/usr/share/tiny-dfr && \
-          cp ${{ github.workspace }}/.github/scripts/touchbar ./deb/usr/bin && \
+          cp /repo/.github/scripts/touchbar ./deb/usr/bin && \
           chmod a+x ./deb/usr/bin/tiny-dfr && \
           chmod a+x ./deb/usr/bin/touchbar && \
           cd deb && \

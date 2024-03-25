@@ -94,13 +94,13 @@ jobs:
           echo "then" >> postinst && \
           echo "for rule in /usr/share/tiny-dfr/*.rules" >> postinst && \
           echo "do" >> postinst && \
-          echo \'rule_file=$(echo $rule | rev | cut -d "/" -f 1 | rev)\' >> postinst && \
-          echo \'cp -v /usr/share/tiny-dfr/$rule_file /etc/udev/rules.d/$rule_file\' >> postinst && \
+          echo "rule_file=\$(echo \$rule | rev | cut -d \"/\" -f 1 | rev)" >> postinst && \
+          echo "cp -v /usr/share/tiny-dfr/\$rule_file /etc/udev/rules.d/\$rule_file" >> postinst && \
           echo "done" >> postinst && \
           echo "for service in /usr/share/tiny-dfr/*.service" >> postinst && \
           echo "do" >> postinst && \
-          echo \'service_file=$(echo $service | rev | cut -d "/" -f 1 | rev)\' >> postinst && \
-          echo \'cp -v /usr/share/tiny-dfr/$service_file /etc/systemd/system/$service_file\' >> postinst && \
+          echo "service_file=\$(echo \$service | rev | cut -d \"/\" -f 1 | rev)" >> postinst && \
+          echo "cp -v /usr/share/tiny-dfr/\$service_file /etc/systemd/system/\$service_file" >> postinst && \
           echo "done" >> postinst && \
           echo "systemctl enable --now tiny-dfr.service" >> postinst && \
           echo "else" >> postinst && \
@@ -115,18 +115,18 @@ jobs:
           echo "fi" >> prerm && \
           echo "for rule in /usr/share/tiny-dfr/*.rules" >> prerm && \
           echo "do" >> prerm && \
-          echo \'rule_file=$(echo $rule | rev | cut -d "/" -f 1 | rev)\' >> prerm && \
-          echo \'if [ -f /etc/udev/rules.d/$rule_file ]\' >> prerm && \
+          echo "rule_file=\$(echo \$rule | rev | cut -d \"/\" -f 1 | rev)" >> prerm && \
+          echo "if [ -f /etc/udev/rules.d/\$rule_file ]" >> prerm && \
           echo "then" >> prerm && \
-          echo \'rm -v /etc/udev/rules.d/$rule_file\' >> prerm && \
+          echo "rm -v /etc/udev/rules.d/\$rule_file" >> prerm && \
           echo "fi" >> prerm && \
           echo "done" >> prerm && \
           echo "for service in /usr/share/tiny-dfr/*.service" >> prerm && \
           echo "do" >> prerm && \
-          echo \'service_file=$(echo $service | rev | cut -d "/" -f 1 | rev)\' >> prerm && \
-          echo \'if [ -f /etc/udev/rules.d/$service_file ]\' >> prerm && \
+          echo "service_file=\$(echo \$service | rev | cut -d \"/\" -f 1 | rev)" >> prerm && \
+          echo "if [ -f /etc/udev/rules.d/\$service_file ]" >> prerm && \
           echo "then" >> prerm && \
-          echo \'rm -v /etc/udev/rules.d/$service_file\' >> prerm && \
+          echo "rm -v /etc/udev/rules.d/\$service_file" >> prerm && \
           echo "fi" >> prerm && \
           echo "done" >> prerm && \
           echo "if [ -f /etc/modprobe.d/tiny-dfr.conf ]" >> prerm && \

@@ -73,7 +73,7 @@ jobs:
           cd DEBIAN && \
 
           echo "Package: linux-t2" > control && \
-          echo "Version: ${KVER}" >> control && \
+          echo "Version: ${KVER}-jammy" >> control && \
           echo "Maintainer: Aditya Garg" >> control && \
           echo "Architecture: amd64" >> control && \
           echo "Description: Kernel to support T2 Macs" >> control && \
@@ -88,12 +88,11 @@ jobs:
           gh release download jammy -D jammy -R AdityaGarg8/t2-ubuntu-repo && \
           wget https://github.com/t2linux/T2-Ubuntu-Kernel/releases/download/v${VERSION}-${REL}/linux-headers-${KVER}-t2-jammy_${KVER}-${REL}_amd64.deb && \
           wget https://github.com/t2linux/T2-Ubuntu-Kernel/releases/download/v${VERSION}-${REL}/linux-image-${KVER}-t2-jammy_${KVER}-${REL}_amd64.deb && \
-          mv ./deb.deb ./jammy && \
+          mv ./deb.deb ./jammy/linux-t2.deb && \
           mv linux-headers-${KVER}-t2-jammy_${KVER}-${REL}_amd64.deb ./jammy && \
           mv linux-image-${KVER}-t2-jammy_${KVER}-${REL}_amd64.deb ./jammy && \
           cd jammy && \
 
-          dpkg-name ./deb.deb && \
           dpkg-scanpackages --multiversion . > Packages && \
           gzip -k -f Packages && \
 

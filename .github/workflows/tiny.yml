@@ -138,7 +138,8 @@ jobs:
           chmod 755 ./postinst && \
           chmod 755 ./prerm && \
 
-          cd $(pwd)/tiny-dfr && \
+          cd .. && \
+          cd .. && \
           dpkg-deb --build --root-owner-group -Zgzip deb && \
 
           mv ./deb.deb /repo && \

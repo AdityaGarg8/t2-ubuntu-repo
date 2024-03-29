@@ -160,4 +160,8 @@ jobs:
           gpg --default-key "${GPG_SIGNING_EMAIL}" -abs -o - Release > Release.gpg && \
           gpg --default-key "${GPG_SIGNING_EMAIL}" --clearsign -o - Release > InRelease'
 
-          ls ${{ github.workspace }}
+          cd ${{ github.workspace }}
+          rm key
+          ls
+          cd jammy
+          ls

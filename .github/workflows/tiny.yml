@@ -22,18 +22,18 @@ jobs:
 
       - name: Get the source code
         id: publish
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           DOCKER_IMAGE=ubuntu:22.04
           docker pull ${DOCKER_IMAGE}
           docker run \
+          -e GH_TOKEN=${{ secrets.GITHUB_TOKEN }} \
+          -e GPG_SIGNING_KEY=${{ secrets.GPG_SIGNING_KEY }}
           -t \
           -v "$(pwd)":/repo \
           ${DOCKER_IMAGE} \
           /bin/bash -c 'apt-get update && \
           apt-get install -y gir1.2-coglpango-1.0 gir1.2-pango-1.0 libcogl-pango-dev libghc-gi-pango-dev wget libxml2-dev \
-          libghc-pango-dev libghc-yi-frontend-pango-dev libpango1.0-dev libudev-dev libinput-dev curl git librsvg2-dev && \
+          libghc-pango-dev libghc-yi-frontend-pango-dev libpango1.0-dev libudev-dev libinput-dev curl git librsvg2-dev gpg && \
           mkdir -p -m 755 /etc/apt/keyrings && wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
           && chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
           && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
@@ -45,6 +45,7 @@ jobs:
           REPO=https://github.com/AdityaGarg8/tiny-dfr.git && \
           COMMIT_HASH=ee5b19e806668c0c0f8ad59491080a22ca28450f && \
           VERSION=0.2.0-7 && \
+          echo -n "$GPG_SIGNING_KEY" | base64 -di | gpg --import && \
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com" && \
           git config --global user.name "github-actions[bot]" && \
           git clone ${REPO} && \

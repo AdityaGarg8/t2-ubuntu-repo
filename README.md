@@ -5,6 +5,8 @@ This GitHub repository had various apt repos, that can roughly be classified int
 1. A **common apt repo** for **Debian** and **all variants of Ubuntu**.
 2. **Release specific repo** for **Ubuntu only**.
 
+## Adding the Common apt repo
+
 You have to add the **common apt repo** irrespective of whether you are using Debian or Ubuntu. Run the following to add this repo:
 
 ```bash
@@ -12,6 +14,8 @@ curl -s --compressed "https://adityagarg8.github.io/t2-ubuntu-repo/KEY.gpg" | gp
 sudo curl -s --compressed -o /etc/apt/sources.list.d/t2.list "https://adityagarg8.github.io/t2-ubuntu-repo/t2.list"
 sudo apt update
 ```
+
+## Adding the Release specific apt repo
 
 Now after you have added the common apt repo, if you are an **Ubuntu** user, you additionally have to add a **release specific repo** for kernel updates. Follow the steps below:
 

@@ -462,19 +462,6 @@ Section: sound
 Homepage: https://github.com/lemmyg/t2-apple-audio-dsp/tree/speakers_161
 Description: Pipewire filterchain config for Macbook Pro 16 2019
 
-Package: t2-kernel-script
-Version: 7.8
-Architecture: amd64
-Maintainer: Aditya Garg
-Depends: curl, wget, libnotify-bin
-Replaces: t2-kernel-script-lts, t2-kernel-script-debian
-Filename: ./t2-kernel-script.deb
-Size: 2536
-MD5sum: 28a768591c7bd50e3aea4fe06c9f4036
-SHA1: c17c6c0c5706bcf60e6ffedfe990ca70aaedc401
-SHA256: abab37d7de9443b616dfe9e47bdfa085b253a58590351f468b61a40bd6e48858
-Description: Kernel upgrade script for Mainline kernels
-
 Package: t2-kernel-script-debian
 Version: 1.4.5
 Architecture: amd64
@@ -487,19 +474,6 @@ MD5sum: 56fcd61bc10bd37d64e532702510d902
 SHA1: 508889e6e03971508277d0a138f7ec83b025a735
 SHA256: 3daf550918d237687b19b1f24642361d5b997e0fbc770bc92db234110dc77830
 Description: Kernel upgrade script for Debian kernels
-
-Package: t2-kernel-script-lts
-Version: 4.8
-Architecture: amd64
-Maintainer: Aditya Garg
-Depends: curl, wget, libnotify-bin
-Replaces: t2-kernel-script, t2-kernel-script-debian
-Filename: ./t2-kernel-script-lts.deb
-Size: 2532
-MD5sum: 3323ed2c05c8a3a102d2e3505f2b2ca3
-SHA1: e4b896d9ba65a17974e3ae3d968a899cc0187d8f
-SHA256: ae75e446e8f6559f2b81c047d37e740289d26e8f57f41f2c092bbf4ddf4ed11f
-Description: Kernel upgrade script for LTS kernels
 
 Package: t2fanrd
 Version: 0.1.0-1

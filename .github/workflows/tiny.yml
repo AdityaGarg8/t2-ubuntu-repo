@@ -162,6 +162,11 @@ jobs:
 
           cd ${{ github.workspace }}
           rm key
-          ls
-          cd jammy
-          ls
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: ${{ github.workspace }}/jammy/*
+          tag_name: jammy
+          draft: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

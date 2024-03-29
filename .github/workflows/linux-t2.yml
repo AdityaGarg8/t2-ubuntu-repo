@@ -33,7 +33,7 @@ jobs:
           then
           KVER=${VERSION}.0
           else
-          KVER-${VERSION}
+          KVER=${VERSION}
           fi
           
           DOCKER_IMAGE=ubuntu:22.04

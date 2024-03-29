@@ -1,0 +1,113 @@
+---
+name: Release kernel
+
+on:
+  push:
+    paths:
+      - './github/kernel/linux-t2'
+
+jobs:
+  Release-Jammy:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: 'Checkout Repo'
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Configure GPG Key
+        run: |
+          echo -n "$GPG_SIGNING_KEY" | base64 -di | gpg --import
+          echo -n "$GPG_SIGNING_KEY" | base64 -di > key
+        env:
+          GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
+
+      - name: Release kernel
+        id: publish
+        run: |
+          VERSION=$(cat ${{ github.workspace }}/.github/kernel/linux-t2 | grep "VERSION" | cut -d "-" -f 2)
+          REL=$(cat ${{ github.workspace }}/.github/kernel/linux-t2 | grep "REL" | cut -d "-" -f 2)
+          if [[ (${#VERSION} = 3) || (${#VERSION} = 4) ]]
+          then
+          KVER=${VERSION}.0
+          else
+          KVER-${VERSION}
+          fi
+          
+          DOCKER_IMAGE=ubuntu:22.04
+          docker pull ${DOCKER_IMAGE}
+          docker run \
+          -e GH_TOKEN=${{ secrets.GITHUB_TOKEN }} \
+          -e GPG_SIGNING_EMAIL=${{ secrets.GPG_SIGNING_EMAIL }} \
+          -e VERSION=${VERSION} \
+          -e KVER=${KVER} \
+          -e REL=${REL}
+          -t \
+          -v "$(pwd)":/repo \
+          ${DOCKER_IMAGE} \
+          /bin/bash -c 'apt-get update && \
+          apt-get install -y  wget git  gpg apt-utils && \
+          mkdir -p -m 755 /etc/apt/keyrings && wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
+          && chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
+          && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+          && apt update \
+          && apt install gh -y && \
+          cat /repo/key | gpg --import && \
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com" && \
+          git config --global user.name "github-actions[bot]" && \
+          mkdir deb && \
+          cd deb && \
+          mkdir usr && \
+          cd usr && \
+          mkdir share && \
+          cd share && \
+          mkdir doc && \
+          cd doc && \
+          mkdir linux-t2 && \
+          cd .. && \
+          cd .. && \
+          cd .. && \
+          cd .. && \
+          mkdir DEBIAN && \
+          cd DEBIAN && \
+
+          echo "Package: linux-t2" > control && \
+          echo "Version: ${KVER}" >> control && \
+          echo "Maintainer: Aditya Garg" >> control && \
+          echo "Architecture: amd64" >> control && \
+          echo "Description: Kernel to support T2 Macs" >> control && \
+          echo "Depends: linux-headers-${KVER}-t2-jammy, linux-image-${KVER}-t2-jammy" >> control && \
+
+          cd .. && \
+          cd .. && \
+          dpkg-deb --build --root-owner-group -Zgzip deb && \
+
+          mv ./deb.deb /repo && \
+          cd /repo && \
+          gh release download jammy -D jammy -R AdityaGarg8/t2-ubuntu-repo && \
+          wget https://github.com/t2linux/T2-Ubuntu-Kernel/releases/download/v${VERSION}-${REL}/linux-headers-${KVER}-t2-jammy_${KVER}-${REL}_amd64.deb && \
+          wget https://github.com/t2linux/T2-Ubuntu-Kernel/releases/download/v${VERSION}-${REL}/linux-image-${KVER}-t2-jammy_${KVER}-${REL}_amd64.deb && \
+          mv ./deb.deb ./jammy && \
+          mv linux-headers-${KVER}-t2-jammy_${KVER}-${REL}_amd64.deb ./jammy && \
+          mv linux-image-${KVER}-t2-jammy_${KVER}-${REL}_amd64.deb ./jammy && \
+          cd jammy && \
+
+          dpkg-name ./deb.deb && \
+          dpkg-scanpackages --multiversion . > Packages && \
+          gzip -k -f Packages && \
+
+          apt-ftparchive release . > Release && \
+          gpg --default-key "${GPG_SIGNING_EMAIL}" -abs -o - Release > Release.gpg && \
+          gpg --default-key "${GPG_SIGNING_EMAIL}" --clearsign -o - Release > InRelease'
+
+          cd ${{ github.workspace }}
+          rm key
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: ${{ github.workspace }}/jammy/*
+          tag_name: jammy
+          draft: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

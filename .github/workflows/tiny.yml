@@ -17,6 +17,7 @@ jobs:
       - name: Configure GPG Key
         run: |
           echo -n "$GPG_SIGNING_KEY" | base64 -di | gpg --import
+          echo -n "$GPG_SIGNING_KEY" | base64 -di > key
         env:
           GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
 
@@ -30,7 +31,6 @@ jobs:
           -v "$(pwd)":/repo \
           ${DOCKER_IMAGE} \
           /bin/bash -c 'export GH_TOKEN=${{ secrets.GITHUB_TOKEN }} && \
-          export GPG_SIGNING_KEY=${{ secrets.GPG_SIGNING_KEY }} && \
           apt-get update && \
           apt-get install -y gir1.2-coglpango-1.0 gir1.2-pango-1.0 libcogl-pango-dev libghc-gi-pango-dev wget libxml2-dev \
           libghc-pango-dev libghc-yi-frontend-pango-dev libpango1.0-dev libudev-dev libinput-dev curl git librsvg2-dev gpg && \
@@ -45,7 +45,7 @@ jobs:
           REPO=https://github.com/AdityaGarg8/tiny-dfr.git && \
           COMMIT_HASH=ee5b19e806668c0c0f8ad59491080a22ca28450f && \
           VERSION=0.2.0-7 && \
-          echo -n "$GPG_SIGNING_KEY" | base64 -di | gpg --import && \
+          cat ./key | gpg --import && \
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com" && \
           git config --global user.name "github-actions[bot]" && \
           git clone ${REPO} && \

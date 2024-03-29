@@ -79,7 +79,8 @@ jobs:
           echo "Architecture: amd64" >> control && \
           echo "Description: Kernel to support T2 Macs" >> control && \
           echo "Depends: linux-headers-${KVER}-t2-jammy, linux-image-${KVER}-t2-jammy" >> control && \
-          echo "Breaks: linux-t2-lts, linux-t2-xanmod, linux-t2-xanmod-lts" >> control && \
+          echo "Conflicts: linux-t2-lts, linux-t2-xanmod, linux-t2-xanmod-lts" >> control && \
+          echo "Replaces: linux-t2-lts, linux-t2-xanmod, linux-t2-xanmod-lts" >> control && \
 
           cd .. && \
           cd .. && \
@@ -183,7 +184,8 @@ jobs:
           echo "Architecture: amd64" >> control && \
           echo "Description: Kernel to support T2 Macs" >> control && \
           echo "Depends: linux-headers-${KVER}-t2-mantic, linux-image-${KVER}-t2-mantic" >> control && \
-          echo "Breaks: linux-t2-lts, linux-t2-xanmod, linux-t2-xanmod-lts" >> control && \
+          echo "Conflicts: linux-t2-lts, linux-t2-xanmod, linux-t2-xanmod-lts" >> control && \
+          echo "Replaces: linux-t2-lts, linux-t2-xanmod, linux-t2-xanmod-lts" >> control && \
 
           cd .. && \
           cd .. && \

@@ -27,8 +27,8 @@ jobs:
       - name: Release kernel
         id: publish
         run: |
-          VERSION=$(cat ${{ github.workspace }}/.github/kernel/linux-t2 | grep "VERSION" | cut -d "-" -f 2)
-          REL=$(cat ${{ github.workspace }}/.github/kernel/linux-t2 | grep "REL" | cut -d "-" -f 2)
+          VERSION=$(cat ${{ github.workspace }}/.github/kernel/linux-t2 | grep "VERSION" | cut -d "=" -f 2)
+          REL=$(cat ${{ github.workspace }}/.github/kernel/linux-t2 | grep "REL" | cut -d "=" -f 2)
           if [[ (${#VERSION} = 3) || (${#VERSION} = 4) ]]
           then
           KVER=${VERSION}.0

@@ -151,7 +151,6 @@ jobs:
           gh release download jammy -D jammy -R AdityaGarg8/t2-ubuntu-repo && \
           mv ./deb.deb ./jammy && cd jammy && \
 
-          (rm ./tiny-dfr*.deb || true) && \
           dpkg-name ./deb.deb && \
           dpkg-scanpackages --multiversion . > Packages && \
           gzip -k -f Packages && \

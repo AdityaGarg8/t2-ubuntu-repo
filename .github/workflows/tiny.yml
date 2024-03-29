@@ -45,7 +45,7 @@ jobs:
           REPO=https://github.com/AdityaGarg8/tiny-dfr.git && \
           COMMIT_HASH=ee5b19e806668c0c0f8ad59491080a22ca28450f && \
           VERSION=0.2.0-7 && \
-          cat ./key | gpg --import && \
+          cat /repo/key | gpg --import && \
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com" && \
           git config --global user.name "github-actions[bot]" && \
           git clone ${REPO} && \

@@ -66,6 +66,7 @@ jobs:
           mkdir doc && \
           cd doc && \
           mkdir linux-t2 && \
+          cp /repo/.github/kernel/copyright ./linux-t2 && \
           cd .. && \
           cd .. && \
           cd .. && \
@@ -169,6 +170,7 @@ jobs:
           mkdir doc && \
           cd doc && \
           mkdir linux-t2 && \
+          cp /repo/.github/kernel/copyright ./linux-t2 && \
           cd .. && \
           cd .. && \
           cd .. && \

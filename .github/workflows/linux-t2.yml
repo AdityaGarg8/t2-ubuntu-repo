@@ -4,7 +4,7 @@ name: Release Kernel - Mainline
 on:
   push:
     paths:
-      - './.github/kernel/linux-t2'
+      - '.github/kernel/linux-t2'
   workflow_dispatch:
 
 jobs:

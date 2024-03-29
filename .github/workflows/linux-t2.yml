@@ -69,7 +69,6 @@ jobs:
           cd .. && \
           cd .. && \
           cd .. && \
-          cd .. && \
           mkdir DEBIAN && \
           cd DEBIAN && \
 

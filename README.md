@@ -24,8 +24,8 @@ Now after you have added the common apt repo, if you are an **Ubuntu** user, you
 2. Run the following (taking `jammy` as the example, just replace it with your release codename in the first line):
 
 ```bash
-codename=jammy
-echo "deb [signed-by=/etc/apt/trusted.gpg.d/t2-ubuntu-repo.gpg] https://github.com/AdityaGarg8/t2-ubuntu-repo/releases/download/${codename} ./" | sudo tee -a /etc/apt/sources.list.d/t2.list
+CODENAME=jammy
+echo "deb [signed-by=/etc/apt/trusted.gpg.d/t2-ubuntu-repo.gpg] https://github.com/AdityaGarg8/t2-ubuntu-repo/releases/download/${CODENAME} ./" | sudo tee -a /etc/apt/sources.list.d/t2.list
 sudo apt update
 ```
 

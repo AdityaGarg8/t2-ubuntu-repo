@@ -27,10 +27,10 @@ Now after you have added the common apt repo, if you are an **Ubuntu** user, you
 
     c) `noble` for **Ubuntu 24.04**
 
-3. Run the following (taking `jammy` as the example, just replace it with your release codename in the first line):
+3. Run the following (taking `noble` as the example, just replace it with your release codename in the first line):
 
 ```bash
-CODENAME=jammy
+CODENAME=noble
 echo "deb [signed-by=/etc/apt/trusted.gpg.d/t2-ubuntu-repo.gpg] https://github.com/AdityaGarg8/t2-ubuntu-repo/releases/download/${CODENAME} ./" | sudo tee -a /etc/apt/sources.list.d/t2.list
 sudo apt update
 ```

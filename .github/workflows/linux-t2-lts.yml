@@ -95,7 +95,7 @@ jobs:
           mv linux-headers-${KVER}-t2-jammy_${KVER}-${REL}_amd64.deb ./jammy && \
           mv linux-image-${KVER}-t2-jammy_${KVER}-${REL}_amd64.deb ./jammy && \
           cd jammy && \
-          dpkg-name ./deb.deb && \
+          dpkg-name ./deb.deb && rm ./deb.deb \
 
           dpkg-scanpackages --multiversion . > Packages && \
           gzip -k -f Packages && \
@@ -201,7 +201,7 @@ jobs:
           mv linux-headers-${KVER}-t2-mantic_${KVER}-${REL}_amd64.deb ./mantic && \
           mv linux-image-${KVER}-t2-mantic_${KVER}-${REL}_amd64.deb ./mantic && \
           cd mantic && \
-          dpkg-name ./deb.deb && \
+          dpkg-name ./deb.deb && rm ./deb.deb \
 
           dpkg-scanpackages --multiversion . > Packages && \
           gzip -k -f Packages && \
@@ -307,7 +307,7 @@ jobs:
           mv linux-headers-${KVER}-t2-noble_${KVER}-${REL}_amd64.deb ./noble && \
           mv linux-image-${KVER}-t2-noble_${KVER}-${REL}_amd64.deb ./noble && \
           cd noble && \
-          dpkg-name ./deb.deb && \
+          dpkg-name ./deb.deb && rm ./deb.deb \
 
           dpkg-scanpackages --multiversion . > Packages && \
           gzip -k -f Packages && \

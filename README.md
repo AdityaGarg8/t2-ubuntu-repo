@@ -25,7 +25,9 @@ Now after you have added the common apt repo, if you are an **Ubuntu** user, you
 
     b) `mantic` for **Ubuntu 23.10**
 
-2. Run the following (taking `jammy` as the example, just replace it with your release codename in the first line):
+    c) `noble` for **Ubuntu 24.04**
+
+3. Run the following (taking `jammy` as the example, just replace it with your release codename in the first line):
 
 ```bash
 CODENAME=jammy

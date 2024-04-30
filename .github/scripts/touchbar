@@ -615,7 +615,7 @@ SpecialExtendedMode = false
 ShowButtonOutlines = true
 
 # Set this to true to slowly shift the entire screen contents.
-# In theory this helps with screen longevity, but macos does not bother doint it
+# In theory this helps with screen longevity, but macos does not bother doing it
 # Disabling ShowButtonOutlines will make this effect less noticeable to the eye
 EnablePixelShift = false
 
@@ -649,6 +649,17 @@ MediaIconTheme = "tiny-dfr-icons"
 # Set this to the icon theme you want to use for App icons.
 # Theme can be from "/usr/share/tiny-dfr/icons", "/etc/tiny-dfr/icons" or "/usr/share/icons"
 AppIconTheme = "hicolor"
+
+# Set this to false if you want the brightness of the touchbar
+# to be set to a static value instead of following the primary
+# screen's brightness
+AdaptiveBrightness = true
+
+# With adaptive brightness disabled this is used as the brightness
+# in the active state
+# With it enabled, this is the maximum point on the brightness curve
+# Accepted values are 0-255
+ActiveBrightness = 128
 
 # This key defines the contents of the primary layer
 # (the one with F{number} keys)

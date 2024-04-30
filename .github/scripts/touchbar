@@ -661,7 +661,7 @@ local $1
 cat /etc/tiny-dfr/config.toml.orj | grep -w $1 | grep -v "#"
 }
 
-for entry in "MediaLayerDefault" "SpecialExtendedMode" "ShowButtonOutlines" "EnablePixelShift" "FontRenderer" "FontStyle" "Bold" "Italic" "FontTemplate" "MediaIconTheme" "AppIconTheme" "AdaptiveBrightness"
+for entry in "MediaLayerDefault" "SpecialExtendedMode" "ShowButtonOutlines" "EnablePixelShift" "FontRenderer" "FontStyle" "Bold" "Italic" "FontTemplate" "MediaIconTheme" "AppIconTheme" "AdaptiveBrightness" "ActiveBrightness"
 do
 checked_entry=$(check_for_entry $entry)
 if [[ ${checked_entry} = "" ]]

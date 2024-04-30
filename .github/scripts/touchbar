@@ -428,6 +428,10 @@ Choose your desired setting:
 
    Use this setting to hide button outlines of Media and Function keys.
    Enabling this will make this effect of pixel shifting less noticeable to the eye.
+
+3. Enable/disable adaptive brightness:
+
+   Use this setting to dim your touchbar automatically in case of low screen brightness.
 EOF
 read display_setting
 
@@ -480,6 +484,34 @@ sed -i "s/ShowButtonOutlines.*/ShowButtonOutlines = true/g" /etc/tiny-dfr/config
 
 (2)
 sed -i "s/ShowButtonOutlines.*/ShowButtonOutlines = false/g" /etc/tiny-dfr/config.toml
+;;
+
+(*)
+echo "Invalid input. Aborting!"
+exit 1
+;;
+
+esac
+;;
+
+(3)
+cat <<EOF
+
+Choose the desired option:
+
+1. Enable adaptive brightness
+2. Disable adaptive brightness
+EOF
+read adaptive_brightness
+
+case "$adaptive_brightness" in
+
+(1)
+sed -i "s/AdaptiveBrightness.*/AdaptiveBrightness = true/g" /etc/tiny-dfr/config.toml
+;;
+
+(2)
+sed -i "s/AdaptiveBrightness.*/AdaptiveBrightness = false/g" /etc/tiny-dfr/config.toml
 ;;
 
 (*)
@@ -629,7 +661,7 @@ local $1
 cat /etc/tiny-dfr/config.toml.orj | grep -w $1 | grep -v "#"
 }
 
-for entry in "MediaLayerDefault" "SpecialExtendedMode" "ShowButtonOutlines" "EnablePixelShift" "FontRenderer" "FontStyle" "Bold" "Italic" "FontTemplate" "MediaIconTheme" "AppIconTheme"
+for entry in "MediaLayerDefault" "SpecialExtendedMode" "ShowButtonOutlines" "EnablePixelShift" "FontRenderer" "FontStyle" "Bold" "Italic" "FontTemplate" "MediaIconTheme" "AppIconTheme" "AdaptiveBrightness"
 do
 checked_entry=$(check_for_entry $entry)
 if [[ ${checked_entry} = "" ]]
@@ -848,7 +880,7 @@ cat <<EOF
 --font    : Set font for the function keys
 --icons   : Set the icon theme for the media control icons and utility apps
 --apps    : Setup app shortcuts
---display : Enable/disable pixel shifting and displaying of button outlines
+--display : Enable/disable pixel shifting, displaying of button outlines and adaptive brightness
 --time    : Choose between 12 and 24 hr clock
 --restore : Restore a previous configuration stored at /etc/tiny-dfr/config.toml.orj
 --restart : Restart the daemon (Useful if touchbar has frozen)

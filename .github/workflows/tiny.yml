@@ -52,7 +52,7 @@ jobs:
           git clone ${REPO} && \
           cd tiny-dfr && \
           git checkout ${COMMIT_HASH} && \
-          cp /repo/.github/patches/*.patch ./ && rm ./0002* \
+          cp /repo/.github/patches/*.patch ./ && rm ./0002* && \
           git am ./*.patch && \
           $HOME/.cargo/bin/cargo b --release && \
           mkdir deb && \

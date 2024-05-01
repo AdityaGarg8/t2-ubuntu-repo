@@ -28,10 +28,10 @@ Architecture: amd64
 Maintainer: Aditya Garg
 Depends: dkms
 Filename: ./apple-bce_0.2.4_amd64.deb
-Size: 36594
-MD5sum: 5ad3c20805e1745cb55f515e504eaf3a
-SHA1: 735c1c1282d2e668e9b52a8de19fcac61c7523cc
-SHA256: e1ed07ab662f301008b4b18a216e3754502c6e3a701598d1acccc8aa3e3103ff
+Size: 36744
+MD5sum: 6419a97f61f05b5a7ff9300b6e68d2db
+SHA1: 6f7ad48bbc9f02423054b43004e02cf0528bc055
+SHA256: 870c08a8c691e0b9e3bdf85648e8286d012ecacb68072e5fd40ea44e48f2a3cb
 Description: Apple BCE driver for Linux
 
 Package: apple-t2-audio-config

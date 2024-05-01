@@ -115,10 +115,10 @@ jobs:
           echo "service_file=\$(echo \$service | rev | cut -d \"/\" -f 1 | rev)" >> postinst && \
           echo "cp -v /usr/share/tiny-dfr/\$service_file /etc/systemd/system/\$service_file" >> postinst && \
           echo "done" >> postinst && \
-          echo "systemctl enable --now tiny-dfr.service" >> postinst && \
-          echo "else" >> postinst && \
           echo "dkms add -m apple-bce -v 0.2" >> postinst && \
           echo "dkms build -m apple-bce -v 0.2 && dkms install -m apple-bce -v 0.2 --force || true" >> postinst && \
+          echo "systemctl enable --now tiny-dfr.service" >> postinst && \
+          echo "else" >> postinst && \
           echo "dkms add -m apple-touchbar -v 0.1" >> postinst && \
           echo "dkms build -m apple-touchbar -v 0.1 && dkms install -m apple-touchbar -v 0.1 --force || true" >> postinst && \
           echo "fi" >> postinst && \
@@ -127,6 +127,7 @@ jobs:
           echo "if [ -f /etc/systemd/system/tiny-dfr.service ]" > prerm && \
           echo "then" >> prerm && \
           echo "systemctl disable --now tiny-dfr.service" >> prerm && \
+          echo "dkms remove -m apple-bce -v 0.2 --all || true" >> prerm && \
           echo "fi" >> prerm && \
           echo "for rule in /usr/share/tiny-dfr/*.rules" >> prerm && \
           echo "do" >> prerm && \
@@ -147,7 +148,6 @@ jobs:
           echo "if [ -f /etc/modprobe.d/tiny-dfr.conf ]" >> prerm && \
           echo "then" >> prerm && \
           echo "dkms remove -m apple-touchbar -v 0.1 --all || true" >> prerm && \
-          echo "dkms remove -m apple-bce -v 0.2 --all || true" >> prerm && \
           echo "fi" >> prerm && \
 
           chmod 755 ./preinst && \
@@ -291,10 +291,10 @@ jobs:
           echo "service_file=\$(echo \$service | rev | cut -d \"/\" -f 1 | rev)" >> postinst && \
           echo "cp -v /usr/share/tiny-dfr/\$service_file /etc/systemd/system/\$service_file" >> postinst && \
           echo "done" >> postinst && \
-          echo "systemctl enable --now tiny-dfr.service" >> postinst && \
-          echo "else" >> postinst && \
           echo "dkms add -m apple-bce -v 0.2" >> postinst && \
           echo "dkms build -m apple-bce -v 0.2 && dkms install -m apple-bce -v 0.2 --force || true" >> postinst && \
+          echo "systemctl enable --now tiny-dfr.service" >> postinst && \
+          echo "else" >> postinst && \
           echo "dkms add -m apple-touchbar -v 0.1" >> postinst && \
           echo "dkms build -m apple-touchbar -v 0.1 && dkms install -m apple-touchbar -v 0.1 --force || true" >> postinst && \
           echo "fi" >> postinst && \
@@ -303,6 +303,7 @@ jobs:
           echo "if [ -f /etc/systemd/system/tiny-dfr.service ]" > prerm && \
           echo "then" >> prerm && \
           echo "systemctl disable --now tiny-dfr.service" >> prerm && \
+          echo "dkms remove -m apple-bce -v 0.2 --all || true" >> prerm && \
           echo "fi" >> prerm && \
           echo "for rule in /usr/share/tiny-dfr/*.rules" >> prerm && \
           echo "do" >> prerm && \
@@ -323,7 +324,6 @@ jobs:
           echo "if [ -f /etc/modprobe.d/tiny-dfr.conf ]" >> prerm && \
           echo "then" >> prerm && \
           echo "dkms remove -m apple-touchbar -v 0.1 --all || true" >> prerm && \
-          echo "dkms remove -m apple-bce -v 0.2 --all || true" >> prerm && \
           echo "fi" >> prerm && \
 
           chmod 755 ./preinst && \
@@ -467,10 +467,10 @@ jobs:
           echo "service_file=\$(echo \$service | rev | cut -d \"/\" -f 1 | rev)" >> postinst && \
           echo "cp -v /usr/share/tiny-dfr/\$service_file /etc/systemd/system/\$service_file" >> postinst && \
           echo "done" >> postinst && \
-          echo "systemctl enable --now tiny-dfr.service" >> postinst && \
-          echo "else" >> postinst && \
           echo "dkms add -m apple-bce -v 0.2" >> postinst && \
           echo "dkms build -m apple-bce -v 0.2 && dkms install -m apple-bce -v 0.2 --force || true" >> postinst && \
+          echo "systemctl enable --now tiny-dfr.service" >> postinst && \
+          echo "else" >> postinst && \
           echo "dkms add -m apple-touchbar -v 0.1" >> postinst && \
           echo "dkms build -m apple-touchbar -v 0.1 && dkms install -m apple-touchbar -v 0.1 --force || true" >> postinst && \
           echo "fi" >> postinst && \
@@ -479,6 +479,7 @@ jobs:
           echo "if [ -f /etc/systemd/system/tiny-dfr.service ]" > prerm && \
           echo "then" >> prerm && \
           echo "systemctl disable --now tiny-dfr.service" >> prerm && \
+          echo "dkms remove -m apple-bce -v 0.2 --all || true" >> prerm && \
           echo "fi" >> prerm && \
           echo "for rule in /usr/share/tiny-dfr/*.rules" >> prerm && \
           echo "do" >> prerm && \
@@ -499,7 +500,6 @@ jobs:
           echo "if [ -f /etc/modprobe.d/tiny-dfr.conf ]" >> prerm && \
           echo "then" >> prerm && \
           echo "dkms remove -m apple-touchbar -v 0.1 --all || true" >> prerm && \
-          echo "dkms remove -m apple-bce -v 0.2 --all || true" >> prerm && \
           echo "fi" >> prerm && \
 
           chmod 755 ./preinst && \

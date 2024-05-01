@@ -45,7 +45,7 @@ jobs:
           curl https://sh.rustup.rs -sSf | sh -s -- -y && \
           REPO=https://github.com/AdityaGarg8/tiny-dfr.git && \
           COMMIT_HASH=946a8cd1c1f15a6c78f053844f990bbe76763f42 && \
-          VERSION=0.2.0-7 && \
+          VERSION=0.2.0-8 && \
           cat /repo/key | gpg --import && \
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com" && \
           git config --global user.name "github-actions[bot]" && \
@@ -221,7 +221,7 @@ jobs:
           curl https://sh.rustup.rs -sSf | sh -s -- -y && \
           REPO=https://github.com/AdityaGarg8/tiny-dfr.git && \
           COMMIT_HASH=946a8cd1c1f15a6c78f053844f990bbe76763f42 && \
-          VERSION=0.2.0-7 && \
+          VERSION=0.2.0-8 && \
           cat /repo/key | gpg --import && \
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com" && \
           git config --global user.name "github-actions[bot]" && \
@@ -397,7 +397,7 @@ jobs:
           curl https://sh.rustup.rs -sSf | sh -s -- -y && \
           REPO=https://github.com/AdityaGarg8/tiny-dfr.git && \
           COMMIT_HASH=946a8cd1c1f15a6c78f053844f990bbe76763f42 && \
-          VERSION=0.2.0-7 && \
+          VERSION=0.2.0-8 && \
           cat /repo/key | gpg --import && \
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com" && \
           git config --global user.name "github-actions[bot]" && \

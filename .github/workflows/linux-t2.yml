@@ -74,7 +74,7 @@ jobs:
           cd DEBIAN && \
 
           echo "Package: linux-t2" > control && \
-          echo "Version: ${KVER}-jammy" >> control && \
+          echo "Version: ${KVER}-${REL}-jammy" >> control && \
           echo "Maintainer: Aditya Garg" >> control && \
           echo "Architecture: amd64" >> control && \
           echo "Description: Kernel to support T2 Macs" >> control && \
@@ -180,7 +180,7 @@ jobs:
           cd DEBIAN && \
 
           echo "Package: linux-t2" > control && \
-          echo "Version: ${KVER}-mantic" >> control && \
+          echo "Version: ${KVER}-${REL}-mantic" >> control && \
           echo "Maintainer: Aditya Garg" >> control && \
           echo "Architecture: amd64" >> control && \
           echo "Description: Kernel to support T2 Macs" >> control && \
@@ -286,7 +286,7 @@ jobs:
           cd DEBIAN && \
 
           echo "Package: linux-t2" > control && \
-          echo "Version: ${KVER}-noble" >> control && \
+          echo "Version: ${KVER}-${REL}-noble" >> control && \
           echo "Maintainer: Aditya Garg" >> control && \
           echo "Architecture: amd64" >> control && \
           echo "Description: Kernel to support T2 Macs" >> control && \

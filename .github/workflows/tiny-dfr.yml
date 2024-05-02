@@ -41,7 +41,7 @@ jobs:
           && curl -s --compressed "https://adityagarg8.github.io/t2-ubuntu-repo/KEY.gpg" | gpg --dearmor | tee /etc/apt/trusted.gpg.d/t2-ubuntu-repo.gpg >/dev/null \
           && curl -s --compressed -o /etc/apt/sources.list.d/t2.list "https://adityagarg8.github.io/t2-ubuntu-repo/t2.list" \
           && apt-get update \
-          && apt-get install -y -qq -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" gh apple-touchbar apple-bce && \
+          && apt-get install -y -qq -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" gh apple-touchbar apple-bce=0.2.4 && \
           curl https://sh.rustup.rs -sSf | sh -s -- -y && \
           REPO=https://github.com/AdityaGarg8/tiny-dfr.git && \
           COMMIT_HASH=946a8cd1c1f15a6c78f053844f990bbe76763f42 && \
@@ -217,7 +217,7 @@ jobs:
           && curl -s --compressed "https://adityagarg8.github.io/t2-ubuntu-repo/KEY.gpg" | gpg --dearmor | tee /etc/apt/trusted.gpg.d/t2-ubuntu-repo.gpg >/dev/null \
           && curl -s --compressed -o /etc/apt/sources.list.d/t2.list "https://adityagarg8.github.io/t2-ubuntu-repo/t2.list" \
           && apt-get update \
-          && apt-get install -y -qq -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" gh apple-touchbar apple-bce && \
+          && apt-get install -y -qq -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" gh apple-touchbar apple-bce=0.2.4 && \
           curl https://sh.rustup.rs -sSf | sh -s -- -y && \
           REPO=https://github.com/AdityaGarg8/tiny-dfr.git && \
           COMMIT_HASH=946a8cd1c1f15a6c78f053844f990bbe76763f42 && \
@@ -393,7 +393,7 @@ jobs:
           && curl -s --compressed "https://adityagarg8.github.io/t2-ubuntu-repo/KEY.gpg" | gpg --dearmor | tee /etc/apt/trusted.gpg.d/t2-ubuntu-repo.gpg >/dev/null \
           && curl -s --compressed -o /etc/apt/sources.list.d/t2.list "https://adityagarg8.github.io/t2-ubuntu-repo/t2.list" \
           && apt-get update \
-          && apt-get install -y -qq -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" gh apple-touchbar apple-bce && \
+          && apt-get install -y -qq -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" gh apple-touchbar apple-bce=0.2.4 && \
           curl https://sh.rustup.rs -sSf | sh -s -- -y && \
           REPO=https://github.com/AdityaGarg8/tiny-dfr.git && \
           COMMIT_HASH=946a8cd1c1f15a6c78f053844f990bbe76763f42 && \

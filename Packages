@@ -500,14 +500,14 @@ SHA256: 3daf550918d237687b19b1f24642361d5b997e0fbc770bc92db234110dc77830
 Description: Kernel upgrade script for Debian kernels
 
 Package: t2fanrd
-Version: 0.1.0-1
+Version: 0.1.0-2
 Architecture: amd64
 Maintainer: Aditya Garg
 Depends: systemd
-Filename: ./t2fanrd_0.1.0-1_amd64.deb
-Size: 252644
-MD5sum: f6ae419e0152c5d5d39009f87a86670b
-SHA1: 3a03a4cd29112abc20e4eb73ac00c4a673e0b30e
-SHA256: a1d80e73120a856ef7668243762671097759850236cadcdec930219c612771eb
+Filename: ./t2fanrd_0.1.0-2_amd64.deb
+Size: 246464
+MD5sum: edb1d508005fd431709eb7ef7b0d58ea
+SHA1: 5d065afc89001f22630bbddfdc9e82f3b1b08ae6
+SHA256: d2716b280d299330207e3ec88eeb3971abe53cda653073caef7e9068dfc48eb5
 Description: Fan Daemon for T2 Macs
 

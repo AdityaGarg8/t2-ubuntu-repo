@@ -24,8 +24,8 @@ jobs:
         id: publish
         run: |
           REPO=https://github.com/GnomedDev/T2FanRD.git
-          COMMIT_HASH=03d35ba4f74a430b775c05933cf11f1646501842
-          VERSION=0.1.0-1
+          COMMIT_HASH=85027878e4d7fa0170fea1213d6f8dd972d60e83
+          VERSION=0.1.0-2
           #curl -s --compressed "https://adityagarg8.github.io/t2-ubuntu-repo/KEY.gpg" | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/t2-ubuntu-repo.gpg >/dev/null
           #sudo curl -s --compressed -o /etc/apt/sources.list.d/t2.list "https://adityagarg8.github.io/t2-ubuntu-repo/t2.list"
           sudo apt update -y

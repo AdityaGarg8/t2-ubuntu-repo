@@ -48,8 +48,8 @@ jobs:
           dpkg-scanpackages --multiversion . > Packages
           gzip -k -f Packages
           apt-ftparchive release . > Release
-          gpg --default-key "${GPG_SIGNING_EMAIL}" -abs -o - Release > Release.gpg
-          gpg --default-key "${GPG_SIGNING_EMAIL}" --clearsign -o - Release > InRelease
+          gpg --default-key "${{ secrets.GPG_SIGNING_EMAIL }}" -abs -o - Release > Release.gpg
+          gpg --default-key "${{ secrets.GPG_SIGNING_EMAIL }}" --clearsign -o - Release > InRelease
           cd ..
 
           gh release download mantic -D mantic -R AdityaGarg8/t2-ubuntu-repo
@@ -59,8 +59,8 @@ jobs:
           dpkg-scanpackages --multiversion . > Packages
           gzip -k -f Packages
           apt-ftparchive release . > Release
-          gpg --default-key "${GPG_SIGNING_EMAIL}" -abs -o - Release > Release.gpg
-          gpg --default-key "${GPG_SIGNING_EMAIL}" --clearsign -o - Release > InRelease
+          gpg --default-key "${{ secrets.GPG_SIGNING_EMAIL }}" -abs -o - Release > Release.gpg
+          gpg --default-key "${{ secrets.GPG_SIGNING_EMAIL }}" --clearsign -o - Release > InRelease
           cd ..
 
           gh release download noble -D noble -R AdityaGarg8/t2-ubuntu-repo
@@ -70,8 +70,8 @@ jobs:
           dpkg-scanpackages --multiversion . > Packages
           gzip -k -f Packages
           apt-ftparchive release . > Release
-          gpg --default-key "${GPG_SIGNING_EMAIL}" -abs -o - Release > Release.gpg
-          gpg --default-key "${GPG_SIGNING_EMAIL}" --clearsign -o - Release > InRelease
+          gpg --default-key "${{ secrets.GPG_SIGNING_EMAIL }}" -abs -o - Release > Release.gpg
+          gpg --default-key "${{ secrets.GPG_SIGNING_EMAIL }}" --clearsign -o - Release > InRelease
           cd ..
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

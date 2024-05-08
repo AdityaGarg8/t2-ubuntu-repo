@@ -1,0 +1,87 @@
+---
+name: Discord
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+jobs:
+  Release:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: 'Checkout Repo'
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Configure GPG Key
+        run: |
+          echo -n "$GPG_SIGNING_KEY" | base64 -di | gpg --import
+          echo -n "$GPG_SIGNING_KEY" | base64 -di > key
+        env:
+          GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
+
+      - name: Download Discord
+        id: publish
+        run: |
+          echo 'import requests' > download_discord.py
+          echo '' >> download_discord.py
+          echo 'url = "https://discord.com/api/download?platform=linux&format=deb"' >> download_discord.py
+          echo 'file_name = "discord.deb"' >> download_discord.py
+          echo '' >> download_discord.py
+          echo 'response = requests.get(url)' >> download_discord.py
+          echo '' >> download_discord.py
+          echo 'if response.status_code == 200:' >> download_discord.py
+          echo '    with open(file_name, "wb") as file:' >> download_discord.py
+          echo '        file.write(response.content)' >> download_discord.py
+          echo '    print("File downloaded successfully.")' >> download_discord.py
+          echo 'else:' >> download_discord.py
+          echo '    print("Failed to download file. Status code:", response.status_code)' >> download_discord.py
+          python3 ./download_discord.py
+
+          for CODENAME in jammy mantic noble
+          gh release download ${CODENAME} -D ${CODENAME} -R AdityaGarg8/t2-ubuntu-repo
+          mv ./discord.deb ./${CODENAME}
+          cd ${CODENAME}
+          dpkg-name ./discord.deb | (echo "publish_${CODENAME}=no" >> $GITHUB_ENV && exit 0)
+
+          dpkg-scanpackages --multiversion . > Packages && \
+          gzip -k -f Packages && \
+
+          apt-ftparchive release . > Release && \
+          gpg --default-key "${GPG_SIGNING_EMAIL}" -abs -o - Release > Release.gpg && \
+          gpg --default-key "${GPG_SIGNING_EMAIL}" --clearsign -o - Release > InRelease'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Release Jammy
+        if: env.publish_jammy != 'no'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ github.workspace }}/jammy/*
+          tag_name: jammy
+          draft: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Release Mantic
+        if: env.publish_mantic != 'no'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ github.workspace }}/mantic/*
+          tag_name: mantic
+          draft: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Release Noble
+        if: env.publish_noble != 'no'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ github.workspace }}/noble/*
+          tag_name: noble
+          draft: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

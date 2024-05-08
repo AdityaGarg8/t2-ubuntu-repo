@@ -47,15 +47,14 @@ jobs:
           cp ./discord.deb ./${CODENAME}
           cd ${CODENAME}
           dpkg-name ./discord.deb | (echo "publish_${CODENAME}=no" >> $GITHUB_ENV && exit 0)
+          dpkg-scanpackages --multiversion . > Packages
+          gzip -k -f Packages
+
+          apt-ftparchive release . > Release
+          gpg --default-key "${GPG_SIGNING_EMAIL}" -abs -o - Release > Release.gpg
+          gpg --default-key "${GPG_SIGNING_EMAIL}" --clearsign -o - Release > InRelease
           cd ..
           done
-
-          dpkg-scanpackages --multiversion . > Packages && \
-          gzip -k -f Packages && \
-
-          apt-ftparchive release . > Release && \
-          gpg --default-key "${GPG_SIGNING_EMAIL}" -abs -o - Release > Release.gpg && \
-          gpg --default-key "${GPG_SIGNING_EMAIL}" --clearsign -o - Release > InRelease'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

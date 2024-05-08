@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  Release:
+  Release-Jammy:
     runs-on: ubuntu-latest
     steps:
 
@@ -26,58 +26,56 @@ jobs:
       - name: Download Discord
         id: publish
         run: |
-          echo 'import requests' > download_discord.py
-          echo '' >> download_discord.py
-          echo 'url = "https://discord.com/api/download?platform=linux&format=deb"' >> download_discord.py
-          echo 'file_name = "discord.deb"' >> download_discord.py
-          echo '' >> download_discord.py
-          echo 'response = requests.get(url)' >> download_discord.py
-          echo '' >> download_discord.py
-          echo 'if response.status_code == 200:' >> download_discord.py
-          echo '    with open(file_name, "wb") as file:' >> download_discord.py
-          echo '        file.write(response.content)' >> download_discord.py
-          echo '    print("File downloaded successfully.")' >> download_discord.py
-          echo 'else:' >> download_discord.py
-          echo '    print("Failed to download file. Status code:", response.status_code)' >> download_discord.py
-          python3 ./download_discord.py
+          DOCKER_IMAGE=ubuntu:22.04
+          docker pull ${DOCKER_IMAGE}
+          docker run \
+          -e GH_TOKEN=${{ secrets.GITHUB_TOKEN }} \
+          -e GPG_SIGNING_EMAIL=${{ secrets.GPG_SIGNING_EMAIL }} \
+          -e VERSION=${VERSION} \
+          -e KVER=${KVER} \
+          -e REL=${REL} \
+          -t \
+          -v "$(pwd)":/repo \
+          ${DOCKER_IMAGE} \
+          /bin/bash -c 'apt-get update && \
+          apt-get install -y wget git gpg apt-utils dpkg-dev python3 python3-pip && \
+          pip install requests && \
+          cat /repo/key | gpg --import && \
+          echo 'import requests' > download_discord.py && \
+          echo '' >> download_discord.py && \
+          echo 'url = "https://discord.com/api/download?platform=linux&format=deb"' >> download_discord.py && \
+          echo 'file_name = "discord.deb"' >> download_discord.py && \
+          echo '' >> download_discord.py && \
+          echo 'response = requests.get(url)' >> download_discord.py && \
+          echo '' >> download_discord.py && \
+          echo 'if response.status_code == 200:' >> download_discord.py && \
+          echo '    with open(file_name, "wb") as file:' >> download_discord.py && \
+          echo '        file.write(response.content)' >> download_discord.py && \
+          echo '    print("File downloaded successfully.")' >> download_discord.py && \
+          echo 'else:' >> download_discord.py && \
+          echo '    print("Failed to download file. Status code:", response.status_code)' >> download_discord.py && \
+          python3 ./download_discord.py && \
 
-          gh release download jammy -D jammy -R AdityaGarg8/t2-ubuntu-repo
-          cp ./discord.deb ./jammy
+          mv ./discord.deb /repo && \
+          cd repo && \
+          gh release download jammy -D jammy -R AdityaGarg8/t2-ubuntu-repo && \
+          mv ./discord.deb ./jammy && \
+          cd jammy && \
+          dpkg-name ./discord.deb && \
+          dpkg-scanpackages --multiversion . > Packages && \
+          gzip -k -f Packages && \
+          apt-ftparchive release . > Release && \
+          gpg --default-key "${{ secrets.GPG_SIGNING_EMAIL }}" -abs -o - Release > Release.gpg && \
+          gpg --default-key "${{ secrets.GPG_SIGNING_EMAIL }}" --clearsign -o - Release > InRelease'
+
           cd jammy
-          dpkg-name ./discord.deb | (echo "publish_jammy=no" >> $GITHUB_ENV && exit 0)
-          dpkg-scanpackages --multiversion . > Packages
-          gzip -k -f Packages
-          apt-ftparchive release . > Release
-          gpg --default-key "${{ secrets.GPG_SIGNING_EMAIL }}" -abs -o - Release > Release.gpg
-          gpg --default-key "${{ secrets.GPG_SIGNING_EMAIL }}" --clearsign -o - Release > InRelease
-          cd ..
-
-          gh release download mantic -D mantic -R AdityaGarg8/t2-ubuntu-repo
-          cp ./discord.deb ./mantic
-          cd mantic
-          dpkg-name ./discord.deb | (echo "publish_mantic=no" >> $GITHUB_ENV && exit 0)
-          dpkg-scanpackages --multiversion . > Packages
-          gzip -k -f Packages
-          apt-ftparchive release . > Release
-          gpg --default-key "${{ secrets.GPG_SIGNING_EMAIL }}" -abs -o - Release > Release.gpg
-          gpg --default-key "${{ secrets.GPG_SIGNING_EMAIL }}" --clearsign -o - Release > InRelease
-          cd ..
-
-          gh release download noble -D noble -R AdityaGarg8/t2-ubuntu-repo
-          cp ./discord.deb ./noble
-          cd noble
-          dpkg-name ./discord.deb | (echo "publish_noble=no" >> $GITHUB_ENV && exit 0)
-          dpkg-scanpackages --multiversion . > Packages
-          gzip -k -f Packages
-          apt-ftparchive release . > Release
-          gpg --default-key "${{ secrets.GPG_SIGNING_EMAIL }}" -abs -o - Release > Release.gpg
-          gpg --default-key "${{ secrets.GPG_SIGNING_EMAIL }}" --clearsign -o - Release > InRelease
-          cd ..
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          if [[ $(ls | grep discord.deb) == discord.deb ]]
+          then
+          echo "publish=no" >> $GITHUB_ENV
+          fi
 
       - name: Release Jammy
-        if: env.publish_jammy != 'no'
+        if: env.publish != 'no'
         uses: softprops/action-gh-release@v2
         with:
           files: ${{ github.workspace }}/jammy/*
@@ -86,8 +84,75 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+  Release-Mantic:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: 'Checkout Repo'
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Configure GPG Key
+        run: |
+          echo -n "$GPG_SIGNING_KEY" | base64 -di | gpg --import
+          echo -n "$GPG_SIGNING_KEY" | base64 -di > key
+        env:
+          GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
+
+      - name: Download Discord
+        id: publish
+        run: |
+          DOCKER_IMAGE=ubuntu:23.10
+          docker pull ${DOCKER_IMAGE}
+          docker run \
+          -e GH_TOKEN=${{ secrets.GITHUB_TOKEN }} \
+          -e GPG_SIGNING_EMAIL=${{ secrets.GPG_SIGNING_EMAIL }} \
+          -e VERSION=${VERSION} \
+          -e KVER=${KVER} \
+          -e REL=${REL} \
+          -t \
+          -v "$(pwd)":/repo \
+          ${DOCKER_IMAGE} \
+          /bin/bash -c 'apt-get update && \
+          apt-get install -y wget git gpg apt-utils dpkg-dev python3 python3-pip && \
+          pip install requests && \
+          cat /repo/key | gpg --import && \
+          echo 'import requests' > download_discord.py && \
+          echo '' >> download_discord.py && \
+          echo 'url = "https://discord.com/api/download?platform=linux&format=deb"' >> download_discord.py && \
+          echo 'file_name = "discord.deb"' >> download_discord.py && \
+          echo '' >> download_discord.py && \
+          echo 'response = requests.get(url)' >> download_discord.py && \
+          echo '' >> download_discord.py && \
+          echo 'if response.status_code == 200:' >> download_discord.py && \
+          echo '    with open(file_name, "wb") as file:' >> download_discord.py && \
+          echo '        file.write(response.content)' >> download_discord.py && \
+          echo '    print("File downloaded successfully.")' >> download_discord.py && \
+          echo 'else:' >> download_discord.py && \
+          echo '    print("Failed to download file. Status code:", response.status_code)' >> download_discord.py && \
+          python3 ./download_discord.py && \
+
+          mv ./discord.deb /repo && \
+          cd repo && \
+          gh release download mantic -D mantic -R AdityaGarg8/t2-ubuntu-repo && \
+          mv ./discord.deb ./mantic && \
+          cd mantic && \
+          dpkg-name ./discord.deb && \
+          dpkg-scanpackages --multiversion . > Packages && \
+          gzip -k -f Packages && \
+          apt-ftparchive release . > Release && \
+          gpg --default-key "${{ secrets.GPG_SIGNING_EMAIL }}" -abs -o - Release > Release.gpg && \
+          gpg --default-key "${{ secrets.GPG_SIGNING_EMAIL }}" --clearsign -o - Release > InRelease'
+
+          cd mantic
+          if [[ $(ls | grep discord.deb) == discord.deb ]]
+          then
+          echo "publish=no" >> $GITHUB_ENV
+          fi
+
       - name: Release Mantic
-        if: env.publish_mantic != 'no'
+        if: env.publish != 'no'
         uses: softprops/action-gh-release@v2
         with:
           files: ${{ github.workspace }}/mantic/*
@@ -96,8 +161,75 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+  Release-Noble:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: 'Checkout Repo'
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Configure GPG Key
+        run: |
+          echo -n "$GPG_SIGNING_KEY" | base64 -di | gpg --import
+          echo -n "$GPG_SIGNING_KEY" | base64 -di > key
+        env:
+          GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
+
+      - name: Download Discord
+        id: publish
+        run: |
+          DOCKER_IMAGE=ubuntu:24.04
+          docker pull ${DOCKER_IMAGE}
+          docker run \
+          -e GH_TOKEN=${{ secrets.GITHUB_TOKEN }} \
+          -e GPG_SIGNING_EMAIL=${{ secrets.GPG_SIGNING_EMAIL }} \
+          -e VERSION=${VERSION} \
+          -e KVER=${KVER} \
+          -e REL=${REL} \
+          -t \
+          -v "$(pwd)":/repo \
+          ${DOCKER_IMAGE} \
+          /bin/bash -c 'apt-get update && \
+          apt-get install -y wget git gpg apt-utils dpkg-dev python3 python3-pip && \
+          pip install requests && \
+          cat /repo/key | gpg --import && \
+          echo 'import requests' > download_discord.py && \
+          echo '' >> download_discord.py && \
+          echo 'url = "https://discord.com/api/download?platform=linux&format=deb"' >> download_discord.py && \
+          echo 'file_name = "discord.deb"' >> download_discord.py && \
+          echo '' >> download_discord.py && \
+          echo 'response = requests.get(url)' >> download_discord.py && \
+          echo '' >> download_discord.py && \
+          echo 'if response.status_code == 200:' >> download_discord.py && \
+          echo '    with open(file_name, "wb") as file:' >> download_discord.py && \
+          echo '        file.write(response.content)' >> download_discord.py && \
+          echo '    print("File downloaded successfully.")' >> download_discord.py && \
+          echo 'else:' >> download_discord.py && \
+          echo '    print("Failed to download file. Status code:", response.status_code)' >> download_discord.py && \
+          python3 ./download_discord.py && \
+
+          mv ./discord.deb /repo && \
+          cd repo && \
+          gh release download noble -D noble -R AdityaGarg8/t2-ubuntu-repo && \
+          mv ./discord.deb ./noble && \
+          cd noble && \
+          dpkg-name ./discord.deb && \
+          dpkg-scanpackages --multiversion . > Packages && \
+          gzip -k -f Packages && \
+          apt-ftparchive release . > Release && \
+          gpg --default-key "${{ secrets.GPG_SIGNING_EMAIL }}" -abs -o - Release > Release.gpg && \
+          gpg --default-key "${{ secrets.GPG_SIGNING_EMAIL }}" --clearsign -o - Release > InRelease'
+
+          cd noble
+          if [[ $(ls | grep discord.deb) == discord.deb ]]
+          then
+          echo "publish=no" >> $GITHUB_ENV
+          fi
+
       - name: Release Noble
-        if: env.publish_noble != 'no'
+        if: env.publish != 'no'
         uses: softprops/action-gh-release@v2
         with:
           files: ${{ github.workspace }}/noble/*

@@ -31,9 +31,6 @@ jobs:
           docker run \
           -e GH_TOKEN=${{ secrets.GITHUB_TOKEN }} \
           -e GPG_SIGNING_EMAIL=${{ secrets.GPG_SIGNING_EMAIL }} \
-          -e VERSION=${VERSION} \
-          -e KVER=${KVER} \
-          -e REL=${REL} \
           -t \
           -v "$(pwd)":/repo \
           ${DOCKER_IMAGE} \
@@ -41,19 +38,19 @@ jobs:
           apt-get install -y wget git gpg apt-utils dpkg-dev python3 python3-pip && \
           pip install requests && \
           cat /repo/key | gpg --import && \
-          echo 'import requests' > download_discord.py && \
-          echo '' >> download_discord.py && \
-          echo 'url = "https://discord.com/api/download?platform=linux&format=deb"' >> download_discord.py && \
-          echo 'file_name = "discord.deb"' >> download_discord.py && \
-          echo '' >> download_discord.py && \
-          echo 'response = requests.get(url)' >> download_discord.py && \
-          echo '' >> download_discord.py && \
-          echo 'if response.status_code == 200:' >> download_discord.py && \
-          echo '    with open(file_name, "wb") as file:' >> download_discord.py && \
-          echo '        file.write(response.content)' >> download_discord.py && \
-          echo '    print("File downloaded successfully.")' >> download_discord.py && \
-          echo 'else:' >> download_discord.py && \
-          echo '    print("Failed to download file. Status code:", response.status_code)' >> download_discord.py && \
+          echo "import requests" > download_discord.py && \
+          echo "" >> download_discord.py && \
+          echo "url = \"https://discord.com/api/download?platform=linux&format=deb\"" >> download_discord.py && \
+          echo "file_name = \"discord.deb\"" >> download_discord.py && \
+          echo "" >> download_discord.py && \
+          echo "response = requests.get(url)" >> download_discord.py && \
+          echo "" >> download_discord.py && \
+          echo "if response.status_code == 200:" >> download_discord.py && \
+          echo "    with open(file_name, \"wb\") as file:" >> download_discord.py && \
+          echo "        file.write(response.content)" >> download_discord.py && \
+          echo "    print(\"File downloaded successfully.\")" >> download_discord.py && \
+          echo "else:" >> download_discord.py && \
+          echo "    print(\"Failed to download file. Status code:\", response.status_code)" >> download_discord.py && \
           python3 ./download_discord.py && \
 
           mv ./discord.deb /repo && \
@@ -118,19 +115,19 @@ jobs:
           apt-get install -y wget git gpg apt-utils dpkg-dev python3 python3-pip && \
           pip install requests && \
           cat /repo/key | gpg --import && \
-          echo 'import requests' > download_discord.py && \
-          echo '' >> download_discord.py && \
-          echo 'url = "https://discord.com/api/download?platform=linux&format=deb"' >> download_discord.py && \
-          echo 'file_name = "discord.deb"' >> download_discord.py && \
-          echo '' >> download_discord.py && \
-          echo 'response = requests.get(url)' >> download_discord.py && \
-          echo '' >> download_discord.py && \
-          echo 'if response.status_code == 200:' >> download_discord.py && \
-          echo '    with open(file_name, "wb") as file:' >> download_discord.py && \
-          echo '        file.write(response.content)' >> download_discord.py && \
-          echo '    print("File downloaded successfully.")' >> download_discord.py && \
-          echo 'else:' >> download_discord.py && \
-          echo '    print("Failed to download file. Status code:", response.status_code)' >> download_discord.py && \
+          echo "import requests" > download_discord.py && \
+          echo "" >> download_discord.py && \
+          echo "url = \"https://discord.com/api/download?platform=linux&format=deb\"" >> download_discord.py && \
+          echo "file_name = \"discord.deb\"" >> download_discord.py && \
+          echo "" >> download_discord.py && \
+          echo "response = requests.get(url)" >> download_discord.py && \
+          echo "" >> download_discord.py && \
+          echo "if response.status_code == 200:" >> download_discord.py && \
+          echo "    with open(file_name, \"wb\") as file:" >> download_discord.py && \
+          echo "        file.write(response.content)" >> download_discord.py && \
+          echo "    print(\"File downloaded successfully.\")" >> download_discord.py && \
+          echo "else:" >> download_discord.py && \
+          echo "    print(\"Failed to download file. Status code:\", response.status_code)" >> download_discord.py && \
           python3 ./download_discord.py && \
 
           mv ./discord.deb /repo && \
@@ -195,19 +192,19 @@ jobs:
           apt-get install -y wget git gpg apt-utils dpkg-dev python3 python3-pip && \
           pip install requests && \
           cat /repo/key | gpg --import && \
-          echo 'import requests' > download_discord.py && \
-          echo '' >> download_discord.py && \
-          echo 'url = "https://discord.com/api/download?platform=linux&format=deb"' >> download_discord.py && \
-          echo 'file_name = "discord.deb"' >> download_discord.py && \
-          echo '' >> download_discord.py && \
-          echo 'response = requests.get(url)' >> download_discord.py && \
-          echo '' >> download_discord.py && \
-          echo 'if response.status_code == 200:' >> download_discord.py && \
-          echo '    with open(file_name, "wb") as file:' >> download_discord.py && \
-          echo '        file.write(response.content)' >> download_discord.py && \
-          echo '    print("File downloaded successfully.")' >> download_discord.py && \
-          echo 'else:' >> download_discord.py && \
-          echo '    print("Failed to download file. Status code:", response.status_code)' >> download_discord.py && \
+          echo "import requests" > download_discord.py && \
+          echo "" >> download_discord.py && \
+          echo "url = \"https://discord.com/api/download?platform=linux&format=deb\"" >> download_discord.py && \
+          echo "file_name = \"discord.deb\"" >> download_discord.py && \
+          echo "" >> download_discord.py && \
+          echo "response = requests.get(url)" >> download_discord.py && \
+          echo "" >> download_discord.py && \
+          echo "if response.status_code == 200:" >> download_discord.py && \
+          echo "    with open(file_name, \"wb\") as file:" >> download_discord.py && \
+          echo "        file.write(response.content)" >> download_discord.py && \
+          echo "    print(\"File downloaded successfully.\")" >> download_discord.py && \
+          echo "else:" >> download_discord.py && \
+          echo "    print(\"Failed to download file. Status code:\", response.status_code)" >> download_discord.py && \
           python3 ./download_discord.py && \
 
           mv ./discord.deb /repo && \

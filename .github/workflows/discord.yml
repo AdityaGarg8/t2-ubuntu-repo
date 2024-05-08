@@ -41,20 +41,38 @@ jobs:
           echo '    print("Failed to download file. Status code:", response.status_code)' >> download_discord.py
           python3 ./download_discord.py
 
-          for CODENAME in jammy mantic noble
-          do
-          gh release download ${CODENAME} -D ${CODENAME} -R AdityaGarg8/t2-ubuntu-repo
-          cp ./discord.deb ./${CODENAME}
-          cd ${CODENAME}
-          dpkg-name ./discord.deb | (echo "publish_${CODENAME}=no" >> $GITHUB_ENV && exit 0)
+          gh release download jammy -D jammy -R AdityaGarg8/t2-ubuntu-repo
+          cp ./discord.deb ./jammy
+          cd jammy
+          dpkg-name ./discord.deb | (echo "publish_jammy=no" >> $GITHUB_ENV && exit 0)
           dpkg-scanpackages --multiversion . > Packages
           gzip -k -f Packages
-
           apt-ftparchive release . > Release
           gpg --default-key "${GPG_SIGNING_EMAIL}" -abs -o - Release > Release.gpg
           gpg --default-key "${GPG_SIGNING_EMAIL}" --clearsign -o - Release > InRelease
           cd ..
-          done
+
+          gh release download mantic -D mantic -R AdityaGarg8/t2-ubuntu-repo
+          cp ./discord.deb ./mantic
+          cd mantic
+          dpkg-name ./discord.deb | (echo "publish_mantic=no" >> $GITHUB_ENV && exit 0)
+          dpkg-scanpackages --multiversion . > Packages
+          gzip -k -f Packages
+          apt-ftparchive release . > Release
+          gpg --default-key "${GPG_SIGNING_EMAIL}" -abs -o - Release > Release.gpg
+          gpg --default-key "${GPG_SIGNING_EMAIL}" --clearsign -o - Release > InRelease
+          cd ..
+
+          gh release download noble -D noble -R AdityaGarg8/t2-ubuntu-repo
+          cp ./discord.deb ./noble
+          cd noble
+          dpkg-name ./discord.deb | (echo "publish_noble=no" >> $GITHUB_ENV && exit 0)
+          dpkg-scanpackages --multiversion . > Packages
+          gzip -k -f Packages
+          apt-ftparchive release . > Release
+          gpg --default-key "${GPG_SIGNING_EMAIL}" -abs -o - Release > Release.gpg
+          gpg --default-key "${GPG_SIGNING_EMAIL}" --clearsign -o - Release > InRelease
+          cd ..
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

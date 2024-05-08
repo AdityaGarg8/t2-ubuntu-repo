@@ -35,7 +35,7 @@ jobs:
           -v "$(pwd)":/repo \
           ${DOCKER_IMAGE} \
           /bin/bash -c 'apt-get update && \
-          apt-get install -y wget git gpg apt-utils dpkg-dev python3 python3-pip && \
+          DEBIAN_FRONTEND=noninteractive apt-get install -y -qq -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" wget git gpg apt-utils dpkg-dev python3 python3-pip && \
           pip install requests && \
           cat /repo/key | gpg --import && \
           echo "import requests" > download_discord.py && \
@@ -112,7 +112,7 @@ jobs:
           -v "$(pwd)":/repo \
           ${DOCKER_IMAGE} \
           /bin/bash -c 'apt-get update && \
-          apt-get install -y wget git gpg apt-utils dpkg-dev python3 python3-pip && \
+          DEBIAN_FRONTEND=noninteractive apt-get install -y -qq -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" wget git gpg apt-utils dpkg-dev python3 python3-pip && \
           pip install requests && \
           cat /repo/key | gpg --import && \
           echo "import requests" > download_discord.py && \
@@ -189,7 +189,7 @@ jobs:
           -v "$(pwd)":/repo \
           ${DOCKER_IMAGE} \
           /bin/bash -c 'apt-get update && \
-          apt-get install -y wget git gpg apt-utils dpkg-dev python3 python3-pip && \
+          DEBIAN_FRONTEND=noninteractive apt-get install -y -qq -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" wget git gpg apt-utils dpkg-dev python3 python3-pip && \
           pip install requests && \
           cat /repo/key | gpg --import && \
           echo "import requests" > download_discord.py && \

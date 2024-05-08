@@ -42,10 +42,13 @@ jobs:
           python3 ./download_discord.py
 
           for CODENAME in jammy mantic noble
+          do
           gh release download ${CODENAME} -D ${CODENAME} -R AdityaGarg8/t2-ubuntu-repo
-          mv ./discord.deb ./${CODENAME}
+          cp ./discord.deb ./${CODENAME}
           cd ${CODENAME}
           dpkg-name ./discord.deb | (echo "publish_${CODENAME}=no" >> $GITHUB_ENV && exit 0)
+          cd ..
+          done
 
           dpkg-scanpackages --multiversion . > Packages && \
           gzip -k -f Packages && \

@@ -724,7 +724,7 @@ jobs:
           rm key
 
           cd bookworm
-          if [[ $(ls | grep deb.deb) == deb
+          if [[ $(ls | grep deb.deb) == deb.deb ]]
           then
           echo "publish=no" >> $GITHUB_ENV
           fi

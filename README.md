@@ -2,8 +2,8 @@
 
 This GitHub repository had various apt repos, that can roughly be classified into 2 types:
 
-1. A **common apt repo** for **Debian** and **all variants of Ubuntu**.
-2. **Release specific repo** for **Ubuntu only**.
+1. A **common apt repo** having packages for **Debian** and **Ubuntu**.
+2. **Release specific repo** for **Debian** and **Ubuntu**
 
 ## Adding the Common apt repo
 
@@ -17,7 +17,7 @@ sudo apt update
 
 ## Adding the Release specific apt repo
 
-Now after you have added the common apt repo, if you are an **Ubuntu** user, you additionally have to add a **release specific repo** for kernel updates. Follow the steps below:
+Now after you have added the common apt repo, you additionally have to add a **release specific repo** for kernel updates and `tiny-dfr`. Follow the steps below:
 
 1. Identify your release codename. It is: 
   
@@ -27,7 +27,9 @@ Now after you have added the common apt repo, if you are an **Ubuntu** user, you
 
     c) `noble` for **Ubuntu 24.04**
 
-2. Run the following (taking `noble` as the example, just replace it with your release codename in the first line):
+    d) `bookworm` for **Debian 12**
+
+3. Run the following (taking `noble` as the example, just replace it with your release codename in the first line):
 
 ```bash
 CODENAME=noble

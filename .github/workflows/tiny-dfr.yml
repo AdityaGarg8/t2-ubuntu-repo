@@ -180,6 +180,7 @@ jobs:
           echo "publish=no" >> $GITHUB_ENV
           fi
       - name: Release
+        if: env.publish != 'no'
         uses: softprops/action-gh-release@v2
         with:
           files: ${{ github.workspace }}/jammy/*
@@ -362,6 +363,7 @@ jobs:
           echo "publish=no" >> $GITHUB_ENV
           fi
       - name: Release
+        if: env.publish != 'no'
         uses: softprops/action-gh-release@v2
         with:
           files: ${{ github.workspace }}/mantic/*
@@ -544,6 +546,7 @@ jobs:
           echo "publish=no" >> $GITHUB_ENV
           fi
       - name: Release
+        if: env.publish != 'no'
         uses: softprops/action-gh-release@v2
         with:
           files: ${{ github.workspace }}/noble/*
@@ -726,6 +729,7 @@ jobs:
           echo "publish=no" >> $GITHUB_ENV
           fi
       - name: Release
+        if: env.publish != 'no'
         uses: softprops/action-gh-release@v2
         with:
           files: ${{ github.workspace }}/bookworm/*

@@ -1,6 +1,6 @@
 # APT repository for T2 Macs
 
-This GitHub repository had various apt repos, that can roughly be classified into 2 types:
+This GitHub repository has various apt repos, that can roughly be classified into 2 types:
 
 1. A **common apt repo** having packages for **Debian** and **Ubuntu**.
 2. **Release specific repo** for **Debian** and **Ubuntu**

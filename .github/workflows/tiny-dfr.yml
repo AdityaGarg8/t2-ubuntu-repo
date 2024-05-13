@@ -175,7 +175,7 @@ jobs:
           rm key
 
           cd jammy
-          if [[ $(ls | grep discord.deb) == discord.deb ]]
+          if [[ $(ls | grep deb.deb) == deb.deb ]]
           then
           echo "publish=no" >> $GITHUB_ENV
           fi
@@ -358,7 +358,7 @@ jobs:
           rm key
 
           cd mantic
-          if [[ $(ls | grep discord.deb) == discord.deb ]]
+          if [[ $(ls | grep deb.deb) == deb.deb ]]
           then
           echo "publish=no" >> $GITHUB_ENV
           fi
@@ -541,7 +541,7 @@ jobs:
           rm key
 
           cd noble
-          if [[ $(ls | grep discord.deb) == discord.deb ]]
+          if [[ $(ls | grep deb.deb) == deb.deb ]]
           then
           echo "publish=no" >> $GITHUB_ENV
           fi
@@ -724,7 +724,7 @@ jobs:
           rm key
 
           cd bookworm
-          if [[ $(ls | grep discord.deb) == discord.deb ]]
+          if [[ $(ls | grep deb.deb) == deb
           then
           echo "publish=no" >> $GITHUB_ENV
           fi

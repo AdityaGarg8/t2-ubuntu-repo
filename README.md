@@ -50,7 +50,6 @@ You should be then be able to install and update the following packages with `ap
 - **linux-t2**: Kernel package for Mainline kernels (Ubuntu only).
 - **linux-t2-lts**: Kernel package for LTS kernels (Ubuntu only).
 - **t2fanrd**: Daemon to control fan speed on T2 Macs. For configuration instructions, refer to [this page](https://github.com/GnomedDev/T2FanRD).
-- **t2-kernel-script-debian**: The kernel update script for Debian Mainline T2 kernels.
 - **t2-apple-audio-dsp-mic**: Mic configuration files for T2 Macs.
 - **t2-apple-audio-dsp-speakers161**: Pipewire filterchain configuration files for Macbook Pro 16 inch, 2019
 - **tiny-dfr**: Function row daemon for touchbar on Macs

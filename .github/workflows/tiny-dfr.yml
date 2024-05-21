@@ -41,11 +41,11 @@ jobs:
           && curl -s --compressed "https://adityagarg8.github.io/t2-ubuntu-repo/KEY.gpg" | gpg --dearmor | tee /etc/apt/trusted.gpg.d/t2-ubuntu-repo.gpg >/dev/null \
           && curl -s --compressed -o /etc/apt/sources.list.d/t2.list "https://adityagarg8.github.io/t2-ubuntu-repo/t2.list" \
           && apt-get update \
-          && apt-get install -y -qq -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" gh apple-touchbar apple-bce=0.2.4 && \
+          && apt-get install -y -qq -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" gh apple-touchbar && \
           curl https://sh.rustup.rs -sSf | sh -s -- -y && \
           REPO=https://github.com/AdityaGarg8/tiny-dfr.git && \
           COMMIT_HASH=946a8cd1c1f15a6c78f053844f990bbe76763f42 && \
-          VERSION=0.2.0-8 && \
+          VERSION=0.2.0-9 && \
           cat /repo/key | gpg --import && \
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com" && \
           git config --global user.name "github-actions[bot]" && \
@@ -69,7 +69,6 @@ jobs:
           cp -r ./share ./deb/usr && \
           cp ./target/release/tiny-dfr ./deb/usr/bin && \
           cp -r /usr/src/apple-touchbar-0.1 ./deb/usr/src && \
-          cp -r /usr/src/apple-bce-0.2 ./deb/usr/src && \
           mv ./deb/etc/udev/rules.d/* ./deb/usr/share/tiny-dfr && \
           mv ./deb/etc/systemd/system/* ./deb/usr/share/tiny-dfr && \
           cp /repo/.github/scripts/touchbar ./deb/usr/bin && \
@@ -115,8 +114,6 @@ jobs:
           echo "service_file=\$(echo \$service | rev | cut -d \"/\" -f 1 | rev)" >> postinst && \
           echo "cp -v /usr/share/tiny-dfr/\$service_file /etc/systemd/system/\$service_file" >> postinst && \
           echo "done" >> postinst && \
-          echo "dkms add -m apple-bce -v 0.2" >> postinst && \
-          echo "dkms build -m apple-bce -v 0.2 && dkms install -m apple-bce -v 0.2 --force || true" >> postinst && \
           echo "systemctl enable --now tiny-dfr.service" >> postinst && \
           echo "else" >> postinst && \
           echo "dkms add -m apple-touchbar -v 0.1" >> postinst && \
@@ -127,7 +124,6 @@ jobs:
           echo "if [ -f /etc/systemd/system/tiny-dfr.service ]" > prerm && \
           echo "then" >> prerm && \
           echo "systemctl disable --now tiny-dfr.service" >> prerm && \
-          echo "dkms remove -m apple-bce -v 0.2 --all || true" >> prerm && \
           echo "fi" >> prerm && \
           echo "for rule in /usr/share/tiny-dfr/*.rules" >> prerm && \
           echo "do" >> prerm && \
@@ -224,11 +220,11 @@ jobs:
           && curl -s --compressed "https://adityagarg8.github.io/t2-ubuntu-repo/KEY.gpg" | gpg --dearmor | tee /etc/apt/trusted.gpg.d/t2-ubuntu-repo.gpg >/dev/null \
           && curl -s --compressed -o /etc/apt/sources.list.d/t2.list "https://adityagarg8.github.io/t2-ubuntu-repo/t2.list" \
           && apt-get update \
-          && apt-get install -y -qq -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" gh apple-touchbar apple-bce=0.2.4 && \
+          && apt-get install -y -qq -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" gh apple-touchbar && \
           curl https://sh.rustup.rs -sSf | sh -s -- -y && \
           REPO=https://github.com/AdityaGarg8/tiny-dfr.git && \
           COMMIT_HASH=946a8cd1c1f15a6c78f053844f990bbe76763f42 && \
-          VERSION=0.2.0-8 && \
+          VERSION=0.2.0-9 && \
           cat /repo/key | gpg --import && \
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com" && \
           git config --global user.name "github-actions[bot]" && \
@@ -252,7 +248,6 @@ jobs:
           cp -r ./share ./deb/usr && \
           cp ./target/release/tiny-dfr ./deb/usr/bin && \
           cp -r /usr/src/apple-touchbar-0.1 ./deb/usr/src && \
-          cp -r /usr/src/apple-bce-0.2 ./deb/usr/src && \
           mv ./deb/etc/udev/rules.d/* ./deb/usr/share/tiny-dfr && \
           mv ./deb/etc/systemd/system/* ./deb/usr/share/tiny-dfr && \
           cp /repo/.github/scripts/touchbar ./deb/usr/bin && \
@@ -298,8 +293,6 @@ jobs:
           echo "service_file=\$(echo \$service | rev | cut -d \"/\" -f 1 | rev)" >> postinst && \
           echo "cp -v /usr/share/tiny-dfr/\$service_file /etc/systemd/system/\$service_file" >> postinst && \
           echo "done" >> postinst && \
-          echo "dkms add -m apple-bce -v 0.2" >> postinst && \
-          echo "dkms build -m apple-bce -v 0.2 && dkms install -m apple-bce -v 0.2 --force || true" >> postinst && \
           echo "systemctl enable --now tiny-dfr.service" >> postinst && \
           echo "else" >> postinst && \
           echo "dkms add -m apple-touchbar -v 0.1" >> postinst && \
@@ -310,7 +303,6 @@ jobs:
           echo "if [ -f /etc/systemd/system/tiny-dfr.service ]" > prerm && \
           echo "then" >> prerm && \
           echo "systemctl disable --now tiny-dfr.service" >> prerm && \
-          echo "dkms remove -m apple-bce -v 0.2 --all || true" >> prerm && \
           echo "fi" >> prerm && \
           echo "for rule in /usr/share/tiny-dfr/*.rules" >> prerm && \
           echo "do" >> prerm && \
@@ -407,11 +399,11 @@ jobs:
           && curl -s --compressed "https://adityagarg8.github.io/t2-ubuntu-repo/KEY.gpg" | gpg --dearmor | tee /etc/apt/trusted.gpg.d/t2-ubuntu-repo.gpg >/dev/null \
           && curl -s --compressed -o /etc/apt/sources.list.d/t2.list "https://adityagarg8.github.io/t2-ubuntu-repo/t2.list" \
           && apt-get update \
-          && apt-get install -y -qq -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" gh apple-touchbar apple-bce=0.2.4 && \
+          && apt-get install -y -qq -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" gh apple-touchbar && \
           curl https://sh.rustup.rs -sSf | sh -s -- -y && \
           REPO=https://github.com/AdityaGarg8/tiny-dfr.git && \
           COMMIT_HASH=946a8cd1c1f15a6c78f053844f990bbe76763f42 && \
-          VERSION=0.2.0-8 && \
+          VERSION=0.2.0-9 && \
           cat /repo/key | gpg --import && \
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com" && \
           git config --global user.name "github-actions[bot]" && \
@@ -435,7 +427,6 @@ jobs:
           cp -r ./share ./deb/usr && \
           cp ./target/release/tiny-dfr ./deb/usr/bin && \
           cp -r /usr/src/apple-touchbar-0.1 ./deb/usr/src && \
-          cp -r /usr/src/apple-bce-0.2 ./deb/usr/src && \
           mv ./deb/etc/udev/rules.d/* ./deb/usr/share/tiny-dfr && \
           mv ./deb/etc/systemd/system/* ./deb/usr/share/tiny-dfr && \
           cp /repo/.github/scripts/touchbar ./deb/usr/bin && \
@@ -481,8 +472,6 @@ jobs:
           echo "service_file=\$(echo \$service | rev | cut -d \"/\" -f 1 | rev)" >> postinst && \
           echo "cp -v /usr/share/tiny-dfr/\$service_file /etc/systemd/system/\$service_file" >> postinst && \
           echo "done" >> postinst && \
-          echo "dkms add -m apple-bce -v 0.2" >> postinst && \
-          echo "dkms build -m apple-bce -v 0.2 && dkms install -m apple-bce -v 0.2 --force || true" >> postinst && \
           echo "systemctl enable --now tiny-dfr.service" >> postinst && \
           echo "else" >> postinst && \
           echo "dkms add -m apple-touchbar -v 0.1" >> postinst && \
@@ -493,7 +482,6 @@ jobs:
           echo "if [ -f /etc/systemd/system/tiny-dfr.service ]" > prerm && \
           echo "then" >> prerm && \
           echo "systemctl disable --now tiny-dfr.service" >> prerm && \
-          echo "dkms remove -m apple-bce -v 0.2 --all || true" >> prerm && \
           echo "fi" >> prerm && \
           echo "for rule in /usr/share/tiny-dfr/*.rules" >> prerm && \
           echo "do" >> prerm && \
@@ -590,11 +578,11 @@ jobs:
           && curl -s --compressed "https://adityagarg8.github.io/t2-ubuntu-repo/KEY.gpg" | gpg --dearmor | tee /etc/apt/trusted.gpg.d/t2-ubuntu-repo.gpg >/dev/null \
           && curl -s --compressed -o /etc/apt/sources.list.d/t2.list "https://adityagarg8.github.io/t2-ubuntu-repo/t2.list" \
           && apt-get update \
-          && apt-get install -y -qq -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" gh apple-touchbar apple-bce=0.2.4 && \
+          && apt-get install -y -qq -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" gh apple-touchbar && \
           curl https://sh.rustup.rs -sSf | sh -s -- -y && \
           REPO=https://github.com/AdityaGarg8/tiny-dfr.git && \
           COMMIT_HASH=946a8cd1c1f15a6c78f053844f990bbe76763f42 && \
-          VERSION=0.2.0-8 && \
+          VERSION=0.2.0-9 && \
           cat /repo/key | gpg --import && \
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com" && \
           git config --global user.name "github-actions[bot]" && \
@@ -618,7 +606,6 @@ jobs:
           cp -r ./share ./deb/usr && \
           cp ./target/release/tiny-dfr ./deb/usr/bin && \
           cp -r /usr/src/apple-touchbar-0.1 ./deb/usr/src && \
-          cp -r /usr/src/apple-bce-0.2 ./deb/usr/src && \
           mv ./deb/etc/udev/rules.d/* ./deb/usr/share/tiny-dfr && \
           mv ./deb/etc/systemd/system/* ./deb/usr/share/tiny-dfr && \
           cp /repo/.github/scripts/touchbar ./deb/usr/bin && \
@@ -664,8 +651,6 @@ jobs:
           echo "service_file=\$(echo \$service | rev | cut -d \"/\" -f 1 | rev)" >> postinst && \
           echo "cp -v /usr/share/tiny-dfr/\$service_file /etc/systemd/system/\$service_file" >> postinst && \
           echo "done" >> postinst && \
-          echo "dkms add -m apple-bce -v 0.2" >> postinst && \
-          echo "dkms build -m apple-bce -v 0.2 && dkms install -m apple-bce -v 0.2 --force || true" >> postinst && \
           echo "systemctl enable --now tiny-dfr.service" >> postinst && \
           echo "else" >> postinst && \
           echo "dkms add -m apple-touchbar -v 0.1" >> postinst && \
@@ -676,7 +661,6 @@ jobs:
           echo "if [ -f /etc/systemd/system/tiny-dfr.service ]" > prerm && \
           echo "then" >> prerm && \
           echo "systemctl disable --now tiny-dfr.service" >> prerm && \
-          echo "dkms remove -m apple-bce -v 0.2 --all || true" >> prerm && \
           echo "fi" >> prerm && \
           echo "for rule in /usr/share/tiny-dfr/*.rules" >> prerm && \
           echo "do" >> prerm && \

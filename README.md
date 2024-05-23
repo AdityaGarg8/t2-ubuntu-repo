@@ -37,6 +37,8 @@ echo "deb [signed-by=/etc/apt/trusted.gpg.d/t2-ubuntu-repo.gpg] https://github.c
 sudo apt update
 ```
 
+**Note: You will have to add the release specific apt repo again whenever you upgrade Ubuntu to a newer release**
+
 You should be then be able to install and update the following packages with `apt`.
 
 **WARNING** :- **apple-bce**, **apple-touchbar**, **applesmc-t2** and **bcm5974-t2** packages should NOT be installed if installing the `linux-t2`, `linux-t2-lts` or `t2-kernel-script-debian` package, as t2 kernels have these drivers built in.

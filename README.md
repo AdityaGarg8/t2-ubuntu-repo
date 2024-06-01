@@ -47,8 +47,8 @@ You should be then be able to install and update the following packages with `ap
 - **apple-touchbar**: Driver for touchbar and keyboard backlight on T2 Macs. (NO LONGER MAINTAINED, USE `tiny-dfr`)
 - **applesmc-t2**: Driver for the System Management Controller on T2 Macs. (DO NOT USE IF INSTALLING `linux-t2`, `linux-t2-lts` or `t2-kernel-script-debian`)
 - **apple-t2-audio-config**: Audio config files for the audio device apple-bce has.
+- **apfs-dkms**: Debian package for the [linux-apfs-rw](https://github.com/linux-apfs/linux-apfs-rw) driver.
 - **bcm5974-t2**: Driver for trackpad gestures. (DO NOT USE IF INSTALLING `linux-t2`, `linux-t2-lts` or `t2-kernel-script-debian`)
-- **linux-apfs**: Debian package for the [linux-apfs-rw](https://github.com/linux-apfs/linux-apfs-rw) driver.
 - **linux-t2**: Kernel package for Mainline kernels (Ubuntu only).
 - **linux-t2-lts**: Kernel package for LTS kernels (Ubuntu only).
 - **t2fanrd**: Daemon to control fan speed on T2 Macs. For configuration instructions, refer to [this page](https://github.com/GnomedDev/T2FanRD).

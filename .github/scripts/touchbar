@@ -899,7 +899,7 @@ You are currently using the advanced version of the touchbar.
 
 This version is still buggy and is recommended for those who want to customise their touchbar as per their needs.
 
-If you want a more stable touchbar, that has only has Function keys and Media controls, run \`sudo touchbar --switch\` to switch to the basic Mode.
+If you want a more stable touchbar, that only has Function keys and Media controls, run \`sudo touchbar --switch\` to switch to the basic Mode.
 
 --mode    : Set the default touchbar mode
 --font    : Set font for the function keys

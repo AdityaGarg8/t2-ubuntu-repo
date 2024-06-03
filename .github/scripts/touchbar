@@ -67,6 +67,12 @@ echo -e "\nAdvanced version shall be enabled next time you restart your Mac"
 
 (*)
 cat <<EOF
+You are currently using the basic version of the touchbar.
+
+This version is more stable than the advanced version and is recommended for those who just want basic functionality of Function keys and Media controls.
+
+If you want a more feature filled and customisable touchbar, run \`sudo touchbar --switch\` to switch to the advanced Mode.
+
 --mode    : Set the default touchbar mode
 --switch  : Use advanced version of touchbar
 EOF
@@ -889,6 +895,12 @@ systemctl enable --now tiny-dfr.service
 ;;
 (*)
 cat <<EOF
+You are currently using the advanced version of the touchbar.
+
+This version is still buggy and is recommended for those who want to customise their touchbar as per their needs.
+
+If you want a more stable touchbar, that has only has Function keys and Media controls, run \`sudo touchbar --switch\` to switch to the basic Mode.
+
 --mode    : Set the default touchbar mode
 --font    : Set font for the function keys
 --icons   : Set the icon theme for the media control icons and utility apps

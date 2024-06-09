@@ -41,7 +41,7 @@ sudo apt update
 
 You should be then be able to install and update the following packages with `apt`.
 
-**WARNING** :- **apple-bce**, **apple-touchbar**, **applesmc-t2** and **bcm5974-t2** packages should NOT be installed if installing the `linux-t2`, `linux-t2-lts` or `t2-kernel-script-debian` package, as t2 kernels have these drivers built in.
+**WARNING** :- **apple-bce**, **apple-touchbar**, **applesmc-t2** and **bcm5974-t2** packages should NOT be installed if installing the `linux-t2` or `linux-t2-lts` package, as t2 kernels have these drivers built in.
 
 - **apple-bce**: Exposes Keyboard, Camera, Touchbar, etc as USB devices. Also does audio. (DO NOT USE IF INSTALLING `linux-t2` or `linux-t2-lts`)
 - **apple-touchbar**: Driver for touchbar and keyboard backlight on T2 Macs. (NO LONGER MAINTAINED, USE `tiny-dfr`)

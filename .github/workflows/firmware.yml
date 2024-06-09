@@ -38,7 +38,7 @@ jobs:
           echo "Version: ${VERSION}" >> control
           echo "Maintainer: Aditya Garg" >> control
           echo "Architecture: amd64" >> control
-          echo "Description: Script to get Wi-Fi firmware on macOS" >> control
+          echo "Description: Script to get Wi-Fi and Bluetooth firmware from macOS" >> control
           echo "Depends: python3" >> control
 
           cd ${{ github.workspace }}

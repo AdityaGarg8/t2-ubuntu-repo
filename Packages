@@ -52,11 +52,11 @@ Architecture: amd64
 Maintainer: Aditya Garg
 Depends: python3
 Filename: ./apple-firmware-script_1.0-1_amd64.deb
-Size: 9494
-MD5sum: 585b4ab5a1a815c5aa872e36bda81a65
-SHA1: 76d857e049d4152c3ad3e362744b3e42dca4da18
-SHA256: 837d158c5cb3de994b6d53e64be235826476eab87d43653e63c6e0d51d19d75e
-Description: Script to get Wi-Fi firmware on macOS
+Size: 9506
+MD5sum: 3b12478bbeb030eb5431384b21fed403
+SHA1: f0aacd2161e5f77212fd1ecf8ab8eb56c57f399f
+SHA256: 31fe4b622bd9674c52c950d0aa48e55639773600783e96c58b393ed86d21df8d
+Description: Script to get Wi-Fi and Bluetooth firmware from macOS
 
 Package: apple-t2-audio-config
 Version: 0.4

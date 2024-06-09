@@ -43,10 +43,11 @@ You should be then be able to install and update the following packages with `ap
 
 **WARNING** :- **apple-bce**, **apple-touchbar**, **applesmc-t2** and **bcm5974-t2** packages should NOT be installed if installing the `linux-t2`, `linux-t2-lts` or `t2-kernel-script-debian` package, as t2 kernels have these drivers built in.
 
-- **apple-bce**: Exposes Keyboard, Camera, Touchbar, etc as USB devices. Also does audio. (DO NOT USE IF INSTALLING `linux-t2`, `linux-t2-lts` or `t2-kernel-script-debian`)
+- **apple-bce**: Exposes Keyboard, Camera, Touchbar, etc as USB devices. Also does audio. (DO NOT USE IF INSTALLING `linux-t2` or `linux-t2-lts`)
 - **apple-touchbar**: Driver for touchbar and keyboard backlight on T2 Macs. (NO LONGER MAINTAINED, USE `tiny-dfr`)
-- **applesmc-t2**: Driver for the System Management Controller on T2 Macs. (DO NOT USE IF INSTALLING `linux-t2`, `linux-t2-lts` or `t2-kernel-script-debian`)
+- **applesmc-t2**: Driver for the System Management Controller on T2 Macs. (DO NOT USE IF INSTALLING `linux-t2` or `linux-t2-lts`)
 - **apple-t2-audio-config**: Audio config files for the audio device apple-bce has.
+- **apple-firmware-script**: Debian package for the [script](https://wiki.t2linux.org/tools/firmware.sh) to get Wi-Fi and Bluetooth firmware from macOS. Run using `get-wifi-firmware`.
 - **apfs-dkms**: Debian package for the [linux-apfs-rw](https://github.com/linux-apfs/linux-apfs-rw) driver.
 - **bcm5974-t2**: Driver for trackpad gestures. (DO NOT USE IF INSTALLING `linux-t2`, `linux-t2-lts` or `t2-kernel-script-debian`)
 - **linux-t2**: Kernel package for Mainline kernels (Ubuntu only).

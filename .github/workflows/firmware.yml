@@ -1,0 +1,66 @@
+---
+name: Create apple-firmware-script package
+
+on:
+  workflow_dispatch:
+
+jobs:
+  Publish:
+    runs-on: ubuntu-22.04
+    steps:
+
+      - name: 'Checkout Repo'
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Configure GPG Key
+        run: |
+          echo -n "$GPG_SIGNING_KEY" | base64 -di | gpg --import
+        env:
+          GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
+
+      - name: Get the source code
+        id: publish
+        run: |
+          LINK=https://wiki.t2linux.org/tools/firmware.sh
+          VERSION=1.0-1
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git clone ${REPO}
+          mkdir -P fw/DEBIAN
+          mkdir -P fw/usr/bin
+          cd ${{ github.workspace }}/fw/usr/bin
+          curl -o get-wifi-firmware ${LINK}
+          sudo chmod a+x get-wifi-firmware
+          cd ${{ github.workspace }}/fw/DEBIAN
+
+          echo "Package: apple-firmware-script" > control
+          echo "Version: ${VERSION}" >> control
+          echo "Maintainer: Aditya Garg" >> control
+          echo "Architecture: amd64" >> control
+          echo "Description: Script to get Wi-Fi firmware on macOS" >> control
+          echo "Depends: python3" >> control
+
+          cd ${{ github.workspace }}
+          dpkg-deb --build --root-owner-group -Zgzip fw
+
+          # Packages & Packages.gz
+          rm -v ./apple-firmware-script*.deb || true
+          dpkg-name ./fw.deb
+          dpkg-scanpackages --multiversion . > Packages
+          gzip -k -f Packages
+          # Release, Release.gpg & InRelease
+          apt-ftparchive release . > Release
+          gpg --default-key "${GPG_SIGNING_EMAIL}" -abs -o - Release > Release.gpg
+          gpg --default-key "${GPG_SIGNING_EMAIL}" --clearsign -o - Release > InRelease
+          rm -r ./fw
+          git add .
+          git commit -m "Update apple-firmware-script to ${VERSION}"
+        env:
+          GPG_SIGNING_EMAIL: ${{ secrets.GPG_SIGNING_EMAIL }}
+      - name: Push changes to the repo
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}

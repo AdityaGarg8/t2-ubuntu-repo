@@ -89,8 +89,8 @@ jobs:
           mv ./deb.deb /repo && \
           cd /repo && \
           gh release download jammy -D jammy -R AdityaGarg8/t2-ubuntu-repo && \
-          wget https://github.com/t2linux/T2-Debian-and-Ubuntu-Kernel/releases/download/v${VERSION}-${REL}/linux-headers-${KVER}-t2-jammy_${KVER}-${REL}_amd64.deb && \
-          wget https://github.com/t2linux/T2-Debian-and-Ubuntu-Kernel/releases/download/v${VERSION}-${REL}/linux-image-${KVER}-t2-jammy_${KVER}-${REL}_amd64.deb && \
+          wget https://github.com/t2linux/T2-Debian-and-Ubuntu-Kernel/releases/download/v${VERSION}-${REL}/linux-headers-${KVER}-${REL}-t2-jammy_${KVER}-${REL}_amd64.deb && \
+          wget https://github.com/t2linux/T2-Debian-and-Ubuntu-Kernel/releases/download/v${VERSION}-${REL}/linux-image-${KVER}-${REL}-t2-jammy_${KVER}-${REL}_amd64.deb && \
           mv ./deb.deb ./jammy && \
           mv linux-headers-${KVER}-t2-jammy_${KVER}-${REL}_amd64.deb ./jammy && \
           mv linux-image-${KVER}-t2-jammy_${KVER}-${REL}_amd64.deb ./jammy && \
@@ -195,8 +195,8 @@ jobs:
           mv ./deb.deb /repo && \
           cd /repo && \
           gh release download mantic -D mantic -R AdityaGarg8/t2-ubuntu-repo && \
-          wget https://github.com/t2linux/T2-Debian-and-Ubuntu-Kernel/releases/download/v${VERSION}-${REL}/linux-headers-${KVER}-t2-mantic_${KVER}-${REL}_amd64.deb && \
-          wget https://github.com/t2linux/T2-Debian-and-Ubuntu-Kernel/releases/download/v${VERSION}-${REL}/linux-image-${KVER}-t2-mantic_${KVER}-${REL}_amd64.deb && \
+          wget https://github.com/t2linux/T2-Debian-and-Ubuntu-Kernel/releases/download/v${VERSION}-${REL}/linux-headers-${KVER}-${REL}-t2-mantic_${KVER}-${REL}_amd64.deb && \
+          wget https://github.com/t2linux/T2-Debian-and-Ubuntu-Kernel/releases/download/v${VERSION}-${REL}/linux-image-${KVER}-${REL}-t2-mantic_${KVER}-${REL}_amd64.deb && \
           mv ./deb.deb ./mantic && \
           mv linux-headers-${KVER}-t2-mantic_${KVER}-${REL}_amd64.deb ./mantic && \
           mv linux-image-${KVER}-t2-mantic_${KVER}-${REL}_amd64.deb ./mantic && \
@@ -301,8 +301,8 @@ jobs:
           mv ./deb.deb /repo && \
           cd /repo && \
           gh release download noble -D noble -R AdityaGarg8/t2-ubuntu-repo && \
-          wget https://github.com/t2linux/T2-Debian-and-Ubuntu-Kernel/releases/download/v${VERSION}-${REL}/linux-headers-${KVER}-t2-noble_${KVER}-${REL}_amd64.deb && \
-          wget https://github.com/t2linux/T2-Debian-and-Ubuntu-Kernel/releases/download/v${VERSION}-${REL}/linux-image-${KVER}-t2-noble_${KVER}-${REL}_amd64.deb && \
+          wget https://github.com/t2linux/T2-Debian-and-Ubuntu-Kernel/releases/download/v${VERSION}-${REL}/linux-headers-${KVER}-t2-noble_${KVER}-${REL}-${REL}_amd64.deb && \
+          wget https://github.com/t2linux/T2-Debian-and-Ubuntu-Kernel/releases/download/v${VERSION}-${REL}/linux-image-${KVER}-t2-noble_${KVER}-${REL}-${REL}_amd64.deb && \
           mv ./deb.deb ./noble && \
           mv linux-headers-${KVER}-t2-noble_${KVER}-${REL}_amd64.deb ./noble && \
           mv linux-image-${KVER}-t2-noble_${KVER}-${REL}_amd64.deb ./noble && \
@@ -407,8 +407,8 @@ jobs:
           mv ./deb.deb /repo && \
           cd /repo && \
           gh release download bookworm -D bookworm -R AdityaGarg8/t2-ubuntu-repo && \
-          wget https://github.com/t2linux/T2-Debian-and-Ubuntu-Kernel/releases/download/v${VERSION}-${REL}/linux-headers-${KVER}-t2-bookworm_${KVER}-${REL}_amd64.deb && \
-          wget https://github.com/t2linux/T2-Debian-and-Ubuntu-Kernel/releases/download/v${VERSION}-${REL}/linux-image-${KVER}-t2-bookworm_${KVER}-${REL}_amd64.deb && \
+          wget https://github.com/t2linux/T2-Debian-and-Ubuntu-Kernel/releases/download/v${VERSION}-${REL}/linux-headers-${KVER}-${REL}-t2-bookworm_${KVER}-${REL}_amd64.deb && \
+          wget https://github.com/t2linux/T2-Debian-and-Ubuntu-Kernel/releases/download/v${VERSION}-${REL}/linux-image-${KVER}-${REL}-t2-bookworm_${KVER}-${REL}_amd64.deb && \
           mv ./deb.deb ./bookworm && \
           mv linux-headers-${KVER}-t2-bookworm_${KVER}-${REL}_amd64.deb ./bookworm && \
           mv linux-image-${KVER}-t2-bookworm_${KVER}-${REL}_amd64.deb ./bookworm && \

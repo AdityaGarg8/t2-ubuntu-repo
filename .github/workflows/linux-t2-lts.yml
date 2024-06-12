@@ -78,7 +78,7 @@ jobs:
           echo "Maintainer: Aditya Garg" >> control && \
           echo "Architecture: amd64" >> control && \
           echo "Description: Kernel to support T2 Macs" >> control && \
-          echo "Depends: linux-headers-${KVER}-t2-jammy (= ${KVER}-${REL}), linux-image-${KVER}-t2-jammy (= ${KVER}-${REL})" >> control && \
+          echo "Depends: linux-headers-${KVER}-${REL}-t2-jammy (= ${KVER}-${REL}), linux-image-${KVER}-${REL}-t2-jammy (= ${KVER}-${REL})" >> control && \
           echo "Conflicts: linux-t2-lts, linux-t2-xanmod, linux-t2-xanmod-lts" >> control && \
           echo "Replaces: linux-t2-lts, linux-t2-xanmod, linux-t2-xanmod-lts" >> control && \
 
@@ -184,7 +184,7 @@ jobs:
           echo "Maintainer: Aditya Garg" >> control && \
           echo "Architecture: amd64" >> control && \
           echo "Description: Kernel to support T2 Macs" >> control && \
-          echo "Depends: linux-headers-${KVER}-t2-mantic (= ${KVER}-${REL}), linux-image-${KVER}-t2-mantic (= ${KVER}-${REL})" >> control && \
+          echo "Depends: linux-headers-${KVER}-${REL}-t2-mantic (= ${KVER}-${REL}), linux-image-${KVER}-${REL}-t2-mantic (= ${KVER}-${REL})" >> control && \
           echo "Conflicts: linux-t2-lts, linux-t2-xanmod, linux-t2-xanmod-lts" >> control && \
           echo "Replaces: linux-t2-lts, linux-t2-xanmod, linux-t2-xanmod-lts" >> control && \
 
@@ -290,7 +290,7 @@ jobs:
           echo "Maintainer: Aditya Garg" >> control && \
           echo "Architecture: amd64" >> control && \
           echo "Description: Kernel to support T2 Macs" >> control && \
-          echo "Depends: linux-headers-${KVER}-t2-noble (= ${KVER}-${REL}), linux-image-${KVER}-t2-noble (= ${KVER}-${REL})" >> control && \
+          echo "Depends: linux-headers-${KVER}-${REL}-t2-noble (= ${KVER}-${REL}), linux-image-${KVER}-${REL}-t2-noble (= ${KVER}-${REL})" >> control && \
           echo "Conflicts: linux-t2-lts, linux-t2-xanmod, linux-t2-xanmod-lts" >> control && \
           echo "Replaces: linux-t2-lts, linux-t2-xanmod, linux-t2-xanmod-lts" >> control && \
 
@@ -396,7 +396,7 @@ jobs:
           echo "Maintainer: Aditya Garg" >> control && \
           echo "Architecture: amd64" >> control && \
           echo "Description: Kernel to support T2 Macs" >> control && \
-          echo "Depends: linux-headers-${KVER}-t2-bookworm (= ${KVER}-${REL}), linux-image-${KVER}-t2-bookworm (= ${KVER}-${REL})" >> control && \
+          echo "Depends: linux-headers-${KVER}-${REL}-t2-bookworm (= ${KVER}-${REL}), linux-image-${KVER}-${REL}-t2-bookworm (= ${KVER}-${REL})" >> control && \
           echo "Conflicts: linux-t2-lts, linux-t2-xanmod, linux-t2-xanmod-lts" >> control && \
           echo "Replaces: linux-t2-lts, linux-t2-xanmod, linux-t2-xanmod-lts" >> control && \
 

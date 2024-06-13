@@ -24,14 +24,14 @@ jobs:
         id: publish
         run: |
           LINK=https://wiki.t2linux.org/tools/firmware.sh
-          VERSION=1.2-1
+          VERSION=1.2-2
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
           mkdir -p fw/DEBIAN
           mkdir -p fw/usr/bin
           cd ${{ github.workspace }}/fw/usr/bin
-          curl -o get-wifi-firmware ${LINK}
-          sudo chmod a+x get-wifi-firmware
+          curl -o get-apple-firmware ${LINK}
+          sudo chmod a+x get-apple-firmware
           cd ${{ github.workspace }}/fw/DEBIAN
 
           echo "Package: apple-firmware-script" > control

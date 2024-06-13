@@ -47,15 +47,15 @@ SHA256: 870c08a8c691e0b9e3bdf85648e8286d012ecacb68072e5fd40ea44e48f2a3cb
 Description: Apple BCE driver for Linux
 
 Package: apple-firmware-script
-Version: 1.1-1
+Version: 1.2-1
 Architecture: amd64
 Maintainer: Aditya Garg
 Depends: python3
-Filename: ./apple-firmware-script_1.1-1_amd64.deb
-Size: 9500
-MD5sum: c953a9ec9989290a2056a4bcb4d1ca23
-SHA1: 948cb80d1418fb25dbecd0d9bde5a4280c9a2fcf
-SHA256: 898537f2292c991e099869a1798042508e12a850e3d51bd55792b035b44fe593
+Filename: ./apple-firmware-script_1.2-1_amd64.deb
+Size: 9614
+MD5sum: ff3f550e9ee8eba552375df320f19e95
+SHA1: 10adf4a06c3c5a56eb4412f9d1ee085ec6d01581
+SHA256: b1eb835b1ac71d9dbda54627e2641f334f32fdd283e03e63e0905a34adfcde70
 Description: Script to get Wi-Fi and Bluetooth firmware from macOS
 
 Package: apple-t2-audio-config

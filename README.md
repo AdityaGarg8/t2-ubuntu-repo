@@ -37,7 +37,7 @@ echo "deb [signed-by=/etc/apt/trusted.gpg.d/t2-ubuntu-repo.gpg] https://github.c
 sudo apt update
 ```
 
-**Note: You will have to add the release specific apt repo again whenever you upgrade Ubuntu to a newer release.**
+**Note: You will have to add the release specific apt repo again whenever you upgrade Ubuntu/Debian to a newer release.**
 
 You should be then be able to install and update the following packages with `apt`.
 

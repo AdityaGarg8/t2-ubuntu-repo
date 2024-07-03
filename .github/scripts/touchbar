@@ -57,7 +57,6 @@ echo "Done!"
 (--switch)
 echo -e "Switching to advanced version\n"
 dkms remove -m apple-touchbar -v 0.1 --all || true
-dkms install -m apple-bce -v 0.2 --force || true
 rm -v /etc/modprobe.d/tiny-dfr.conf
 cp -v /usr/share/tiny-dfr/*.rules /etc/udev/rules.d
 cp -v /usr/share/tiny-dfr/*.service /etc/systemd/system
@@ -882,7 +881,6 @@ do
 service_file=$(echo $service | rev | cut -d "/" -f 1 | rev)
 rm -v /etc/systemd/system/$service_file
 done
-dkms remove -m apple-bce -v 0.2 --all || true
 dkms install -m apple-touchbar -v 0.1 --force || true
 echo -e "\nBasic version shall be enabled next time you restart your Mac"
 ;;

@@ -57,6 +57,7 @@ echo "Done!"
 (--switch)
 echo -e "Switching to advanced version\n"
 dkms remove -m apple-touchbar -v 0.1 --all || true
+dkms install -m apple-bce -v 0.2 --force || true
 rm -v /etc/modprobe.d/tiny-dfr.conf
 cp -v /usr/share/tiny-dfr/*.rules /etc/udev/rules.d
 cp -v /usr/share/tiny-dfr/*.service /etc/systemd/system
@@ -143,9 +144,6 @@ exit 1
 ;;
 
 esac
-
-sleep 0.5
-touch /etc/tiny-dfr/config.toml
 
 cat <<EOF
 
@@ -264,9 +262,6 @@ exit 1
 
 esac
 
-sleep 0.5
-touch /etc/tiny-dfr/config.toml
-
 cat <<EOF
 
 Font set successfully!
@@ -286,9 +281,6 @@ ls /usr/share/tiny-dfr/icons | sort
 echo -e "\nType the icon theme from the above list you want to use and press enter."
 read icon
 sed -i "s/MediaIconTheme.*/MediaIconTheme = \"$icon\"/g" /etc/tiny-dfr/config.toml
-
-sleep 0.5
-touch /etc/tiny-dfr/config.toml
 
 cat <<EOF
 
@@ -375,8 +367,6 @@ then
 true
 else
 sed -i "s/AppIconTheme.*/AppIconTheme = \"$app_theme\"/g" /etc/tiny-dfr/config.toml
-sleep 1
-touch /etc/tiny-dfr/config.toml
 fi
 
 cat <<EOF
@@ -406,9 +396,6 @@ From the list of apps that was displayed above, type the exact name of the icon 
 EOF
 read app_icon
 sed -i "s/.*$position_new.*/        { Icon = \"$app_icon\", Action = \"$position_new\", Mode = \"App\"},/g" /etc/tiny-dfr/config.toml
-
-sleep 1
-touch /etc/tiny-dfr/config.toml
 
 cat <<EOF
 
@@ -535,9 +522,6 @@ exit 1
 
 esac
 
-sleep 1
-touch /etc/tiny-dfr/config.toml
-
 ;;
 (--time)
 create_config
@@ -578,9 +562,6 @@ locale=$(echo $LC_TIME | cut -d "." -f 1)
 fi
 
 sed -i "s/.*Mode = \"Time\".*/    { Action = \"Time\",    Mode = \"Time\", Format = \"$format\", Locale = \"$locale\"},/g" /etc/tiny-dfr/config.toml
-
-sleep 0.5
-touch /etc/tiny-dfr/config.toml
 
 cat <<EOF
 
@@ -850,9 +831,6 @@ echo -e "\n${checked_layer}" >> /etc/tiny-dfr/config.toml
 fi
 done
 
-sleep 1
-touch /etc/tiny-dfr/config.toml
-
 cat <<EOF
 
 Restored successfully!
@@ -881,6 +859,7 @@ do
 service_file=$(echo $service | rev | cut -d "/" -f 1 | rev)
 rm -v /etc/systemd/system/$service_file
 done
+dkms remove -m apple-bce -v 0.2 --all || true
 dkms install -m apple-touchbar -v 0.1 --force || true
 echo -e "\nBasic version shall be enabled next time you restart your Mac"
 ;;

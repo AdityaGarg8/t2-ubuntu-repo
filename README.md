@@ -23,11 +23,11 @@ Now after you have added the common apt repo, you additionally have to add a **r
   
     a) `jammy` for **Ubuntu 22.04**
 
-    b) `mantic` for **Ubuntu 23.10**
+    b) `noble` for **Ubuntu 24.04**
 
-    c) `noble` for **Ubuntu 24.04**
+    c) `bookworm` for **Debian 12**
 
-    d) `bookworm` for **Debian 12**
+    d) `sid` for **Debian unstable**
 
 3. Run the following (taking `noble` as the example, just replace it with your release codename in the first line):
 

@@ -1,4 +1,16 @@
 Package: apfs-dkms
+Version: 0.3.10-1
+Architecture: all
+Maintainer: Aditya Garg
+Depends: dkms
+Filename: ./apfs-dkms_0.3.10-1_all.deb
+Size: 163930
+MD5sum: 3207c62061fc9c7fc87777e8a43c1c0d
+SHA1: 8348b4d8b83955b5208260ae89ae9b369dc30a3f
+SHA256: 3d21d5ca40e986029930a80e3635b6e8355aef77ef2c8dc47a508754b4ef6539
+Description: Apple File System driver for Linux
+
+Package: apfs-dkms
 Version: 0.3.9-1
 Architecture: all
 Maintainer: Aditya Garg

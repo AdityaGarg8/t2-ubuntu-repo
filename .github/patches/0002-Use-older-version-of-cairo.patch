@@ -1,35 +1,27 @@
-From 4e6a60cd37e4140b14c61239843db0d075cd6729 Mon Sep 17 00:00:00 2001
-From: Aditya Garg <gargaditya08@live.com>
-Date: Tue, 30 Apr 2024 18:11:41 +0530
-Subject: [PATCH] Use older version of cairo
+From 5490718f72e537ee32fb8fba04bc7abd92a8d6a5 Mon Sep 17 00:00:00 2001
+From: Aditya Garg <85610623+AdityaGarg8@users.noreply.github.com>
+Date: Thu, 25 Jul 2024 11:38:00 +0530
+Subject: [PATCH 2/2] Use older version of cairo
 
 ---
- Cargo.toml | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ Cargo.toml | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/Cargo.toml b/Cargo.toml
-index 4dca210..34730eb 100644
+index d52daf6..eacadec 100644
 --- a/Cargo.toml
 +++ b/Cargo.toml
 @@ -10,8 +10,8 @@ repository = "https://github.com/WhatAmISupposedToPutHere/tiny-dfr"
  # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
  
  [dependencies]
--cairo-rs = { version = "0.19", default-features = false, features = ["freetype"] }
--librsvg = "2.58"
+-cairo-rs = { version = "0.18", default-features = false, features = ["freetype"] }
+-librsvg = "2.57"
 +cairo-rs = { version = "0.17", default-features = false, features = ["freetype"] }
 +librsvg = { git = "https://github.com/AdityaGarg8/librsvg.git", rev = "9edf39877e09c72b02ee0b32f0064a8e24fba8da", version = "2.56.4" }
  drm = "0.11.1"
  anyhow = "1"
  input = "0.8"
-@@ -23,7 +23,7 @@ privdrop = "0.5.3"
- serde = { version = "1", features = ["derive"] }
- toml = "0.8"
- rand = "0.8"
--freetype-rs = "0.35"
-+freetype-rs = "0.32"
- icon-loader = "0.4"
- chrono = { version = "0.4", features = ["unstable-locales"] }
- pure-rust-locales = "0.8"
 -- 
-2.34.1
+2.32.7
+

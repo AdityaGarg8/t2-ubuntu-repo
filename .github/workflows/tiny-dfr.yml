@@ -178,13 +178,10 @@ jobs:
           fi
       - name: Release
         if: env.publish != 'no'
-        uses: softprops/action-gh-release@v2
-        with:
-          files: ${{ github.workspace }}/jammy/*
-          tag_name: jammy
-          draft: false
+        run: |
+          gh release upload jammy ${{ github.workspace }}/jammy/* --clobber -R AdityaGarg8/t2-ubuntu-repo
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   Publish-Noble:
     runs-on: ubuntu-latest
@@ -359,13 +356,10 @@ jobs:
           fi
       - name: Release
         if: env.publish != 'no'
-        uses: softprops/action-gh-release@v2
-        with:
-          files: ${{ github.workspace }}/noble/*
-          tag_name: noble
-          draft: false
+        run: |
+          gh release upload noble ${{ github.workspace }}/noble/* --clobber -R AdityaGarg8/t2-ubuntu-repo
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
  
   Publish-Bookworm:
     runs-on: ubuntu-latest
@@ -540,13 +534,10 @@ jobs:
           fi
       - name: Release
         if: env.publish != 'no'
-        uses: softprops/action-gh-release@v2
-        with:
-          files: ${{ github.workspace }}/bookworm/*
-          tag_name: bookworm
-          draft: false
+        run: |
+          gh release upload bookworm ${{ github.workspace }}/bookworm/* --clobber -R AdityaGarg8/t2-ubuntu-repo
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
  
   Publish-Sid:
     runs-on: ubuntu-latest
@@ -721,10 +712,7 @@ jobs:
           fi
       - name: Release
         if: env.publish != 'no'
-        uses: softprops/action-gh-release@v2
-        with:
-          files: ${{ github.workspace }}/sid/*
-          tag_name: sid
-          draft: false
+        run: |
+          gh release upload sid ${{ github.workspace }}/sid/* --clobber -R AdityaGarg8/t2-ubuntu-repo
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

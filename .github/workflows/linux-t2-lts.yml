@@ -103,18 +103,11 @@ jobs:
 
           apt-ftparchive release . > Release && \
           gpg --default-key "${GPG_SIGNING_EMAIL}" -abs -o - Release > Release.gpg && \
-          gpg --default-key "${GPG_SIGNING_EMAIL}" --clearsign -o - Release > InRelease'
+          gpg --default-key "${GPG_SIGNING_EMAIL}" --clearsign -o - Release > InRelease && \
+          gh release upload jammy ./* --clobber -R AdityaGarg8/t2-ubuntu-repo'
 
           cd ${{ github.workspace }}
           rm key
-      - name: Release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: ${{ github.workspace }}/jammy/*
-          tag_name: jammy
-          draft: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   Release-Noble:
     runs-on: ubuntu-latest
@@ -211,18 +204,11 @@ jobs:
 
           apt-ftparchive release . > Release && \
           gpg --default-key "${GPG_SIGNING_EMAIL}" -abs -o - Release > Release.gpg && \
-          gpg --default-key "${GPG_SIGNING_EMAIL}" --clearsign -o - Release > InRelease'
+          gpg --default-key "${GPG_SIGNING_EMAIL}" --clearsign -o - Release > InRelease && \
+          gh release upload noble ./* --clobber -R AdityaGarg8/t2-ubuntu-repo'
 
           cd ${{ github.workspace }}
           rm key
-      - name: Release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: ${{ github.workspace }}/noble/*
-          tag_name: noble
-          draft: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
  
   Release-Bookworm:
     runs-on: ubuntu-latest
@@ -319,18 +305,11 @@ jobs:
 
           apt-ftparchive release . > Release && \
           gpg --default-key "${GPG_SIGNING_EMAIL}" -abs -o - Release > Release.gpg && \
-          gpg --default-key "${GPG_SIGNING_EMAIL}" --clearsign -o - Release > InRelease'
+          gpg --default-key "${GPG_SIGNING_EMAIL}" --clearsign -o - Release > InRelease && \
+          gh release upload bookworm ./* --clobber -R AdityaGarg8/t2-ubuntu-repo'
 
           cd ${{ github.workspace }}
           rm key
-      - name: Release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: ${{ github.workspace }}/bookworm/*
-          tag_name: bookworm
-          draft: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   Release-Sid:
     runs-on: ubuntu-latest
@@ -427,15 +406,8 @@ jobs:
 
           apt-ftparchive release . > Release && \
           gpg --default-key "${GPG_SIGNING_EMAIL}" -abs -o - Release > Release.gpg && \
-          gpg --default-key "${GPG_SIGNING_EMAIL}" --clearsign -o - Release > InRelease'
+          gpg --default-key "${GPG_SIGNING_EMAIL}" --clearsign -o - Release > InRelease && \
+          gh release upload sid ./* --clobber -R AdityaGarg8/t2-ubuntu-repo'
 
           cd ${{ github.workspace }}
           rm key
-      - name: Release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: ${{ github.workspace }}/sid/*
-          tag_name: sid
-          draft: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

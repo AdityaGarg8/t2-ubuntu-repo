@@ -27,7 +27,7 @@ jobs:
           DOCKER_IMAGE=ubuntu:22.04
           docker pull ${DOCKER_IMAGE}
           docker run \
-          -e GH_TOKEN=${{ secrets.GITHUB_TOKEN }} \
+          -e GH_TOKEN=${{ secrets.PAT }} \
           -e GPG_SIGNING_EMAIL=${{ secrets.GPG_SIGNING_EMAIL }} \
           -t \
           -v "$(pwd)":/repo \
@@ -181,7 +181,7 @@ jobs:
         run: |
           gh release upload jammy ${{ github.workspace }}/jammy/* --clobber -R AdityaGarg8/t2-ubuntu-repo
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.PAT }}
 
   Publish-Noble:
     runs-on: ubuntu-latest
@@ -205,7 +205,7 @@ jobs:
           DOCKER_IMAGE=ubuntu:24.04
           docker pull ${DOCKER_IMAGE}
           docker run \
-          -e GH_TOKEN=${{ secrets.GITHUB_TOKEN }} \
+          -e GH_TOKEN=${{ secrets.PAT }} \
           -e GPG_SIGNING_EMAIL=${{ secrets.GPG_SIGNING_EMAIL }} \
           -t \
           -v "$(pwd)":/repo \
@@ -359,7 +359,7 @@ jobs:
         run: |
           gh release upload noble ${{ github.workspace }}/noble/* --clobber -R AdityaGarg8/t2-ubuntu-repo
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.PAT }}
  
   Publish-Bookworm:
     runs-on: ubuntu-latest
@@ -383,7 +383,7 @@ jobs:
           DOCKER_IMAGE=debian:12
           docker pull ${DOCKER_IMAGE}
           docker run \
-          -e GH_TOKEN=${{ secrets.GITHUB_TOKEN }} \
+          -e GH_TOKEN=${{ secrets.PAT }} \
           -e GPG_SIGNING_EMAIL=${{ secrets.GPG_SIGNING_EMAIL }} \
           -t \
           -v "$(pwd)":/repo \
@@ -537,7 +537,7 @@ jobs:
         run: |
           gh release upload bookworm ${{ github.workspace }}/bookworm/* --clobber -R AdityaGarg8/t2-ubuntu-repo
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.PAT }}
  
   Publish-Sid:
     runs-on: ubuntu-latest
@@ -561,7 +561,7 @@ jobs:
           DOCKER_IMAGE=debian:sid
           docker pull ${DOCKER_IMAGE}
           docker run \
-          -e GH_TOKEN=${{ secrets.GITHUB_TOKEN }} \
+          -e GH_TOKEN=${{ secrets.PAT }} \
           -e GPG_SIGNING_EMAIL=${{ secrets.GPG_SIGNING_EMAIL }} \
           -t \
           -v "$(pwd)":/repo \
@@ -715,4 +715,4 @@ jobs:
         run: |
           gh release upload sid ${{ github.workspace }}/sid/* --clobber -R AdityaGarg8/t2-ubuntu-repo
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.PAT }}

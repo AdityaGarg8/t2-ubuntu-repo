@@ -39,7 +39,7 @@ jobs:
           DOCKER_IMAGE=ubuntu:22.04
           docker pull ${DOCKER_IMAGE}
           docker run \
-          -e GH_TOKEN=${{ secrets.GITHUB_TOKEN }} \
+          -e GH_TOKEN=${{ secrets.PAT }} \
           -e GPG_SIGNING_EMAIL=${{ secrets.GPG_SIGNING_EMAIL }} \
           -e VERSION=${VERSION} \
           -e KVER=${KVER} \
@@ -140,7 +140,7 @@ jobs:
           DOCKER_IMAGE=ubuntu:24.04
           docker pull ${DOCKER_IMAGE}
           docker run \
-          -e GH_TOKEN=${{ secrets.GITHUB_TOKEN }} \
+          -e GH_TOKEN=${{ secrets.PAT }} \
           -e GPG_SIGNING_EMAIL=${{ secrets.GPG_SIGNING_EMAIL }} \
           -e VERSION=${VERSION} \
           -e KVER=${KVER} \
@@ -241,7 +241,7 @@ jobs:
           DOCKER_IMAGE=debian:12
           docker pull ${DOCKER_IMAGE}
           docker run \
-          -e GH_TOKEN=${{ secrets.GITHUB_TOKEN }} \
+          -e GH_TOKEN=${{ secrets.PAT }} \
           -e GPG_SIGNING_EMAIL=${{ secrets.GPG_SIGNING_EMAIL }} \
           -e VERSION=${VERSION} \
           -e KVER=${KVER} \
@@ -342,7 +342,7 @@ jobs:
           DOCKER_IMAGE=debian:sid
           docker pull ${DOCKER_IMAGE}
           docker run \
-          -e GH_TOKEN=${{ secrets.GITHUB_TOKEN }} \
+          -e GH_TOKEN=${{ secrets.PAT }} \
           -e GPG_SIGNING_EMAIL=${{ secrets.GPG_SIGNING_EMAIL }} \
           -e VERSION=${VERSION} \
           -e KVER=${KVER} \

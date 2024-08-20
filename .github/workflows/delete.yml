@@ -24,7 +24,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            ${{ github.workspace }}/KEY
+            ${{ github.workspace }}/KEY.gpg
           tag_name: jammy
           body: Apt repo for Ubuntu 22.04 Jammy Jellyfish
           draft: false
@@ -50,7 +50,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            ${{ github.workspace }}/KEY
+            ${{ github.workspace }}/KEY.gpg
           tag_name: noble
           body: Apt repo for Ubuntu 24.04 Noble Numbat
           draft: false
@@ -76,7 +76,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            ${{ github.workspace }}/KEY
+            ${{ github.workspace }}/KEY.gpg
           tag_name: bookworm
           body: Apt repo for Debian 12 Bookworm
           draft: false
@@ -102,7 +102,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            ${{ github.workspace }}/KEY
+            ${{ github.workspace }}/KEY.gpg
           tag_name: sid
           body: Apt repo for Debian Unstable
           draft: false

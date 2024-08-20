@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  Release-Jammy:
+  Cleanup:
     runs-on: ubuntu-latest
     steps:
 
@@ -31,16 +31,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  Release-Noble:
-    runs-on: ubuntu-latest
-    steps:
-
-      - name: 'Checkout Repo'
-        uses: actions/checkout@v4
-        with:
-          persist-credentials: false
-          fetch-depth: 0
-
       - uses: larryjoelane/delete-release-action@v1.0.24
         with:
           release-name: 'noble'
@@ -56,16 +46,6 @@ jobs:
           draft: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
-  Release-Bookworm:
-    runs-on: ubuntu-latest
-    steps:
-
-      - name: 'Checkout Repo'
-        uses: actions/checkout@v4
-        with:
-          persist-credentials: false
-          fetch-depth: 0
 
       - uses: larryjoelane/delete-release-action@v1.0.24
         with:
@@ -82,16 +62,6 @@ jobs:
           draft: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  Release-Sid:
-    runs-on: ubuntu-latest
-    steps:
-
-      - name: 'Checkout Repo'
-        uses: actions/checkout@v4
-        with:
-          persist-credentials: false
-          fetch-depth: 0
 
       - uses: larryjoelane/delete-release-action@v1.0.24
         with:

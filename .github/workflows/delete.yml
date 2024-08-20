@@ -15,9 +15,10 @@ jobs:
           persist-credentials: false
           fetch-depth: 0
 
-      - uses: liudonghua123/delete-release-action@v1
+      - uses: larryjoelane/delete-release-action@v1.0.24
         with:
-          release_name: 'jammy'
+          release-name: 'jammy'
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Release
         uses: softprops/action-gh-release@v2
@@ -40,9 +41,10 @@ jobs:
           persist-credentials: false
           fetch-depth: 0
 
-      - uses: liudonghua123/delete-release-action@v1
+      - uses: larryjoelane/delete-release-action@v1.0.24
         with:
-          release_name: 'noble'
+          release-name: 'noble'
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Release
         uses: softprops/action-gh-release@v2
@@ -65,9 +67,10 @@ jobs:
           persist-credentials: false
           fetch-depth: 0
 
-      - uses: liudonghua123/delete-release-action@v1
+      - uses: larryjoelane/delete-release-action@v1.0.24
         with:
-          release_name: 'bookworm'
+          release-name: 'bookworm'
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Release
         uses: softprops/action-gh-release@v2
@@ -90,9 +93,10 @@ jobs:
           persist-credentials: false
           fetch-depth: 0
 
-      - uses: liudonghua123/delete-release-action@v1
+      - uses: larryjoelane/delete-release-action@v1.0.24
         with:
-          release_name: 'sid'
+          release-name: 'sid'
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Release
         uses: softprops/action-gh-release@v2

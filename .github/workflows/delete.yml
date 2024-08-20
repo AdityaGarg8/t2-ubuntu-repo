@@ -1,0 +1,106 @@
+---
+name: Remove all releases
+
+on:
+  workflow_dispatch:
+
+jobs:
+  Release-Jammy:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: 'Checkout Repo'
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - uses: liudonghua123/delete-release-action@v1
+        with:
+          release_name: 'jammy'
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            ${{ github.workspace }}/KEY
+          tag_name: jammy
+          body: Apt repo for Ubuntu 22.04 Jammy Jellyfish
+          draft: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  Release-Noble:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: 'Checkout Repo'
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - uses: liudonghua123/delete-release-action@v1
+        with:
+          release_name: 'noble'
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            ${{ github.workspace }}/KEY
+          tag_name: noble
+          body: Apt repo for Ubuntu 24.04 Noble Numbat
+          draft: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+  Release-Bookworm:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: 'Checkout Repo'
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - uses: liudonghua123/delete-release-action@v1
+        with:
+          release_name: 'bookworm'
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            ${{ github.workspace }}/KEY
+          tag_name: bookworm
+          body: Apt repo for Debian 12 Bookworm
+          draft: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  Release-Sid:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: 'Checkout Repo'
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - uses: liudonghua123/delete-release-action@v1
+        with:
+          release_name: 'sid'
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            ${{ github.workspace }}/KEY
+          tag_name: sid
+          body: Apt repo for Debian Unstable
+          draft: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

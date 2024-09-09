@@ -15,7 +15,7 @@ jobs:
           persist-credentials: false
           fetch-depth: 0
 
-      - uses: larryjoelane/delete-release-action@v1.4
+      - uses: larryjoelane/delete-release-action@v1.0.24
         with:
           release-name: 'jammy'
           token: ${{ secrets.GITHUB_TOKEN }}

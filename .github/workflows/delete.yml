@@ -58,7 +58,7 @@ jobs:
           files: |
             ${{ github.workspace }}/KEY.gpg
           tag_name: oracular
-          body: Apt repo for Ubuntu 24.04 Noble Numbat
+          body: Apt repo for Ubuntu 24.10 Oracular Oriole
           draft: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

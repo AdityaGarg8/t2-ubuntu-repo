@@ -311,6 +311,107 @@ jobs:
           cd ${{ github.workspace }}
           rm key
 
+  Release-Oracular:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: 'Checkout Repo'
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Configure GPG Key
+        run: |
+          echo -n "$GPG_SIGNING_KEY" | base64 -di | gpg --import
+          echo -n "$GPG_SIGNING_KEY" | base64 -di > key
+        env:
+          GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
+
+      - name: Release kernel
+        id: publish
+        run: |
+          VERSION=$(cat ${{ github.workspace }}/.github/kernel/linux-t2-xanmod | grep "VERSION" | cut -d "=" -f 2)
+          REL=$(cat ${{ github.workspace }}/.github/kernel/linux-t2-xanmod | grep "REL" | cut -d "=" -f 2)
+          if [[ (${#VERSION} = 3) || (${#VERSION} = 4) ]]
+          then
+          KVER=${VERSION}.0
+          else
+          KVER=${VERSION}
+          fi
+          
+          DOCKER_IMAGE=ubuntu:24.10
+          docker pull ${DOCKER_IMAGE}
+          docker run \
+          -e GH_TOKEN=${{ secrets.PAT }} \
+          -e GPG_SIGNING_EMAIL=${{ secrets.GPG_SIGNING_EMAIL }} \
+          -e VERSION=${VERSION} \
+          -e KVER=${KVER} \
+          -e REL=${REL} \
+          -t \
+          -v "$(pwd)":/repo \
+          ${DOCKER_IMAGE} \
+          /bin/bash -c 'apt-get update && \
+          apt-get install -y wget git gpg apt-utils dpkg-dev lsb-release && \
+          CODENAME=$(lsb_release -c | cut -d ":" -f 2 | xargs) && \
+          mkdir -p -m 755 /etc/apt/keyrings && wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
+          && chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
+          && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+          && apt update \
+          && apt install gh -y && \
+          cat /repo/key | gpg --import && \
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com" && \
+          git config --global user.name "github-actions[bot]" && \
+          mkdir deb && \
+          cd deb && \
+          mkdir usr && \
+          cd usr && \
+          mkdir share && \
+          cd share && \
+          mkdir doc && \
+          cd doc && \
+          mkdir linux-t2-xanmod && \
+          cp /repo/.github/kernel/copyright ./linux-t2-xanmod && \
+          cd .. && \
+          cd .. && \
+          cd .. && \
+          mkdir DEBIAN && \
+          cd DEBIAN && \
+
+          echo "Package: linux-t2-xanmod" > control && \
+          echo "Version: ${KVER}-${REL}-${CODENAME}" >> control && \
+          echo "Maintainer: Aditya Garg" >> control && \
+          echo "Architecture: amd64" >> control && \
+          echo "Description: Kernel to support T2 Macs" >> control && \
+          echo "Depends: linux-headers-${KVER}-x64v3-t2-${CODENAME}-${REL} (= ${KVER}-${REL}), linux-image-${KVER}-x64v3-t2-${CODENAME}-${REL} (= ${KVER}-${REL})" >> control && \
+          echo "Conflicts: linux-t2-lts, linux-t2, linux-t2-xanmod-lts" >> control && \
+          echo "Replaces: linux-t2-lts, linux-t2, linux-t2-xanmod-lts" >> control && \
+
+          cd .. && \
+          cd .. && \
+          dpkg-deb --build --root-owner-group -Zgzip deb && \
+
+          mv ./deb.deb /repo && \
+          cd /repo && \
+          gh release download oracular -D oracular -R AdityaGarg8/t2-ubuntu-repo && \
+          wget https://github.com/t2linux/T2-Debian-and-Ubuntu-Kernel/releases/download/v${VERSION}-${REL}/linux-headers-${KVER}-x64v3-t2-${CODENAME}-${REL}_${KVER}-${REL}_amd64.deb && \
+          wget https://github.com/t2linux/T2-Debian-and-Ubuntu-Kernel/releases/download/v${VERSION}-${REL}/linux-image-${KVER}-x64v3-t2-${CODENAME}-${REL}_${KVER}-${REL}_amd64.deb && \
+          mv ./deb.deb ./oracular && \
+          mv linux-headers-${KVER}-x64v3-t2-${CODENAME}-${REL}_${KVER}-${REL}_amd64.deb ./oracular && \
+          mv linux-image-${KVER}-x64v3-t2-${CODENAME}-${REL}_${KVER}-${REL}_amd64.deb ./oracular && \
+          cd oracular && \
+          dpkg-name ./deb.deb && rm ./deb.deb \
+
+          dpkg-scanpackages --multiversion . > Packages && \
+          gzip -k -f Packages && \
+
+          apt-ftparchive release . > Release && \
+          gpg --default-key "${GPG_SIGNING_EMAIL}" -abs -o - Release > Release.gpg && \
+          gpg --default-key "${GPG_SIGNING_EMAIL}" --clearsign -o - Release > InRelease && \
+          gh release upload oracular ./* --clobber -R AdityaGarg8/t2-ubuntu-repo'
+
+          cd ${{ github.workspace }}
+          rm key
+
   Release-Sid:
     runs-on: ubuntu-latest
     steps:

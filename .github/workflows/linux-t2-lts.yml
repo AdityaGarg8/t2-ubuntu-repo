@@ -238,7 +238,7 @@ jobs:
           KVER=${VERSION}
           fi
           
-          DOCKER_IMAGE=ubuntu:24.04
+          DOCKER_IMAGE=ubuntu:24.10
           docker pull ${DOCKER_IMAGE}
           docker run \
           -e GH_TOKEN=${{ secrets.PAT }} \

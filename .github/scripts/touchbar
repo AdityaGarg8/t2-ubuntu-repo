@@ -2,7 +2,7 @@
 
 # MIT License
 # 
-# Copyright (c) 2023 Aditya Garg
+# Copyright (c) 2023-24 Aditya Garg
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -28,58 +28,6 @@ mkdir -p /etc/tiny-dfr
 cp /usr/share/tiny-dfr/config.toml /etc/tiny-dfr/config.toml
 fi
 }
-
-if [ -f /etc/modprobe.d/tiny-dfr.conf ]
-then
-
-case "$1" in
-
-(--mode)
-echo "Select Touch Bar mode"
-echo
-echo "0: Only show F1-F12"
-echo "1: Show media and brightness controls, use the fn key to switch to F1-F12"
-echo "2: Show F1-F12, use the fn key to switch to media and brightness controls"
-echo "3: Only show media and brightness controls"
-echo "4: Only show the escape key"
-read tb
-if [[ $tb != 0 && $tb != 1 && $tb != 2 && $tb != 3 && $tb != 4 ]]
-then
-echo "Invalid input. Aborting!"
-exit 1
-fi
-echo "Changing default mode ..."
-sed -i "s/options apple-touchbar fnmode=.*/options apple-touchbar fnmode=$tb/g" /etc/modprobe.d/tiny-dfr.conf
-bash -c "echo $tb > /sys/class/input/*/device/fnmode"
-echo "Done!"
-;;
-
-(--switch)
-echo -e "Switching to advanced version\n"
-dkms remove -m apple-touchbar -v 0.1 --all || true
-rm -v /etc/modprobe.d/tiny-dfr.conf
-cp -v /usr/share/tiny-dfr/*.rules /etc/udev/rules.d
-cp -v /usr/share/tiny-dfr/*.service /etc/systemd/system
-systemctl enable tiny-dfr.service
-echo -e "\nAdvanced version shall be enabled next time you restart your Mac"
-;;
-
-(*)
-cat <<EOF
-You are currently using the basic version of the touchbar.
-
-This version is more stable than the advanced version and is recommended for those who just want basic functionality of Function keys and Media controls.
-
-If you want a more feature filled and customisable touchbar, run \`sudo touchbar --switch\` to switch to the advanced Mode.
-
---mode    : Set the default touchbar mode
---switch  : Use advanced version of touchbar
-EOF
-;;
-
-esac
-
-else
 
 case "$1" in
 
@@ -853,30 +801,6 @@ Note: If your touchbar has frozen, try restarting the daemon first by running \`
 EOF
 ;;
 
-(--switch)
-echo -e "Switching to basic version\n"
-cat <<EOF > /etc/modprobe.d/tiny-dfr.conf
-blacklist appletbdrm
-blacklist hid_appletb_kbd
-blacklist hid_appletb_bl
-
-options apple-touchbar fnmode=1
-EOF
-systemctl disable tiny-dfr.service
-for rule in /usr/share/tiny-dfr/*.rules
-do
-rule_file=$(echo $rule | rev | cut -d "/" -f 1 | rev)
-rm -v /etc/udev/rules.d/$rule_file
-done
-for service in /usr/share/tiny-dfr/*.service
-do
-service_file=$(echo $service | rev | cut -d "/" -f 1 | rev)
-rm -v /etc/systemd/system/$service_file
-done
-dkms install -m apple-touchbar -v 0.1 --force || true
-echo -e "\nBasic version shall be enabled next time you restart your Mac"
-;;
-
 (--restart)
 echo "Restarting the daemon"
 systemctl disable --now tiny-dfr.service
@@ -889,7 +813,7 @@ You are currently using the advanced version of the touchbar.
 
 This version is still buggy and is recommended for those who want to customise their touchbar as per their needs.
 
-If you want a more stable touchbar, that only has Function keys and Media controls, run \`sudo touchbar --switch\` to switch to the basic Mode.
+If you want a more stable touchbar, that only has Function keys and Media controls, uninstall tiny-dfr and restart your Mac to switch to the basic Mode.
 
 --mode    : Set the default touchbar mode
 --font    : Set font for the function keys
@@ -899,10 +823,7 @@ If you want a more stable touchbar, that only has Function keys and Media contro
 --time    : Choose between 12 and 24 hr clock
 --restore : Restore a previous configuration stored at /etc/tiny-dfr/config.toml.orj
 --restart : Restart the daemon (Useful if touchbar has frozen)
---switch  : Use basic version of touchbar
 EOF
 ;;
 
 esac
-
-fi

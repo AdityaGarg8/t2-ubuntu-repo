@@ -46,7 +46,7 @@ jobs:
           curl https://sh.rustup.rs -sSf | sh -s -- -y && \
           REPO=https://github.com/AdityaGarg8/tiny-dfr.git && \
           COMMIT_HASH=7317bb387765cf58aab46979db86fad2e512c404 && \
-          VERSION=0.3.0-1 && \
+          VERSION=0.3.0-2 && \
           cat /repo/key | gpg --import && \
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com" && \
           git config --global user.name "github-actions[bot]" && \
@@ -69,9 +69,6 @@ jobs:
           cp -r ./etc ./deb && \
           cp -r ./share ./deb/usr && \
           cp ./target/release/tiny-dfr ./deb/usr/bin && \
-          cp -r /usr/src/apple-touchbar-0.1 ./deb/usr/src && \
-          mv ./deb/etc/udev/rules.d/* ./deb/usr/share/tiny-dfr && \
-          mv ./deb/etc/systemd/system/* ./deb/usr/share/tiny-dfr && \
           cp /repo/.github/scripts/touchbar ./deb/usr/bin && \
           chmod a+x ./deb/usr/bin/tiny-dfr && \
           chmod a+x ./deb/usr/bin/touchbar && \
@@ -93,59 +90,12 @@ jobs:
 
           echo "if [ -f /etc/tiny-dfr/config.toml.orj ]" > postinst && \
           echo "then" >> postinst && \
-          echo "if [ -f /etc/modprobe.d/tiny-dfr.conf ]" >> postinst && \
-          echo "then" >> postinst && \
-          echo "mv /etc/modprobe.d/tiny-dfr.conf /tmp/tiny-dfr.conf" >> postinst && \
-          echo "fi" >> postinst && \
           echo "touchbar --restore" >> postinst && \
-          echo "if [ -f /tmp/tiny-dfr.conf ]" >> postinst && \
-          echo "then" >> postinst && \
-          echo "mv /tmp/tiny-dfr.conf /etc/modprobe.d/tiny-dfr.conf" >> postinst && \
           echo "fi" >> postinst && \
-          echo "fi" >> postinst && \
-          echo "if [ ! -f /etc/modprobe.d/tiny-dfr.conf ]" >> postinst && \
-          echo "then" >> postinst && \
-          echo "for rule in /usr/share/tiny-dfr/*.rules" >> postinst && \
-          echo "do" >> postinst && \
-          echo "rule_file=\$(echo \$rule | rev | cut -d \"/\" -f 1 | rev)" >> postinst && \
-          echo "cp -v /usr/share/tiny-dfr/\$rule_file /etc/udev/rules.d/\$rule_file" >> postinst && \
-          echo "done" >> postinst && \
-          echo "for service in /usr/share/tiny-dfr/*.service" >> postinst && \
-          echo "do" >> postinst && \
-          echo "service_file=\$(echo \$service | rev | cut -d \"/\" -f 1 | rev)" >> postinst && \
-          echo "cp -v /usr/share/tiny-dfr/\$service_file /etc/systemd/system/\$service_file" >> postinst && \
-          echo "done" >> postinst && \
           echo "systemctl enable --now tiny-dfr.service" >> postinst && \
-          echo "else" >> postinst && \
-          echo "dkms add -m apple-touchbar -v 0.1" >> postinst && \
-          echo "dkms build -m apple-touchbar -v 0.1 && dkms install -m apple-touchbar -v 0.1 --force || true" >> postinst && \
-          echo "fi" >> postinst && \
           echo "echo -e \"\\nYou may have to restart your Mac in case of a new installation\"" >> postinst && \
 
-          echo "if [ -f /etc/systemd/system/tiny-dfr.service ]" > prerm && \
-          echo "then" >> prerm && \
           echo "systemctl disable --now tiny-dfr.service" >> prerm && \
-          echo "fi" >> prerm && \
-          echo "for rule in /usr/share/tiny-dfr/*.rules" >> prerm && \
-          echo "do" >> prerm && \
-          echo "rule_file=\$(echo \$rule | rev | cut -d \"/\" -f 1 | rev)" >> prerm && \
-          echo "if [ -f /etc/udev/rules.d/\$rule_file ]" >> prerm && \
-          echo "then" >> prerm && \
-          echo "rm -v /etc/udev/rules.d/\$rule_file" >> prerm && \
-          echo "fi" >> prerm && \
-          echo "done" >> prerm && \
-          echo "for service in /usr/share/tiny-dfr/*.service" >> prerm && \
-          echo "do" >> prerm && \
-          echo "service_file=\$(echo \$service | rev | cut -d \"/\" -f 1 | rev)" >> prerm && \
-          echo "if [ -f /etc/udev/rules.d/\$service_file ]" >> prerm && \
-          echo "then" >> prerm && \
-          echo "rm -v /etc/udev/rules.d/\$service_file" >> prerm && \
-          echo "fi" >> prerm && \
-          echo "done" >> prerm && \
-          echo "if [ -f /etc/modprobe.d/tiny-dfr.conf ]" >> prerm && \
-          echo "then" >> prerm && \
-          echo "dkms remove -m apple-touchbar -v 0.1 --all || true" >> prerm && \
-          echo "fi" >> prerm && \
 
           chmod 755 ./preinst && \
           chmod 755 ./postinst && \
@@ -224,7 +174,7 @@ jobs:
           curl https://sh.rustup.rs -sSf | sh -s -- -y && \
           REPO=https://github.com/AdityaGarg8/tiny-dfr.git && \
           COMMIT_HASH=7317bb387765cf58aab46979db86fad2e512c404 && \
-          VERSION=0.3.0-1 && \
+          VERSION=0.3.0-2 && \
           cat /repo/key | gpg --import && \
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com" && \
           git config --global user.name "github-actions[bot]" && \
@@ -247,9 +197,6 @@ jobs:
           cp -r ./etc ./deb && \
           cp -r ./share ./deb/usr && \
           cp ./target/release/tiny-dfr ./deb/usr/bin && \
-          cp -r /usr/src/apple-touchbar-0.1 ./deb/usr/src && \
-          mv ./deb/etc/udev/rules.d/* ./deb/usr/share/tiny-dfr && \
-          mv ./deb/etc/systemd/system/* ./deb/usr/share/tiny-dfr && \
           cp /repo/.github/scripts/touchbar ./deb/usr/bin && \
           chmod a+x ./deb/usr/bin/tiny-dfr && \
           chmod a+x ./deb/usr/bin/touchbar && \
@@ -271,59 +218,12 @@ jobs:
 
           echo "if [ -f /etc/tiny-dfr/config.toml.orj ]" > postinst && \
           echo "then" >> postinst && \
-          echo "if [ -f /etc/modprobe.d/tiny-dfr.conf ]" >> postinst && \
-          echo "then" >> postinst && \
-          echo "mv /etc/modprobe.d/tiny-dfr.conf /tmp/tiny-dfr.conf" >> postinst && \
-          echo "fi" >> postinst && \
           echo "touchbar --restore" >> postinst && \
-          echo "if [ -f /tmp/tiny-dfr.conf ]" >> postinst && \
-          echo "then" >> postinst && \
-          echo "mv /tmp/tiny-dfr.conf /etc/modprobe.d/tiny-dfr.conf" >> postinst && \
           echo "fi" >> postinst && \
-          echo "fi" >> postinst && \
-          echo "if [ ! -f /etc/modprobe.d/tiny-dfr.conf ]" >> postinst && \
-          echo "then" >> postinst && \
-          echo "for rule in /usr/share/tiny-dfr/*.rules" >> postinst && \
-          echo "do" >> postinst && \
-          echo "rule_file=\$(echo \$rule | rev | cut -d \"/\" -f 1 | rev)" >> postinst && \
-          echo "cp -v /usr/share/tiny-dfr/\$rule_file /etc/udev/rules.d/\$rule_file" >> postinst && \
-          echo "done" >> postinst && \
-          echo "for service in /usr/share/tiny-dfr/*.service" >> postinst && \
-          echo "do" >> postinst && \
-          echo "service_file=\$(echo \$service | rev | cut -d \"/\" -f 1 | rev)" >> postinst && \
-          echo "cp -v /usr/share/tiny-dfr/\$service_file /etc/systemd/system/\$service_file" >> postinst && \
-          echo "done" >> postinst && \
           echo "systemctl enable --now tiny-dfr.service" >> postinst && \
-          echo "else" >> postinst && \
-          echo "dkms add -m apple-touchbar -v 0.1" >> postinst && \
-          echo "dkms build -m apple-touchbar -v 0.1 && dkms install -m apple-touchbar -v 0.1 --force || true" >> postinst && \
-          echo "fi" >> postinst && \
           echo "echo -e \"\\nYou may have to restart your Mac in case of a new installation\"" >> postinst && \
 
-          echo "if [ -f /etc/systemd/system/tiny-dfr.service ]" > prerm && \
-          echo "then" >> prerm && \
           echo "systemctl disable --now tiny-dfr.service" >> prerm && \
-          echo "fi" >> prerm && \
-          echo "for rule in /usr/share/tiny-dfr/*.rules" >> prerm && \
-          echo "do" >> prerm && \
-          echo "rule_file=\$(echo \$rule | rev | cut -d \"/\" -f 1 | rev)" >> prerm && \
-          echo "if [ -f /etc/udev/rules.d/\$rule_file ]" >> prerm && \
-          echo "then" >> prerm && \
-          echo "rm -v /etc/udev/rules.d/\$rule_file" >> prerm && \
-          echo "fi" >> prerm && \
-          echo "done" >> prerm && \
-          echo "for service in /usr/share/tiny-dfr/*.service" >> prerm && \
-          echo "do" >> prerm && \
-          echo "service_file=\$(echo \$service | rev | cut -d \"/\" -f 1 | rev)" >> prerm && \
-          echo "if [ -f /etc/udev/rules.d/\$service_file ]" >> prerm && \
-          echo "then" >> prerm && \
-          echo "rm -v /etc/udev/rules.d/\$service_file" >> prerm && \
-          echo "fi" >> prerm && \
-          echo "done" >> prerm && \
-          echo "if [ -f /etc/modprobe.d/tiny-dfr.conf ]" >> prerm && \
-          echo "then" >> prerm && \
-          echo "dkms remove -m apple-touchbar -v 0.1 --all || true" >> prerm && \
-          echo "fi" >> prerm && \
 
           chmod 755 ./preinst && \
           chmod 755 ./postinst && \
@@ -402,7 +302,7 @@ jobs:
           curl https://sh.rustup.rs -sSf | sh -s -- -y && \
           REPO=https://github.com/AdityaGarg8/tiny-dfr.git && \
           COMMIT_HASH=7317bb387765cf58aab46979db86fad2e512c404 && \
-          VERSION=0.3.0-1 && \
+          VERSION=0.3.0-2 && \
           cat /repo/key | gpg --import && \
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com" && \
           git config --global user.name "github-actions[bot]" && \
@@ -425,9 +325,6 @@ jobs:
           cp -r ./etc ./deb && \
           cp -r ./share ./deb/usr && \
           cp ./target/release/tiny-dfr ./deb/usr/bin && \
-          cp -r /usr/src/apple-touchbar-0.1 ./deb/usr/src && \
-          mv ./deb/etc/udev/rules.d/* ./deb/usr/share/tiny-dfr && \
-          mv ./deb/etc/systemd/system/* ./deb/usr/share/tiny-dfr && \
           cp /repo/.github/scripts/touchbar ./deb/usr/bin && \
           chmod a+x ./deb/usr/bin/tiny-dfr && \
           chmod a+x ./deb/usr/bin/touchbar && \
@@ -449,59 +346,12 @@ jobs:
 
           echo "if [ -f /etc/tiny-dfr/config.toml.orj ]" > postinst && \
           echo "then" >> postinst && \
-          echo "if [ -f /etc/modprobe.d/tiny-dfr.conf ]" >> postinst && \
-          echo "then" >> postinst && \
-          echo "mv /etc/modprobe.d/tiny-dfr.conf /tmp/tiny-dfr.conf" >> postinst && \
-          echo "fi" >> postinst && \
           echo "touchbar --restore" >> postinst && \
-          echo "if [ -f /tmp/tiny-dfr.conf ]" >> postinst && \
-          echo "then" >> postinst && \
-          echo "mv /tmp/tiny-dfr.conf /etc/modprobe.d/tiny-dfr.conf" >> postinst && \
           echo "fi" >> postinst && \
-          echo "fi" >> postinst && \
-          echo "if [ ! -f /etc/modprobe.d/tiny-dfr.conf ]" >> postinst && \
-          echo "then" >> postinst && \
-          echo "for rule in /usr/share/tiny-dfr/*.rules" >> postinst && \
-          echo "do" >> postinst && \
-          echo "rule_file=\$(echo \$rule | rev | cut -d \"/\" -f 1 | rev)" >> postinst && \
-          echo "cp -v /usr/share/tiny-dfr/\$rule_file /etc/udev/rules.d/\$rule_file" >> postinst && \
-          echo "done" >> postinst && \
-          echo "for service in /usr/share/tiny-dfr/*.service" >> postinst && \
-          echo "do" >> postinst && \
-          echo "service_file=\$(echo \$service | rev | cut -d \"/\" -f 1 | rev)" >> postinst && \
-          echo "cp -v /usr/share/tiny-dfr/\$service_file /etc/systemd/system/\$service_file" >> postinst && \
-          echo "done" >> postinst && \
           echo "systemctl enable --now tiny-dfr.service" >> postinst && \
-          echo "else" >> postinst && \
-          echo "dkms add -m apple-touchbar -v 0.1" >> postinst && \
-          echo "dkms build -m apple-touchbar -v 0.1 && dkms install -m apple-touchbar -v 0.1 --force || true" >> postinst && \
-          echo "fi" >> postinst && \
           echo "echo -e \"\\nYou may have to restart your Mac in case of a new installation\"" >> postinst && \
 
-          echo "if [ -f /etc/systemd/system/tiny-dfr.service ]" > prerm && \
-          echo "then" >> prerm && \
           echo "systemctl disable --now tiny-dfr.service" >> prerm && \
-          echo "fi" >> prerm && \
-          echo "for rule in /usr/share/tiny-dfr/*.rules" >> prerm && \
-          echo "do" >> prerm && \
-          echo "rule_file=\$(echo \$rule | rev | cut -d \"/\" -f 1 | rev)" >> prerm && \
-          echo "if [ -f /etc/udev/rules.d/\$rule_file ]" >> prerm && \
-          echo "then" >> prerm && \
-          echo "rm -v /etc/udev/rules.d/\$rule_file" >> prerm && \
-          echo "fi" >> prerm && \
-          echo "done" >> prerm && \
-          echo "for service in /usr/share/tiny-dfr/*.service" >> prerm && \
-          echo "do" >> prerm && \
-          echo "service_file=\$(echo \$service | rev | cut -d \"/\" -f 1 | rev)" >> prerm && \
-          echo "if [ -f /etc/udev/rules.d/\$service_file ]" >> prerm && \
-          echo "then" >> prerm && \
-          echo "rm -v /etc/udev/rules.d/\$service_file" >> prerm && \
-          echo "fi" >> prerm && \
-          echo "done" >> prerm && \
-          echo "if [ -f /etc/modprobe.d/tiny-dfr.conf ]" >> prerm && \
-          echo "then" >> prerm && \
-          echo "dkms remove -m apple-touchbar -v 0.1 --all || true" >> prerm && \
-          echo "fi" >> prerm && \
 
           chmod 755 ./preinst && \
           chmod 755 ./postinst && \
@@ -580,7 +430,7 @@ jobs:
           curl https://sh.rustup.rs -sSf | sh -s -- -y && \
           REPO=https://github.com/AdityaGarg8/tiny-dfr.git && \
           COMMIT_HASH=7317bb387765cf58aab46979db86fad2e512c404 && \
-          VERSION=0.3.0-1 && \
+          VERSION=0.3.0-2 && \
           cat /repo/key | gpg --import && \
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com" && \
           git config --global user.name "github-actions[bot]" && \
@@ -603,9 +453,6 @@ jobs:
           cp -r ./etc ./deb && \
           cp -r ./share ./deb/usr && \
           cp ./target/release/tiny-dfr ./deb/usr/bin && \
-          cp -r /usr/src/apple-touchbar-0.1 ./deb/usr/src && \
-          mv ./deb/etc/udev/rules.d/* ./deb/usr/share/tiny-dfr && \
-          mv ./deb/etc/systemd/system/* ./deb/usr/share/tiny-dfr && \
           cp /repo/.github/scripts/touchbar ./deb/usr/bin && \
           chmod a+x ./deb/usr/bin/tiny-dfr && \
           chmod a+x ./deb/usr/bin/touchbar && \
@@ -627,59 +474,12 @@ jobs:
 
           echo "if [ -f /etc/tiny-dfr/config.toml.orj ]" > postinst && \
           echo "then" >> postinst && \
-          echo "if [ -f /etc/modprobe.d/tiny-dfr.conf ]" >> postinst && \
-          echo "then" >> postinst && \
-          echo "mv /etc/modprobe.d/tiny-dfr.conf /tmp/tiny-dfr.conf" >> postinst && \
-          echo "fi" >> postinst && \
           echo "touchbar --restore" >> postinst && \
-          echo "if [ -f /tmp/tiny-dfr.conf ]" >> postinst && \
-          echo "then" >> postinst && \
-          echo "mv /tmp/tiny-dfr.conf /etc/modprobe.d/tiny-dfr.conf" >> postinst && \
           echo "fi" >> postinst && \
-          echo "fi" >> postinst && \
-          echo "if [ ! -f /etc/modprobe.d/tiny-dfr.conf ]" >> postinst && \
-          echo "then" >> postinst && \
-          echo "for rule in /usr/share/tiny-dfr/*.rules" >> postinst && \
-          echo "do" >> postinst && \
-          echo "rule_file=\$(echo \$rule | rev | cut -d \"/\" -f 1 | rev)" >> postinst && \
-          echo "cp -v /usr/share/tiny-dfr/\$rule_file /etc/udev/rules.d/\$rule_file" >> postinst && \
-          echo "done" >> postinst && \
-          echo "for service in /usr/share/tiny-dfr/*.service" >> postinst && \
-          echo "do" >> postinst && \
-          echo "service_file=\$(echo \$service | rev | cut -d \"/\" -f 1 | rev)" >> postinst && \
-          echo "cp -v /usr/share/tiny-dfr/\$service_file /etc/systemd/system/\$service_file" >> postinst && \
-          echo "done" >> postinst && \
           echo "systemctl enable --now tiny-dfr.service" >> postinst && \
-          echo "else" >> postinst && \
-          echo "dkms add -m apple-touchbar -v 0.1" >> postinst && \
-          echo "dkms build -m apple-touchbar -v 0.1 && dkms install -m apple-touchbar -v 0.1 --force || true" >> postinst && \
-          echo "fi" >> postinst && \
           echo "echo -e \"\\nYou may have to restart your Mac in case of a new installation\"" >> postinst && \
 
-          echo "if [ -f /etc/systemd/system/tiny-dfr.service ]" > prerm && \
-          echo "then" >> prerm && \
           echo "systemctl disable --now tiny-dfr.service" >> prerm && \
-          echo "fi" >> prerm && \
-          echo "for rule in /usr/share/tiny-dfr/*.rules" >> prerm && \
-          echo "do" >> prerm && \
-          echo "rule_file=\$(echo \$rule | rev | cut -d \"/\" -f 1 | rev)" >> prerm && \
-          echo "if [ -f /etc/udev/rules.d/\$rule_file ]" >> prerm && \
-          echo "then" >> prerm && \
-          echo "rm -v /etc/udev/rules.d/\$rule_file" >> prerm && \
-          echo "fi" >> prerm && \
-          echo "done" >> prerm && \
-          echo "for service in /usr/share/tiny-dfr/*.service" >> prerm && \
-          echo "do" >> prerm && \
-          echo "service_file=\$(echo \$service | rev | cut -d \"/\" -f 1 | rev)" >> prerm && \
-          echo "if [ -f /etc/udev/rules.d/\$service_file ]" >> prerm && \
-          echo "then" >> prerm && \
-          echo "rm -v /etc/udev/rules.d/\$service_file" >> prerm && \
-          echo "fi" >> prerm && \
-          echo "done" >> prerm && \
-          echo "if [ -f /etc/modprobe.d/tiny-dfr.conf ]" >> prerm && \
-          echo "then" >> prerm && \
-          echo "dkms remove -m apple-touchbar -v 0.1 --all || true" >> prerm && \
-          echo "fi" >> prerm && \
 
           chmod 755 ./preinst && \
           chmod 755 ./postinst && \
@@ -758,7 +558,7 @@ jobs:
           curl https://sh.rustup.rs -sSf | sh -s -- -y && \
           REPO=https://github.com/AdityaGarg8/tiny-dfr.git && \
           COMMIT_HASH=7317bb387765cf58aab46979db86fad2e512c404 && \
-          VERSION=0.3.0-1 && \
+          VERSION=0.3.0-2 && \
           cat /repo/key | gpg --import && \
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com" && \
           git config --global user.name "github-actions[bot]" && \
@@ -781,9 +581,6 @@ jobs:
           cp -r ./etc ./deb && \
           cp -r ./share ./deb/usr && \
           cp ./target/release/tiny-dfr ./deb/usr/bin && \
-          cp -r /usr/src/apple-touchbar-0.1 ./deb/usr/src && \
-          mv ./deb/etc/udev/rules.d/* ./deb/usr/share/tiny-dfr && \
-          mv ./deb/etc/systemd/system/* ./deb/usr/share/tiny-dfr && \
           cp /repo/.github/scripts/touchbar ./deb/usr/bin && \
           chmod a+x ./deb/usr/bin/tiny-dfr && \
           chmod a+x ./deb/usr/bin/touchbar && \
@@ -805,59 +602,12 @@ jobs:
 
           echo "if [ -f /etc/tiny-dfr/config.toml.orj ]" > postinst && \
           echo "then" >> postinst && \
-          echo "if [ -f /etc/modprobe.d/tiny-dfr.conf ]" >> postinst && \
-          echo "then" >> postinst && \
-          echo "mv /etc/modprobe.d/tiny-dfr.conf /tmp/tiny-dfr.conf" >> postinst && \
-          echo "fi" >> postinst && \
           echo "touchbar --restore" >> postinst && \
-          echo "if [ -f /tmp/tiny-dfr.conf ]" >> postinst && \
-          echo "then" >> postinst && \
-          echo "mv /tmp/tiny-dfr.conf /etc/modprobe.d/tiny-dfr.conf" >> postinst && \
           echo "fi" >> postinst && \
-          echo "fi" >> postinst && \
-          echo "if [ ! -f /etc/modprobe.d/tiny-dfr.conf ]" >> postinst && \
-          echo "then" >> postinst && \
-          echo "for rule in /usr/share/tiny-dfr/*.rules" >> postinst && \
-          echo "do" >> postinst && \
-          echo "rule_file=\$(echo \$rule | rev | cut -d \"/\" -f 1 | rev)" >> postinst && \
-          echo "cp -v /usr/share/tiny-dfr/\$rule_file /etc/udev/rules.d/\$rule_file" >> postinst && \
-          echo "done" >> postinst && \
-          echo "for service in /usr/share/tiny-dfr/*.service" >> postinst && \
-          echo "do" >> postinst && \
-          echo "service_file=\$(echo \$service | rev | cut -d \"/\" -f 1 | rev)" >> postinst && \
-          echo "cp -v /usr/share/tiny-dfr/\$service_file /etc/systemd/system/\$service_file" >> postinst && \
-          echo "done" >> postinst && \
           echo "systemctl enable --now tiny-dfr.service" >> postinst && \
-          echo "else" >> postinst && \
-          echo "dkms add -m apple-touchbar -v 0.1" >> postinst && \
-          echo "dkms build -m apple-touchbar -v 0.1 && dkms install -m apple-touchbar -v 0.1 --force || true" >> postinst && \
-          echo "fi" >> postinst && \
           echo "echo -e \"\\nYou may have to restart your Mac in case of a new installation\"" >> postinst && \
 
-          echo "if [ -f /etc/systemd/system/tiny-dfr.service ]" > prerm && \
-          echo "then" >> prerm && \
           echo "systemctl disable --now tiny-dfr.service" >> prerm && \
-          echo "fi" >> prerm && \
-          echo "for rule in /usr/share/tiny-dfr/*.rules" >> prerm && \
-          echo "do" >> prerm && \
-          echo "rule_file=\$(echo \$rule | rev | cut -d \"/\" -f 1 | rev)" >> prerm && \
-          echo "if [ -f /etc/udev/rules.d/\$rule_file ]" >> prerm && \
-          echo "then" >> prerm && \
-          echo "rm -v /etc/udev/rules.d/\$rule_file" >> prerm && \
-          echo "fi" >> prerm && \
-          echo "done" >> prerm && \
-          echo "for service in /usr/share/tiny-dfr/*.service" >> prerm && \
-          echo "do" >> prerm && \
-          echo "service_file=\$(echo \$service | rev | cut -d \"/\" -f 1 | rev)" >> prerm && \
-          echo "if [ -f /etc/udev/rules.d/\$service_file ]" >> prerm && \
-          echo "then" >> prerm && \
-          echo "rm -v /etc/udev/rules.d/\$service_file" >> prerm && \
-          echo "fi" >> prerm && \
-          echo "done" >> prerm && \
-          echo "if [ -f /etc/modprobe.d/tiny-dfr.conf ]" >> prerm && \
-          echo "then" >> prerm && \
-          echo "dkms remove -m apple-touchbar -v 0.1 --all || true" >> prerm && \
-          echo "fi" >> prerm && \
 
           chmod 755 ./preinst && \
           chmod 755 ./postinst && \

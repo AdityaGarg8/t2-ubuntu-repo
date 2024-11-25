@@ -25,9 +25,11 @@ Now after you have added the common apt repo, you additionally have to add a **r
 
     b) `noble` for **Ubuntu 24.04**
 
-    c) `bookworm` for **Debian 12**
+    c) `oracular` for **Ubuntu 24.10**
 
-    d) `sid` for **Debian unstable**
+    d) `bookworm` for **Debian 12**
+
+    e) `sid` for **Debian unstable**
 
 3. Run the following (taking `noble` as the example, just replace it with your release codename in the first line):
 

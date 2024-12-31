@@ -429,7 +429,6 @@ jobs:
           GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
 
       - name: Release kernel
-        if: false
         id: publish
         run: |
           VERSION=$(cat ${{ github.workspace }}/.github/kernel/linux-t2 | grep "VERSION" | cut -d "=" -f 2)

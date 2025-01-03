@@ -17,7 +17,7 @@ jobs:
             name: noble
             excluded_patches: "&& rm 0002*"
           - image: ubuntu
-            tag: 24.10
+            tag: "24.10"
             name: oracular
             excluded_patches: "&& rm 0002*"
           - image: debian

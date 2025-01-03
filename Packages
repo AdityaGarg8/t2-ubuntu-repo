@@ -153,15 +153,15 @@ SHA256: 862bdda00f9015a48dd3f554ef0f43ff6ce878422eb541f87f827c3de7f24e6f
 Description: Audio configuration files for T2 Macs
 
 Package: apple-touchbar
-Version: 0.1-1
+Version: 0.1-2
 Architecture: amd64
 Maintainer: Aditya Garg
 Depends: dkms
-Filename: ./apple-touchbar_0.1-1_amd64.deb
-Size: 34574
-MD5sum: 1972b4068e23db22d8140674da8e7232
-SHA1: 09ff6e9bbb9b7c1dbbd7feebd1cc8b846188a028
-SHA256: b4549c7f69ba6aa9f604107cba22c7812a965da3b5b6027691edb5a518b57a72
+Filename: ./apple-touchbar_0.1-2_amd64.deb
+Size: 34614
+MD5sum: 5c72dc5dd78ed22cc46bc2be9391613c
+SHA1: fe4e48a4cb780c1bce3d9a4583a6506473339f0e
+SHA256: 3ee13a9977283a5bb07dea4b0c6585ffc6a3f59e9cdb8adf123261f9cba4c5a4
 Description: Apple Touch Bar driver for Linux
 
 Package: applesmc-t2

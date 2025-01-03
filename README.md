@@ -45,15 +45,17 @@ You should be then be able to install and update the following packages with `ap
 
 **WARNING** :- **apple-bce**, **apple-touchbar**, **applesmc-t2**, **apfs-dkms** and **bcm5974-t2** packages should NOT be installed if installing the `linux-t2` or `linux-t2-lts` package, as t2 kernels have these drivers built in.
 
-- **apple-bce**: Exposes Keyboard, Camera, Touchbar, etc as USB devices. Also does audio. (DO NOT USE IF INSTALLING `linux-t2` or `linux-t2-lts`)
-- **apple-touchbar**: Driver for touchbar and keyboard backlight on T2 Macs. (NO LONGER MAINTAINED, USE `tiny-dfr`)
-- **applesmc-t2**: Driver for the System Management Controller on T2 Macs. (DO NOT USE IF INSTALLING `linux-t2` or `linux-t2-lts`)
+- **apple-bce**: Exposes Keyboard, Camera, Touchbar, etc as USB devices. Also does audio. (DO NOT USE IF INSTALLING `linux-t2`, `linux-t2-lts`, `linux-t2-xanmod` or `linux-t2-xanmod-lts`)
+- **apple-touchbar**: Driver for touchbar and keyboard backlight on T2 Macs. (DO NOT USE IF INSTALLING `linux-t2`, `linux-t2-lts`, `linux-t2-xanmod` or `linux-t2-xanmod-lts`)
+- **applesmc-t2**: Driver for the System Management Controller on T2 Macs. (DO NOT USE IF INSTALLING `linux-t2`, `linux-t2-lts`, `linux-t2-xanmod` or `linux-t2-xanmod-lts`)
 - **apple-t2-audio-config**: Audio config files for the audio device apple-bce has.
 - **apple-firmware-script**: Debian package for the [script](https://wiki.t2linux.org/tools/firmware.sh) to get Wi-Fi and Bluetooth firmware from macOS. Run using `get-wifi-firmware`.
-- **apfs-dkms**: Debian package for the [linux-apfs-rw](https://github.com/linux-apfs/linux-apfs-rw) driver. (DO NOT USE IF INSTALLING `linux-t2` or `linux-t2-lts`)
+- **apfs-dkms**: Debian package for the [linux-apfs-rw](https://github.com/linux-apfs/linux-apfs-rw) driver. (DO NOT USE IF INSTALLING `linux-t2`, `linux-t2-lts`, `linux-t2-xanmod` or `linux-t2-xanmod-lts`)
 - **bcm5974-t2**: Driver for trackpad gestures. (DO NOT USE IF INSTALLING `linux-t2` or `linux-t2-lts`)
 - **linux-t2**: Kernel package for Mainline kernels.
 - **linux-t2-lts**: Kernel package for LTS kernels.
+- **linux-t2-xanmod**: Kernel package for Mainline [Xanmod](https://xanmod.org/) kernels.
+- **linux-t2-xanmod-lts**: Kernel package for LTS [Xanmod](https://xanmod.org/) kernels.
 - **t2fanrd**: Daemon to control fan speed on T2 Macs. For configuration instructions, refer to [this page](https://github.com/GnomedDev/T2FanRD).
 - **t2-apple-audio-dsp-mic**: Mic configuration files for T2 Macs.
 - **t2-apple-audio-dsp-speakers161**: Pipewire filterchain configuration files for Macbook Pro 16 inch, 2019

@@ -188,6 +188,18 @@ SHA1: 0b4545eee9bb216dba9842ac1cd6a2e5af66eb31
 SHA256: 6529c413760ef596246293be59b8dc0c31820eb29545ac2df379d95dd9847360
 Description: Apple System Management Controller driver for T2 Macs
 
+Package: applesmc-t2
+Version: 0.1.2
+Architecture: amd64
+Maintainer: Aditya Garg
+Depends: dkms
+Filename: ./applesmc-t2_0.1.2_amd64.deb
+Size: 19010
+MD5sum: dcff4df0154e41c9fa55e15cae3fc9c3
+SHA1: c99288bd665df648cf6683719c5a852dc958821a
+SHA256: d01112a1bf0f0996ecb43ff647ce8defeb78735173354c06457aba2c8193369a
+Description: Apple System Management Controller driver for T2 Macs
+
 Package: bcm5974-t2
 Version: 0.1
 Architecture: amd64

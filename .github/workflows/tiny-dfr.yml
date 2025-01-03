@@ -65,8 +65,8 @@ jobs:
           && apt-get install -y -qq -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" gh apple-touchbar && \
           curl https://sh.rustup.rs -sSf | sh -s -- -y && \
           REPO=https://github.com/AdityaGarg8/tiny-dfr.git && \
-          COMMIT_HASH=7317bb387765cf58aab46979db86fad2e512c404 && \
-          VERSION=0.3.0-2 && \
+          COMMIT_HASH=1369f66177d435b0ab3915825b82004afa17ec93 && \
+          VERSION=0.3.1-1 && \
           cat /repo/key | gpg --import && \
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com" && \
           git config --global user.name "github-actions[bot]" && \

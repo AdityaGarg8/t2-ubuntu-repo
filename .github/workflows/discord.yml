@@ -48,9 +48,6 @@ jobs:
           docker run \
           -e GH_TOKEN=${{ secrets.GITHUB_TOKEN }} \
           -e GPG_SIGNING_EMAIL=${{ secrets.GPG_SIGNING_EMAIL }} \
-          -e VERSION=${VERSION} \
-          -e KVER=${KVER} \
-          -e REL=${REL} \
           -t \
           -v "$(pwd)":/repo \
           ${DOCKER_IMAGE} \

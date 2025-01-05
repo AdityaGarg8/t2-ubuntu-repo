@@ -1,0 +1,16 @@
+---
+name: Release Kernel - Xanmod
+
+on:
+  push:
+    paths:
+      - ".github/kernel/linux-t2-xanmod"
+  workflow_dispatch:
+
+jobs:
+  Release_Xanmod_Kernel:
+    uses: ./.github/workflows/release-t2-kernel.yml
+    with:
+      name: "linux-t2-xanmod"
+      package_name: "${KVER}-x64v3-t2-${CODENAME}-${REL}"
+      conflicts: "linux-t2, linux-t2-lts, linux-t2-xanmod-lts"

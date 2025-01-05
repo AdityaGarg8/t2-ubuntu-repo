@@ -1,0 +1,16 @@
+---
+name: Release Kernel - LTS
+
+on:
+  push:
+    paths:
+      - ".github/kernel/linux-t2-lts"
+  workflow_dispatch:
+
+jobs:
+  Release_LTS_Kernel:
+    uses: ./.github/workflows/release-t2-kernel.yml
+    with:
+      name: "linux-t2-lts"
+      package_name: "${KVER}-${REL}-t2-${CODENAME}"
+      conflicts: "linux-t2, linux-t2-xanmod, linux-t2-xanmod-lts"

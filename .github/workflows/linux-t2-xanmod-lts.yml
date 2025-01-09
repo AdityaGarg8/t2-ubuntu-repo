@@ -1,5 +1,5 @@
 ---
-name: Release Kernel - Xanmod LTS
+name: Release Kernel - LTS Xanmod
 
 on:
   push:

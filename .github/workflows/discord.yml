@@ -3,15 +3,32 @@ name: Discord
 
 on:
   schedule:
-    - cron: '0 */6 * * *'
+    - cron: "0 */6 * * *"
   workflow_dispatch:
 
 jobs:
-  Release-Jammy:
+  Release_Discord:
+    strategy:
+      matrix:
+        target:
+          - image: ubuntu
+            tag: "22.04"
+            name: jammy
+          - image: ubuntu
+            tag: "24.04"
+            name: noble
+          - image: ubuntu
+            tag: "24.10"
+            name: oracular
+          - image: debian
+            tag: "12"
+            name: bookworm
+          - image: debian
+            tag: sid
+            name: sid
     runs-on: ubuntu-latest
     steps:
-
-      - name: 'Checkout Repo'
+      - name: "Checkout Repo"
         uses: actions/checkout@v4
         with:
           persist-credentials: false
@@ -26,7 +43,7 @@ jobs:
       - name: Download Discord
         id: publish
         run: |
-          DOCKER_IMAGE=ubuntu:22.04
+          DOCKER_IMAGE=${{ matrix.target.image }}:${{ matrix.target.tag }}
           docker pull ${DOCKER_IMAGE}
           docker run \
           -e GH_TOKEN=${{ secrets.GITHUB_TOKEN }} \
@@ -59,9 +76,9 @@ jobs:
 
           mv ./discord.deb /repo && \
           cd repo && \
-          gh release download jammy -D jammy -R AdityaGarg8/t2-ubuntu-repo && \
-          mv ./discord.deb ./jammy && \
-          cd jammy && \
+          gh release download ${{ matrix.target.name }} -D ${{ matrix.target.name }} -R AdityaGarg8/t2-ubuntu-repo && \
+          mv ./discord.deb ./${{ matrix.target.name }} && \
+          cd ${{ matrix.target.name }} && \
           dpkg-name ./discord.deb && \
           dpkg-scanpackages --multiversion . > Packages && \
           gzip -k -f Packages && \
@@ -69,327 +86,15 @@ jobs:
           gpg --default-key "${{ secrets.GPG_SIGNING_EMAIL }}" -abs -o - Release > Release.gpg && \
           gpg --default-key "${{ secrets.GPG_SIGNING_EMAIL }}" --clearsign -o - Release > InRelease'
 
-          cd jammy
+          cd ${{ matrix.target.name }}
           if [[ $(ls | grep discord.deb) == discord.deb ]]
           then
           echo "publish=no" >> $GITHUB_ENV
           fi
 
-      - name: Release Jammy
+      - name: Release
         if: env.publish != 'no'
         run: |
-          gh release upload jammy ${{ github.workspace }}/jammy/* --clobber -R AdityaGarg8/t2-ubuntu-repo
-        env:
-          GH_TOKEN: ${{ secrets.PAT }}
-
-  Release-Noble:
-    runs-on: ubuntu-latest
-    steps:
-
-      - name: 'Checkout Repo'
-        uses: actions/checkout@v4
-        with:
-          persist-credentials: false
-          fetch-depth: 0
-      - name: Configure GPG Key
-        run: |
-          echo -n "$GPG_SIGNING_KEY" | base64 -di | gpg --import
-          echo -n "$GPG_SIGNING_KEY" | base64 -di > key
-        env:
-          GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
-
-      - name: Download Discord
-        id: publish
-        run: |
-          DOCKER_IMAGE=ubuntu:24.04
-          docker pull ${DOCKER_IMAGE}
-          docker run \
-          -e GH_TOKEN=${{ secrets.GITHUB_TOKEN }} \
-          -e GPG_SIGNING_EMAIL=${{ secrets.GPG_SIGNING_EMAIL }} \
-          -e VERSION=${VERSION} \
-          -e KVER=${KVER} \
-          -e REL=${REL} \
-          -t \
-          -v "$(pwd)":/repo \
-          ${DOCKER_IMAGE} \
-          /bin/bash -c 'apt-get update && \
-          DEBIAN_FRONTEND=noninteractive apt-get install -y -qq -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" wget git gpg apt-utils dpkg-dev python3 python3-pip python3-requests && \
-          mkdir -p -m 755 /etc/apt/keyrings && wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
-          && chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
-          && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
-          && apt-get update \
-          && apt-get install -y -qq -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" gh && \
-          cat /repo/key | gpg --import && \
-          echo "import requests" > download_discord.py && \
-          echo "" >> download_discord.py && \
-          echo "url = \"https://discord.com/api/download?platform=linux&format=deb\"" >> download_discord.py && \
-          echo "file_name = \"discord.deb\"" >> download_discord.py && \
-          echo "" >> download_discord.py && \
-          echo "response = requests.get(url)" >> download_discord.py && \
-          echo "" >> download_discord.py && \
-          echo "if response.status_code == 200:" >> download_discord.py && \
-          echo "    with open(file_name, \"wb\") as file:" >> download_discord.py && \
-          echo "        file.write(response.content)" >> download_discord.py && \
-          echo "    print(\"File downloaded successfully.\")" >> download_discord.py && \
-          echo "else:" >> download_discord.py && \
-          echo "    print(\"Failed to download file. Status code:\", response.status_code)" >> download_discord.py && \
-          python3 ./download_discord.py && \
-
-          mv ./discord.deb /repo && \
-          cd repo && \
-          gh release download noble -D noble -R AdityaGarg8/t2-ubuntu-repo && \
-          mv ./discord.deb ./noble && \
-          cd noble && \
-          dpkg-name ./discord.deb && \
-          dpkg-scanpackages --multiversion . > Packages && \
-          gzip -k -f Packages && \
-          apt-ftparchive release . > Release && \
-          gpg --default-key "${{ secrets.GPG_SIGNING_EMAIL }}" -abs -o - Release > Release.gpg && \
-          gpg --default-key "${{ secrets.GPG_SIGNING_EMAIL }}" --clearsign -o - Release > InRelease'
-
-          cd noble
-          if [[ $(ls | grep discord.deb) == discord.deb ]]
-          then
-          echo "publish=no" >> $GITHUB_ENV
-          fi
-
-      - name: Release Noble
-        if: env.publish != 'no'
-        run: |
-          gh release upload noble ${{ github.workspace }}/noble/* --clobber -R AdityaGarg8/t2-ubuntu-repo
-        env:
-          GH_TOKEN: ${{ secrets.PAT }}
-
-  Release-Oracular:
-    runs-on: ubuntu-latest
-    steps:
-
-      - name: 'Checkout Repo'
-        uses: actions/checkout@v4
-        with:
-          persist-credentials: false
-          fetch-depth: 0
-      - name: Configure GPG Key
-        run: |
-          echo -n "$GPG_SIGNING_KEY" | base64 -di | gpg --import
-          echo -n "$GPG_SIGNING_KEY" | base64 -di > key
-        env:
-          GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
-
-      - name: Download Discord
-        id: publish
-        run: |
-          DOCKER_IMAGE=ubuntu:24.10
-          docker pull ${DOCKER_IMAGE}
-          docker run \
-          -e GH_TOKEN=${{ secrets.GITHUB_TOKEN }} \
-          -e GPG_SIGNING_EMAIL=${{ secrets.GPG_SIGNING_EMAIL }} \
-          -e VERSION=${VERSION} \
-          -e KVER=${KVER} \
-          -e REL=${REL} \
-          -t \
-          -v "$(pwd)":/repo \
-          ${DOCKER_IMAGE} \
-          /bin/bash -c 'apt-get update && \
-          DEBIAN_FRONTEND=noninteractive apt-get install -y -qq -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" wget git gpg apt-utils dpkg-dev python3 python3-pip python3-requests && \
-          mkdir -p -m 755 /etc/apt/keyrings && wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
-          && chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
-          && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
-          && apt-get update \
-          && apt-get install -y -qq -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" gh && \
-          cat /repo/key | gpg --import && \
-          echo "import requests" > download_discord.py && \
-          echo "" >> download_discord.py && \
-          echo "url = \"https://discord.com/api/download?platform=linux&format=deb\"" >> download_discord.py && \
-          echo "file_name = \"discord.deb\"" >> download_discord.py && \
-          echo "" >> download_discord.py && \
-          echo "response = requests.get(url)" >> download_discord.py && \
-          echo "" >> download_discord.py && \
-          echo "if response.status_code == 200:" >> download_discord.py && \
-          echo "    with open(file_name, \"wb\") as file:" >> download_discord.py && \
-          echo "        file.write(response.content)" >> download_discord.py && \
-          echo "    print(\"File downloaded successfully.\")" >> download_discord.py && \
-          echo "else:" >> download_discord.py && \
-          echo "    print(\"Failed to download file. Status code:\", response.status_code)" >> download_discord.py && \
-          python3 ./download_discord.py && \
-
-          mv ./discord.deb /repo && \
-          cd repo && \
-          gh release download oracular -D oracular -R AdityaGarg8/t2-ubuntu-repo && \
-          mv ./discord.deb ./oracular && \
-          cd oracular && \
-          dpkg-name ./discord.deb && \
-          dpkg-scanpackages --multiversion . > Packages && \
-          gzip -k -f Packages && \
-          apt-ftparchive release . > Release && \
-          gpg --default-key "${{ secrets.GPG_SIGNING_EMAIL }}" -abs -o - Release > Release.gpg && \
-          gpg --default-key "${{ secrets.GPG_SIGNING_EMAIL }}" --clearsign -o - Release > InRelease'
-
-          cd oracular
-          if [[ $(ls | grep discord.deb) == discord.deb ]]
-          then
-          echo "publish=no" >> $GITHUB_ENV
-          fi
-
-      - name: Release Oracular
-        if: env.publish != 'no'
-        run: |
-          gh release upload oracular ${{ github.workspace }}/oracular/* --clobber -R AdityaGarg8/t2-ubuntu-repo
-        env:
-          GH_TOKEN: ${{ secrets.PAT }}
-
-  Release-Bookworm:
-    runs-on: ubuntu-latest
-    steps:
-
-      - name: 'Checkout Repo'
-        uses: actions/checkout@v4
-        with:
-          persist-credentials: false
-          fetch-depth: 0
-      - name: Configure GPG Key
-        run: |
-          echo -n "$GPG_SIGNING_KEY" | base64 -di | gpg --import
-          echo -n "$GPG_SIGNING_KEY" | base64 -di > key
-        env:
-          GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
-
-      - name: Download Discord
-        id: publish
-        run: |
-          DOCKER_IMAGE=debian:12
-          docker pull ${DOCKER_IMAGE}
-          docker run \
-          -e GH_TOKEN=${{ secrets.GITHUB_TOKEN }} \
-          -e GPG_SIGNING_EMAIL=${{ secrets.GPG_SIGNING_EMAIL }} \
-          -e VERSION=${VERSION} \
-          -e KVER=${KVER} \
-          -e REL=${REL} \
-          -t \
-          -v "$(pwd)":/repo \
-          ${DOCKER_IMAGE} \
-          /bin/bash -c 'apt-get update && \
-          DEBIAN_FRONTEND=noninteractive apt-get install -y -qq -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" wget git gpg apt-utils dpkg-dev python3 python3-pip python3-requests && \
-          mkdir -p -m 755 /etc/apt/keyrings && wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
-          && chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
-          && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
-          && apt-get update \
-          && apt-get install -y -qq -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" gh && \
-          cat /repo/key | gpg --import && \
-          echo "import requests" > download_discord.py && \
-          echo "" >> download_discord.py && \
-          echo "url = \"https://discord.com/api/download?platform=linux&format=deb\"" >> download_discord.py && \
-          echo "file_name = \"discord.deb\"" >> download_discord.py && \
-          echo "" >> download_discord.py && \
-          echo "response = requests.get(url)" >> download_discord.py && \
-          echo "" >> download_discord.py && \
-          echo "if response.status_code == 200:" >> download_discord.py && \
-          echo "    with open(file_name, \"wb\") as file:" >> download_discord.py && \
-          echo "        file.write(response.content)" >> download_discord.py && \
-          echo "    print(\"File downloaded successfully.\")" >> download_discord.py && \
-          echo "else:" >> download_discord.py && \
-          echo "    print(\"Failed to download file. Status code:\", response.status_code)" >> download_discord.py && \
-          python3 ./download_discord.py && \
-
-          mv ./discord.deb /repo && \
-          cd repo && \
-          gh release download bookworm -D bookworm -R AdityaGarg8/t2-ubuntu-repo && \
-          mv ./discord.deb ./bookworm && \
-          cd bookworm && \
-          dpkg-name ./discord.deb && \
-          dpkg-scanpackages --multiversion . > Packages && \
-          gzip -k -f Packages && \
-          apt-ftparchive release . > Release && \
-          gpg --default-key "${{ secrets.GPG_SIGNING_EMAIL }}" -abs -o - Release > Release.gpg && \
-          gpg --default-key "${{ secrets.GPG_SIGNING_EMAIL }}" --clearsign -o - Release > InRelease'
-
-          cd bookworm
-          if [[ $(ls | grep discord.deb) == discord.deb ]]
-          then
-          echo "publish=no" >> $GITHUB_ENV
-          fi
-
-      - name: Release Bookworm
-        if: env.publish != 'no'
-        run: |
-          gh release upload bookworm ${{ github.workspace }}/bookworm/* --clobber -R AdityaGarg8/t2-ubuntu-repo
-        env:
-          GH_TOKEN: ${{ secrets.PAT }}
-
-  Release-Sid:
-    runs-on: ubuntu-latest
-    steps:
-
-      - name: 'Checkout Repo'
-        uses: actions/checkout@v4
-        with:
-          persist-credentials: false
-          fetch-depth: 0
-      - name: Configure GPG Key
-        run: |
-          echo -n "$GPG_SIGNING_KEY" | base64 -di | gpg --import
-          echo -n "$GPG_SIGNING_KEY" | base64 -di > key
-        env:
-          GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
-
-      - name: Download Discord
-        id: publish
-        run: |
-          DOCKER_IMAGE=debian:sid
-          docker pull ${DOCKER_IMAGE}
-          docker run \
-          -e GH_TOKEN=${{ secrets.GITHUB_TOKEN }} \
-          -e GPG_SIGNING_EMAIL=${{ secrets.GPG_SIGNING_EMAIL }} \
-          -e VERSION=${VERSION} \
-          -e KVER=${KVER} \
-          -e REL=${REL} \
-          -t \
-          -v "$(pwd)":/repo \
-          ${DOCKER_IMAGE} \
-          /bin/bash -c 'apt-get update && \
-          DEBIAN_FRONTEND=noninteractive apt-get install -y -qq -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" wget git gpg apt-utils dpkg-dev python3 python3-pip python3-requests && \
-          mkdir -p -m 755 /etc/apt/keyrings && wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
-          && chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
-          && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
-          && apt-get update \
-          && apt-get install -y -qq -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" gh && \
-          cat /repo/key | gpg --import && \
-          echo "import requests" > download_discord.py && \
-          echo "" >> download_discord.py && \
-          echo "url = \"https://discord.com/api/download?platform=linux&format=deb\"" >> download_discord.py && \
-          echo "file_name = \"discord.deb\"" >> download_discord.py && \
-          echo "" >> download_discord.py && \
-          echo "response = requests.get(url)" >> download_discord.py && \
-          echo "" >> download_discord.py && \
-          echo "if response.status_code == 200:" >> download_discord.py && \
-          echo "    with open(file_name, \"wb\") as file:" >> download_discord.py && \
-          echo "        file.write(response.content)" >> download_discord.py && \
-          echo "    print(\"File downloaded successfully.\")" >> download_discord.py && \
-          echo "else:" >> download_discord.py && \
-          echo "    print(\"Failed to download file. Status code:\", response.status_code)" >> download_discord.py && \
-          python3 ./download_discord.py && \
-
-          mv ./discord.deb /repo && \
-          cd repo && \
-          gh release download sid -D sid -R AdityaGarg8/t2-ubuntu-repo && \
-          mv ./discord.deb ./sid && \
-          cd sid && \
-          dpkg-name ./discord.deb && \
-          dpkg-scanpackages --multiversion . > Packages && \
-          gzip -k -f Packages && \
-          apt-ftparchive release . > Release && \
-          gpg --default-key "${{ secrets.GPG_SIGNING_EMAIL }}" -abs -o - Release > Release.gpg && \
-          gpg --default-key "${{ secrets.GPG_SIGNING_EMAIL }}" --clearsign -o - Release > InRelease'
-
-          cd sid
-          if [[ $(ls | grep discord.deb) == discord.deb ]]
-          then
-          echo "publish=no" >> $GITHUB_ENV
-          fi
-
-      - name: Release Sid
-        if: env.publish != 'no'
-        run: |
-          gh release upload sid ${{ github.workspace }}/sid/* --clobber -R AdityaGarg8/t2-ubuntu-repo
+          gh release upload ${{ matrix.target.name }} ${{ github.workspace }}/${{ matrix.target.name }}/* --clobber -R AdityaGarg8/t2-ubuntu-repo
         env:
           GH_TOKEN: ${{ secrets.PAT }}

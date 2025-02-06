@@ -25,8 +25,8 @@ jobs:
             tag: "12"
             name: bookworm
           - image: debian
-            tag: sid
-            name: sid
+            tag: testing
+            name: testing
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout Repo"

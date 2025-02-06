@@ -81,7 +81,7 @@ jobs:
 
       - uses: larryjoelane/delete-release-action@v1.0.24
         with:
-          release-name: 'sid'
+          release-name: 'testing'
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Release
@@ -89,8 +89,8 @@ jobs:
         with:
           files: |
             ${{ github.workspace }}/KEY.gpg
-          tag_name: sid
-          body: Apt repo for Debian Unstable
+          tag_name: testing
+          body: Apt repo for Debian Testing
           draft: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

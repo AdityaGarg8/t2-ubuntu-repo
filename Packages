@@ -130,6 +130,18 @@ SHA1: 6f7ad48bbc9f02423054b43004e02cf0528bc055
 SHA256: 870c08a8c691e0b9e3bdf85648e8286d012ecacb68072e5fd40ea44e48f2a3cb
 Description: Apple BCE driver for Linux
 
+Package: apple-bce
+Version: 0.2.5
+Architecture: amd64
+Maintainer: Aditya Garg
+Depends: dkms
+Filename: ./apple-bce_0.2.5_amd64.deb
+Size: 36792
+MD5sum: 9cf29928eddb0ed6d2a44fd5a5730322
+SHA1: d4271e86f8a3a3ad7cea56f8addfb9a033e37d55
+SHA256: 48dc41d42ec74919778dc90cdc4700f2c274902fcf5db95f4adf92319f4f8405
+Description: Apple BCE driver for Linux
+
 Package: apple-firmware-script
 Version: 1.4-1
 Architecture: amd64
@@ -210,6 +222,18 @@ Size: 19010
 MD5sum: dcff4df0154e41c9fa55e15cae3fc9c3
 SHA1: c99288bd665df648cf6683719c5a852dc958821a
 SHA256: d01112a1bf0f0996ecb43ff647ce8defeb78735173354c06457aba2c8193369a
+Description: Apple System Management Controller driver for T2 Macs
+
+Package: applesmc-t2
+Version: 0.1.3
+Architecture: amd64
+Maintainer: Aditya Garg
+Depends: dkms
+Filename: ./applesmc-t2_0.1.3_amd64.deb
+Size: 19044
+MD5sum: b076fad7ccf956f488146f36800321c2
+SHA1: 9617f263a4e969ed23e4be3c299ed6b11f5ec906
+SHA256: ca5062f008f42c189343021f6adc5bf0dc779c4b667ea046a3a17949c71114dd
 Description: Apple System Management Controller driver for T2 Macs
 
 Package: bcm5974-t2

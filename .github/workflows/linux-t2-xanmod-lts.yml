@@ -112,7 +112,7 @@ jobs:
           mv ./deb.deb ./${{ matrix.target.name }} && \
           mv linux-headers-${KVER}-x64v3-t2-${CODENAME}-${REL}_${KVER}-${REL}_amd64.deb ./${{ matrix.target.name }} && \
           mv linux-image-${KVER}-x64v3-t2-${CODENAME}-${REL}_${KVER}-${REL}_amd64.deb ./${{ matrix.target.name }} && \
-          cd ${{ matrix.target.name }} && \
+          (cd ${{ matrix.target.name }} || exit 1) && \
           dpkg-name ./deb.deb && rm ./deb.deb \
 
           dpkg-scanpackages --multiversion . > Packages && \

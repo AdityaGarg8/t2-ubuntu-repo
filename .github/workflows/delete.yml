@@ -65,6 +65,22 @@ jobs:
 
       - uses: larryjoelane/delete-release-action@v1.0.24
         with:
+          release-name: 'plucky'
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            ${{ github.workspace }}/KEY.gpg
+          tag_name: testing
+          body: Apt repo for Ubuntu 25.04 Plucky Puffin
+          draft: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: larryjoelane/delete-release-action@v1.0.24
+        with:
           release-name: 'bookworm'
           token: ${{ secrets.GITHUB_TOKEN }}
 

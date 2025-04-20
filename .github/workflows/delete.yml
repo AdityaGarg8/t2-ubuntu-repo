@@ -73,7 +73,7 @@ jobs:
         with:
           files: |
             ${{ github.workspace }}/KEY.gpg
-          tag_name: testing
+          tag_name: plucky
           body: Apt repo for Ubuntu 25.04 Plucky Puffin
           draft: false
         env:

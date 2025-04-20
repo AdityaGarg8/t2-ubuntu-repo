@@ -27,9 +27,11 @@ Now after you have added the common apt repo, you additionally have to add a **r
 
     c) `oracular` for **Ubuntu 24.10**
 
-    d) `bookworm` for **Debian 12**
+    d) `plucky` for **Ubuntu 25.04**
 
-    e) `testing` for **Debian testing**
+    e) `bookworm` for **Debian 12**
+
+    f) `testing` for **Debian testing**
 
 3. Run the following (taking `noble` as the example, just replace it with your release codename in the first line):
 

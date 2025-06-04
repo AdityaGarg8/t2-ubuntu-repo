@@ -17,7 +17,7 @@ index 724e0b5..22c3d5e 100644
  
  [dependencies]
 -cairo-rs = { version = "0.20", default-features = false, features = ["freetype", "png"] }
-+cairo-rs = { version = "0.17", default-features = false, features = ["freetype", "png"] }
++cairo-rs = { version = "0.18", default-features = false, features = ["freetype", "png"] }
  librsvg-rebind = "0.1"
  drm = "0.14"
  anyhow = "1"

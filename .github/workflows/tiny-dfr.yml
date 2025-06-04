@@ -10,9 +10,6 @@ jobs:
       matrix:
         target:
           - image: ubuntu
-            tag: "22.04"
-            name: jammy
-          - image: ubuntu
             tag: "24.04"
             name: noble
           - image: ubuntu
@@ -21,9 +18,6 @@ jobs:
           - image: ubuntu
             tag: "25.04"
             name: plucky
-          - image: debian
-            tag: "12"
-            name: bookworm
           - image: debian
             tag: testing
             name: testing
@@ -73,10 +67,6 @@ jobs:
           git clone ${REPO} && \
           cd tiny-dfr && \
           git checkout ${COMMIT_HASH} && \
-          if [[ ${{ matrix.target.name }} = jammy || ${{ matrix.target.name }} = bookworm ]]; then \
-          cp /repo/.github/patches/*.patch ./; \
-          git am ./*.patch; \
-          fi && \
           $HOME/.cargo/bin/cargo b --release && \
           mkdir deb && \
           cd deb && \

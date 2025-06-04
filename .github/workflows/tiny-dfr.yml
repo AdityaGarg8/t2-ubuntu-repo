@@ -73,7 +73,7 @@ jobs:
           git clone ${REPO} && \
           cd tiny-dfr && \
           git checkout ${COMMIT_HASH} && \
-          if [[ ${{ matrix.target.name }} = jammy || ${{ matrix.target.name }} = bookworm ]]; then \
+          if [[ ${{ matrix.target.name }} = jmmy || ${{ matrix.target.name }} = bokworm ]]; then \
           cp /repo/.github/patches/*.patch ./; \
           git am ./*.patch; \
           fi && \

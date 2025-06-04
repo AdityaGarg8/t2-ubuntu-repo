@@ -1,15 +1,15 @@
-From 03722fe8335cfdcfacfde6538ea5fce135732031 Mon Sep 17 00:00:00 2001
+From d4aa38979949e4930f595f05d4a73830890d1750 Mon Sep 17 00:00:00 2001
 From: Aditya Garg <gargaditya08@live.com>
 Date: Wed, 4 Jun 2025 14:49:48 +0530
 Subject: [PATCH] Use older version of cairo
 
 Signed-off-by: Aditya Garg <gargaditya08@live.com>
 ---
- Cargo.toml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Cargo.toml | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/Cargo.toml b/Cargo.toml
-index 724e0b5..efa8aaf 100644
+index 724e0b5..22c3d5e 100644
 --- a/Cargo.toml
 +++ b/Cargo.toml
 @@ -10,7 +10,7 @@ repository = "https://github.com/AsahiLinux/tiny-dfr.git"
@@ -21,3 +21,15 @@ index 724e0b5..efa8aaf 100644
  librsvg-rebind = "0.1"
  drm = "0.14"
  anyhow = "1"
+@@ -23,7 +23,7 @@ privdrop = "0.5.3"
+ serde = { version = "1", features = ["derive"] }
+ toml = "0.8"
+ rand = "0.8"
+-freetype-rs = "0.37"
++freetype-rs = "0.32"
+ freedesktop-icons = "0.4.0"
+ chrono = { version = "0.4", features = ["unstable-locales"] }
+ pure-rust-locales = "0.8"
+-- 
+2.43.0
+

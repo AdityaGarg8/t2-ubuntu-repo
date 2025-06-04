@@ -91,10 +91,10 @@ jobs:
           echo "Description: Function row daemon for touchbar on Macs" >> control && \
           echo "Depends: systemd" >> control && \
 
-          echo "systemctl enable --now tiny-dfr.service" > postinst && \
+          echo "systemctl start tiny-dfr.service" > postinst && \
           echo "echo -e \"\\nYou may have to restart your Mac in case of a new installation\"" >> postinst && \
 
-          echo "systemctl disable --now tiny-dfr.service" >> prerm && \
+          echo "systemctl stop tiny-dfr.service" >> prerm && \
 
           chmod 755 ./postinst && \
           chmod 755 ./prerm && \

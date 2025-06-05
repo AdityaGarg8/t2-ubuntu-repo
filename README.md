@@ -10,8 +10,8 @@ This GitHub repository has various apt repos, that can roughly be classified int
 You have to add the **common apt repo** irrespective of whether you are using Debian or Ubuntu. Run the following to add this repo:
 
 ```bash
-curl -s --compressed "https://adityagarg8.github.io/t2-ubuntu-repo/KEY.gpg" | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/t2-ubuntu-repo.gpg >/dev/null
-sudo curl -s --compressed -o /etc/apt/sources.list.d/t2.list "https://adityagarg8.github.io/t2-ubuntu-repo/t2.list"
+curl -s --compressed "https://t2-ubuntu-repo.adityagarg.is-a.dev/KEY.gpg" | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/t2-ubuntu-repo.gpg >/dev/null
+sudo curl -s --compressed -o /etc/apt/sources.list.d/t2.list "https://t2-ubuntu-repo.adityagarg.is-a.dev/t2.list"
 sudo apt update
 ```
 

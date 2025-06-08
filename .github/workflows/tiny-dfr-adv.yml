@@ -1,5 +1,5 @@
 ---
-name: Create tiny-dfr package
+name: Create tiny-dfr-adv package
 
 on:
   workflow_dispatch:
@@ -96,7 +96,7 @@ jobs:
           mkdir DEBIAN && \
           cd DEBIAN && \
 
-          echo "Package: tiny-dfr" > control && \
+          echo "Package: tiny-dfr-adv" > control && \
           echo "Version: ${VERSION}-${CODENAME}" >> control && \
           echo "Maintainer: Aditya Garg" >> control && \
           echo "Architecture: amd64" >> control && \

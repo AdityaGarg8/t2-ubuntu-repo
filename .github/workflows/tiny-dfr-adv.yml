@@ -68,9 +68,9 @@ jobs:
           && apt-get update \
           && apt-get install -y -qq -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" gh && \
           curl https://sh.rustup.rs -sSf | sh -s -- -y && \
-          REPO=https://github.com/AsahiLinux/tiny-dfr.git && \
-          COMMIT_HASH=7098879a2add51ad66b3776cb0734930ebd77e3c && \
-          VERSION=0.3.5-1 && \
+          REPO=https://github.com/AdityaGarg8/tiny-dfr.git && \
+          COMMIT_HASH=1369f66177d435b0ab3915825b82004afa17ec93 && \
+          VERSION=0.3.1-1 && \
           cat /repo/key | gpg --import && \
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com" && \
           git config --global user.name "github-actions[bot]" && \
@@ -88,10 +88,14 @@ jobs:
           mkdir src && \
           cd .. && \
           cd .. && \
+          mkdir -p ./etc/tiny-dfr && \
+          cp ./share/tiny-dfr/config.toml ./etc/tiny-dfr/config.toml && \
           cp -r ./etc ./deb && \
           cp -r ./share ./deb/usr && \
           cp ./target/release/tiny-dfr ./deb/usr/bin && \
+          cp /repo/.github/scripts/touchbar ./deb/usr/bin && \
           chmod a+x ./deb/usr/bin/tiny-dfr && \
+          chmod a+x ./deb/usr/bin/touchbar && \
           cd deb && \
           mkdir DEBIAN && \
           cd DEBIAN && \
@@ -101,13 +105,23 @@ jobs:
           echo "Maintainer: Aditya Garg" >> control && \
           echo "Architecture: amd64" >> control && \
           echo "Description: Function row daemon for touchbar on Macs" >> control && \
-          echo "Depends: systemd" >> control && \
+          echo "Depends: systemd, dkms" >> control && \
 
-          echo "systemctl enable --now tiny-dfr.service" > postinst && \
+          echo "if [ -f /etc/tiny-dfr/config.toml ]" > preinst && \
+          echo "then" >> preinst && \
+          echo "cp /etc/tiny-dfr/config.toml /etc/tiny-dfr/config.toml.orj" >> preinst && \
+          echo "fi" >> preinst && \
+
+          echo "if [ -f /etc/tiny-dfr/config.toml.orj ]" > postinst && \
+          echo "then" >> postinst && \
+          echo "touchbar --restore" >> postinst && \
+          echo "fi" >> postinst && \
+          echo "systemctl enable --now tiny-dfr.service" >> postinst && \
           echo "echo -e \"\\nYou may have to restart your Mac in case of a new installation\"" >> postinst && \
 
           echo "systemctl disable --now tiny-dfr.service" >> prerm && \
 
+          chmod 755 ./preinst && \
           chmod 755 ./postinst && \
           chmod 755 ./prerm && \
 

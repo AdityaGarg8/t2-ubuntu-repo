@@ -105,7 +105,7 @@ jobs:
           echo "Maintainer: Aditya Garg" >> control && \
           echo "Architecture: amd64" >> control && \
           echo "Description: Function row daemon for touchbar on Macs" >> control && \
-          echo "Depends: systemd, dkms" >> control && \
+          echo "Depends: systemd" >> control && \
 
           echo "if [ -f /etc/tiny-dfr/config.toml ]" > preinst && \
           echo "then" >> preinst && \

@@ -1,0 +1,144 @@
+---
+name: Create tiny-dfr package
+
+on:
+  workflow_dispatch:
+
+jobs:
+  Publish:
+    strategy:
+      matrix:
+        target:
+          - image: ubuntu
+            tag: "22.04"
+            name: jammy
+          - image: ubuntu
+            tag: "24.04"
+            name: noble
+            excluded_patches: "&& rm 0002*"
+          - image: ubuntu
+            tag: "24.10"
+            name: oracular
+            excluded_patches: "&& rm 0002*"
+          - image: ubuntu
+            tag: "25.04"
+            name: plucky
+            excluded_patches: "&& rm 0002*"
+          - image: debian
+            tag: "12"
+            name: bookworm
+          - image: debian
+            tag: testing
+            name: testing
+            excluded_patches: "&& rm 0002*"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout Repo"
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Configure GPG Key
+        run: |
+          echo -n "$GPG_SIGNING_KEY" | base64 -di | gpg --import
+          echo -n "$GPG_SIGNING_KEY" | base64 -di > key
+        env:
+          GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
+
+      - name: Get the source code
+        id: publish
+        run: |
+          DOCKER_IMAGE=${{ matrix.target.image }}:${{ matrix.target.tag }}
+          docker pull ${DOCKER_IMAGE}
+          docker run \
+          -e GH_TOKEN=${{ secrets.PAT }} \
+          -e GPG_SIGNING_EMAIL=${{ secrets.GPG_SIGNING_EMAIL }} \
+          -t \
+          -v "$(pwd)":/repo \
+          ${DOCKER_IMAGE} \
+          /bin/bash -c 'apt-get update && \
+          DEBIAN_FRONTEND=noninteractive apt-get install -y -qq -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" gir1.2-coglpango-1.0 gir1.2-pango-1.0 libcogl-pango-dev libghc-gi-pango-dev wget libxml2-dev \
+          libghc-pango-dev libpango1.0-dev libudev-dev libinput-dev curl git librsvg2-dev gpg apt-utils lsb-release && \
+          CODENAME=$(lsb_release -c | cut -d ":" -f 2 | xargs) && \
+          mkdir -p -m 755 /etc/apt/keyrings && wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
+          && chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
+          && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+          && curl -s --compressed "https://adityagarg8.github.io/t2-ubuntu-repo/KEY.gpg" | gpg --dearmor | tee /etc/apt/trusted.gpg.d/t2-ubuntu-repo.gpg >/dev/null \
+          && curl -s --compressed -o /etc/apt/sources.list.d/t2.list "https://adityagarg8.github.io/t2-ubuntu-repo/t2.list" \
+          && apt-get update \
+          && apt-get install -y -qq -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" gh && \
+          curl https://sh.rustup.rs -sSf | sh -s -- -y && \
+          REPO=https://github.com/AsahiLinux/tiny-dfr.git && \
+          COMMIT_HASH=7098879a2add51ad66b3776cb0734930ebd77e3c && \
+          VERSION=0.3.5-1 && \
+          cat /repo/key | gpg --import && \
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com" && \
+          git config --global user.name "github-actions[bot]" && \
+          git clone ${REPO} && \
+          cd tiny-dfr && \
+          git checkout ${COMMIT_HASH} && \
+          cp /repo/.github/patches/*.patch ./ ${{ matrix.target.excluded_patches }} && \
+          git am ./*.patch && \
+          $HOME/.cargo/bin/cargo b --release && \
+          mkdir deb && \
+          cd deb && \
+          mkdir usr && \
+          cd usr && \
+          mkdir bin && \
+          mkdir src && \
+          cd .. && \
+          cd .. && \
+          cp -r ./etc ./deb && \
+          cp -r ./share ./deb/usr && \
+          cp ./target/release/tiny-dfr ./deb/usr/bin && \
+          chmod a+x ./deb/usr/bin/tiny-dfr && \
+          cd deb && \
+          mkdir DEBIAN && \
+          cd DEBIAN && \
+
+          echo "Package: tiny-dfr" > control && \
+          echo "Version: ${VERSION}-${CODENAME}" >> control && \
+          echo "Maintainer: Aditya Garg" >> control && \
+          echo "Architecture: amd64" >> control && \
+          echo "Description: Function row daemon for touchbar on Macs" >> control && \
+          echo "Depends: systemd" >> control && \
+
+          echo "systemctl enable --now tiny-dfr.service" > postinst && \
+          echo "echo -e \"\\nYou may have to restart your Mac in case of a new installation\"" >> postinst && \
+
+          echo "systemctl disable --now tiny-dfr.service" >> prerm && \
+
+          chmod 755 ./postinst && \
+          chmod 755 ./prerm && \
+
+          cd .. && \
+          cd .. && \
+          dpkg-deb --build --root-owner-group -Zgzip deb && \
+
+          mv ./deb.deb /repo && \
+          cd /repo && \
+          gh release download ${{ matrix.target.name }} -D ${{ matrix.target.name }} -R AdityaGarg8/t2-ubuntu-repo && \
+          mv ./deb.deb ./${{ matrix.target.name }} && cd ${{ matrix.target.name }} && \
+
+          dpkg-name ./deb.deb && \
+          dpkg-scanpackages --multiversion . > Packages && \
+          gzip -k -f Packages && \
+
+          apt-ftparchive release . > Release && \
+          gpg --default-key "${GPG_SIGNING_EMAIL}" -abs -o - Release > Release.gpg && \
+          gpg --default-key "${GPG_SIGNING_EMAIL}" --clearsign -o - Release > InRelease'
+
+          cd ${{ github.workspace }}
+          rm key
+
+          cd ${{ matrix.target.name }}
+          if [[ $(ls | grep deb.deb) == deb.deb ]]
+          then
+          echo "publish=no" >> $GITHUB_ENV
+          fi
+      - name: Release
+        if: env.publish != 'no'
+        run: |
+          gh release upload ${{ matrix.target.name }} ${{ github.workspace }}/${{ matrix.target.name }}/* --clobber -R AdityaGarg8/t2-ubuntu-repo
+        env:
+          GH_TOKEN: ${{ secrets.PAT }}

@@ -17,10 +17,6 @@ jobs:
             name: noble
             excluded_patches: "&& rm 0002*"
           - image: ubuntu
-            tag: "24.10"
-            name: oracular
-            excluded_patches: "&& rm 0002*"
-          - image: ubuntu
             tag: "25.04"
             name: plucky
             excluded_patches: "&& rm 0002*"

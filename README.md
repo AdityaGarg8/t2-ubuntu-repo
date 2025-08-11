@@ -29,7 +29,9 @@ Now after you have added the common apt repo, you additionally have to add a **r
 
     d) `bookworm` for **Debian 12**
 
-    e) `testing` for **Debian testing**
+    e) `trixie` for **Debian 13**
+
+    f) `testing` for **Debian testing**
 
 3. Run the following (taking `noble` as the example, just replace it with your release codename in the first line):
 

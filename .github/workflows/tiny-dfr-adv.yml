@@ -26,6 +26,7 @@ jobs:
           - image: debian
             tag: "trixie"
             name: trixie
+            excluded_patches: "&& rm 0002*"
           - image: debian
             tag: testing
             name: testing

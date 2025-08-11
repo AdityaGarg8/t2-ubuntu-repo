@@ -16,6 +16,9 @@ jobs:
             tag: "25.04"
             name: plucky
           - image: debian
+            tag: "13"
+            name: trixie
+          - image: debian
             tag: testing
             name: testing
     runs-on: ubuntu-latest

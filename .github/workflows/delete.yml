@@ -81,6 +81,22 @@ jobs:
 
       - uses: larryjoelane/delete-release-action@v1.0.24
         with:
+          release-name: 'trixie'
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            ${{ github.workspace }}/KEY.gpg
+          tag_name: trixie
+          body: Apt repo for Debian 13 Trixie
+          draft: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  
+      - uses: larryjoelane/delete-release-action@v1.0.24
+        with:
           release-name: 'testing'
           token: ${{ secrets.GITHUB_TOKEN }}
 

@@ -16,7 +16,7 @@ jobs:
             tag: "25.04"
             name: plucky
           - image: debian
-            tag: "13"
+            tag: "trixie"
             name: trixie
           - image: debian
             tag: testing

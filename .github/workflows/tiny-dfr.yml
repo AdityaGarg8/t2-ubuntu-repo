@@ -48,7 +48,7 @@ jobs:
           ${DOCKER_IMAGE} \
           /bin/bash -c 'apt-get update && \
           DEBIAN_FRONTEND=noninteractive apt-get install -y -qq -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" gir1.2-coglpango-1.0 gir1.2-pango-1.0 libcogl-pango-dev libghc-gi-pango-dev wget libxml2-dev \
-          libghc-pango-dev libpango1.0-dev libudev-dev libinput-dev curl git librsvg2-dev gpg apt-utils lsb-release libfreetype6 libfreetype6-dev libfontconfig1-dev libglib2.0-dev && \
+          libghc-pango-dev libpango1.0-dev libudev-dev libinput-dev curl git librsvg2-dev gpg apt-utils lsb-release base-files libfreetype6 libfreetype6-dev libfontconfig1-dev libglib2.0-dev && \
           CODENAME=$(lsb_release -c | cut -d ":" -f 2 | xargs) && \
           mkdir -p -m 755 /etc/apt/keyrings && wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
           && chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \

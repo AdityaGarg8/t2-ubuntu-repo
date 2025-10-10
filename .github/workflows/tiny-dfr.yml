@@ -15,6 +15,9 @@ jobs:
           - image: ubuntu
             tag: "25.04"
             name: plucky
+          - image: ubuntu
+            tag: "25.10"
+            name: questing
           - image: debian
             tag: "trixie"
             name: trixie

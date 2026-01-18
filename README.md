@@ -25,15 +25,13 @@ Now after you have added the common apt repo, you additionally have to add a **r
 
     b) `noble` for **Ubuntu 24.04**
 
-    c) `plucky` for **Ubuntu 25.04**
+    c) `questing` for **Ubuntu 25.10**
 
-    d) `questing` for **Ubuntu 25.10**
+    d) `bookworm` for **Debian 12**
 
-    e) `bookworm` for **Debian 12**
+    e) `trixie` for **Debian 13**
 
-    f) `trixie` for **Debian 13**
-
-    g) `testing` for **Debian testing**
+    f) `testing` for **Debian testing**
 
 3. Run the following (taking `noble` as the example, just replace it with your release codename in the first line):
 

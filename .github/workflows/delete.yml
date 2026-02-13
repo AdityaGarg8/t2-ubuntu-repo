@@ -15,7 +15,7 @@ jobs:
           persist-credentials: false
           fetch-depth: 0
 
-      - uses: larryjoelane/delete-release-action@v1.0.24
+      - uses: larryjoelane/delete-release-action@v1.4
         with:
           release-name: 'jammy'
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -31,7 +31,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: larryjoelane/delete-release-action@v1.0.24
+      - uses: larryjoelane/delete-release-action@v1.4
         with:
           release-name: 'noble'
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -47,7 +47,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: larryjoelane/delete-release-action@v1.0.24
+      - uses: larryjoelane/delete-release-action@v1.4
         with:
           release-name: 'questing'
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -79,7 +79,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: larryjoelane/delete-release-action@v1.0.24
+      - uses: larryjoelane/delete-release-action@v1.4
         with:
           release-name: 'trixie'
           token: ${{ secrets.GITHUB_TOKEN }}

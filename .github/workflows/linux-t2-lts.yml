@@ -111,7 +111,7 @@ jobs:
           cd /repo && \
           gh release download ${{ matrix.target.name }} -D ${{ matrix.target.name }} -R AdityaGarg8/t2-ubuntu-repo && \
           cd ${{ matrix.target.name }} && \
-          shopt -s nullglob && old_debs=(*.deb) && \ 
+          shopt -s nullglob && old_debs=(*.deb) && \
           wget https://github.com/t2linux/T2-Debian-and-Ubuntu-Kernel/releases/download/v${VERSION}-${REL}/linux-headers-${KVER}-${REL}-t2-${CODENAME}_${KVER}-${REL}_amd64.deb && \
           wget https://github.com/t2linux/T2-Debian-and-Ubuntu-Kernel/releases/download/v${VERSION}-${REL}/linux-image-${KVER}-${REL}-t2-${CODENAME}_${KVER}-${REL}_amd64.deb && \
           mv ../deb.deb ./ && \

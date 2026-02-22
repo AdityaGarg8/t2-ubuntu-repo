@@ -110,12 +110,11 @@ jobs:
           mv ./deb.deb /repo && \
           cd /repo && \
           gh release download ${{ matrix.target.name }} -D ${{ matrix.target.name }} -R AdityaGarg8/t2-ubuntu-repo && \
+          cd ${{ matrix.target.name }} && \
+          shopt -s nullglob && old_debs=(*.deb) && \
           wget https://github.com/t2linux/T2-Debian-and-Ubuntu-Kernel/releases/download/v${VERSION}-${REL}/linux-headers-${KVER}-x64v3-t2-${CODENAME}-${REL}_${KVER}-${REL}_amd64.deb && \
           wget https://github.com/t2linux/T2-Debian-and-Ubuntu-Kernel/releases/download/v${VERSION}-${REL}/linux-image-${KVER}-x64v3-t2-${CODENAME}-${REL}_${KVER}-${REL}_amd64.deb && \
-          mv ./deb.deb ./${{ matrix.target.name }} && \
-          mv linux-headers-${KVER}-x64v3-t2-${CODENAME}-${REL}_${KVER}-${REL}_amd64.deb ./${{ matrix.target.name }} && \
-          mv linux-image-${KVER}-x64v3-t2-${CODENAME}-${REL}_${KVER}-${REL}_amd64.deb ./${{ matrix.target.name }} && \
-          cd ${{ matrix.target.name }} && \
+          mv ../deb.deb ./ && \
           dpkg-name ./deb.deb && rm ./deb.deb \
 
           dpkg-scanpackages --multiversion . > Packages && \
@@ -124,6 +123,7 @@ jobs:
           apt-ftparchive release . > Release && \
           gpg --default-key "${GPG_SIGNING_EMAIL}" -abs -o - Release > Release.gpg && \
           gpg --default-key "${GPG_SIGNING_EMAIL}" --clearsign -o - Release > InRelease && \
+          for f in "${old_debs[@]}"; do [ -e "$f" ] && rm -- "$f"; done && \
           gh release upload ${{ matrix.target.name }} ./* --clobber -R AdityaGarg8/t2-ubuntu-repo'
 
           cd ${{ github.workspace }}

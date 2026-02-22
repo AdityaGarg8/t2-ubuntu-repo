@@ -106,7 +106,8 @@ jobs:
           mv ./deb.deb /repo && \
           cd /repo && \
           gh release download ${{ matrix.target.name }} -D ${{ matrix.target.name }} -R AdityaGarg8/t2-ubuntu-repo && \
-          mv ./deb.deb ./${{ matrix.target.name }} && cd ${{ matrix.target.name }} && \
+          cd ${{ matrix.target.name }} && shopt -s nullglob && old_debs=(*.deb) && \
+          mv ../deb.deb ./ && \
 
           dpkg-name ./deb.deb && \
           dpkg-scanpackages --multiversion . > Packages && \
@@ -114,7 +115,8 @@ jobs:
 
           apt-ftparchive release . > Release && \
           gpg --default-key "${GPG_SIGNING_EMAIL}" -abs -o - Release > Release.gpg && \
-          gpg --default-key "${GPG_SIGNING_EMAIL}" --clearsign -o - Release > InRelease'
+          gpg --default-key "${GPG_SIGNING_EMAIL}" --clearsign -o - Release > InRelease && \
+          for f in "${old_debs[@]}"; do [ -e "$f" ] && rm -- "$f"; done'
 
           cd ${{ github.workspace }}
           rm key

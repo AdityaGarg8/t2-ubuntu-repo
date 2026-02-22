@@ -80,14 +80,16 @@ jobs:
           mv ./discord.deb /repo && \
           cd repo && \
           gh release download ${{ matrix.target.name }} -D ${{ matrix.target.name }} -R AdityaGarg8/t2-ubuntu-repo && \
-          mv ./discord.deb ./${{ matrix.target.name }} && \
           cd ${{ matrix.target.name }} && \
+          shopt -s nullglob && old_debs=(*.deb) && \
+          mv ../discord.deb ./ && \
           dpkg-name ./discord.deb && \
           dpkg-scanpackages --multiversion . > Packages && \
           gzip -k -f Packages && \
           apt-ftparchive release . > Release && \
           gpg --default-key "${{ secrets.GPG_SIGNING_EMAIL }}" -abs -o - Release > Release.gpg && \
-          gpg --default-key "${{ secrets.GPG_SIGNING_EMAIL }}" --clearsign -o - Release > InRelease'
+          gpg --default-key "${GPG_SIGNING_EMAIL}" --clearsign -o - Release > InRelease && \
+          for f in "${old_debs[@]}"; do [ -e "$f" ] && rm -- "$f"; done'
 
           cd ${{ matrix.target.name }}
           if [[ $(ls | grep discord.deb) == discord.deb ]]

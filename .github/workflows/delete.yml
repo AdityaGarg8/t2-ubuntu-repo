@@ -6,6 +6,22 @@ on:
 
 jobs:
   Cleanup:
+      matrix:
+        target:
+          - info: "Ubuntu 22.04 Jammy Jellyfish"
+            name: jammy
+          - info: "Ubuntu 24.04 Noble Numbat"
+            name: noble
+          - info: "Ubuntu 25.10 Questing Quokka"
+            name: questing
+          - info: "Ubuntu 26.04 Resolute Raccoon"
+            name: resolute
+          - info: "Debian 12 Bookworm"
+            name: bookworm
+          - info: "Debian 13 Trixie"
+            name: trixie
+          - info: "Debian Testing"
+            name: testing
     runs-on: ubuntu-latest
     steps:
 
@@ -17,7 +33,7 @@ jobs:
 
       - uses: larryjoelane/delete-release-action@v1.0.24
         with:
-          release-name: 'jammy'
+          release-name: '${{ matrix.target.name }}'
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Release
@@ -26,87 +42,7 @@ jobs:
           files: |
             ${{ github.workspace }}/KEY.gpg
           tag_name: jammy
-          body: Apt repo for Ubuntu 22.04 Jammy Jellyfish
-          draft: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - uses: larryjoelane/delete-release-action@v1.0.24
-        with:
-          release-name: 'noble'
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: |
-            ${{ github.workspace }}/KEY.gpg
-          tag_name: noble
-          body: Apt repo for Ubuntu 24.04 Noble Numbat
-          draft: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - uses: larryjoelane/delete-release-action@v1.0.24
-        with:
-          release-name: 'questing'
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: |
-            ${{ github.workspace }}/KEY.gpg
-          tag_name: questing
-          body: Apt repo for Ubuntu 25.10 Questing Quokka
-          draft: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
- 
-      - uses: larryjoelane/delete-release-action@v1.0.24
-        with:
-          release-name: 'bookworm'
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: |
-            ${{ github.workspace }}/KEY.gpg
-          tag_name: bookworm
-          body: Apt repo for Debian 12 Bookworm
-          draft: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - uses: larryjoelane/delete-release-action@v1.0.24
-        with:
-          release-name: 'trixie'
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: |
-            ${{ github.workspace }}/KEY.gpg
-          tag_name: trixie
-          body: Apt repo for Debian 13 Trixie
-          draft: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  
-      - uses: larryjoelane/delete-release-action@v1.0.24
-        with:
-          release-name: 'testing'
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: |
-            ${{ github.workspace }}/KEY.gpg
-          tag_name: testing
-          body: Apt repo for Debian Testing
+          body: Apt repo for ${{ matrix.target.info }}
           draft: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

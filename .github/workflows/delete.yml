@@ -42,7 +42,7 @@ jobs:
         with:
           files: |
             ${{ github.workspace }}/KEY.gpg
-          tag_name: jammy
+          tag_name: ${{ matrix.target.name }}
           body: Apt repo for ${{ matrix.target.info }}
           draft: false
         env:

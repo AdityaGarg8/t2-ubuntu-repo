@@ -10,6 +10,7 @@ on:
 jobs:
   Release-Mainline-Kernel:
     strategy:
+      fail-fast: false
       matrix:
         target:
           - image: ubuntu

@@ -10,7 +10,8 @@ on:
 jobs:
   Release-Mainline-Xanmod-LTS-Kernel:
     strategy:
-      matrix:
+      fail-fast: false
+      matrix: 
         target:
           - image: ubuntu
             tag: "22.04"

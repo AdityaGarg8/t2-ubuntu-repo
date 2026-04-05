@@ -158,14 +158,14 @@ Homepage: https://github.com/lemmyg/t2-apple-audio-dsp/tree/speakers_161
 Description: Pipewire filterchain config for Macbook Pro 16 2019
 
 Package: t2fanrd
-Version: 0.1.0-2
+Version: 0.1.0-3
 Architecture: amd64
 Maintainer: Aditya Garg
 Depends: systemd
-Filename: ./t2fanrd_0.1.0-2_amd64.deb
-Size: 246464
-MD5sum: edb1d508005fd431709eb7ef7b0d58ea
-SHA1: 5d065afc89001f22630bbddfdc9e82f3b1b08ae6
-SHA256: d2716b280d299330207e3ec88eeb3971abe53cda653073caef7e9068dfc48eb5
+Filename: ./t2fanrd_0.1.0-3_amd64.deb
+Size: 255442
+MD5sum: ed1a405b6525bcafa1c2415faff7a8ef
+SHA1: a7115a42553773ea95391d93f2a34c30ef7f5431
+SHA256: a231c390f9e3ed86be44e333429ec10a1954f471d8af582332aea785aeb9b264
 Description: Fan Daemon for T2 Macs
 

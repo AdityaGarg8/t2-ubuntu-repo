@@ -16,6 +16,9 @@ jobs:
           - image: ubuntu
             tag: "25.10"
             name: questing
+          - image: ubuntu
+            tag: "26.04"
+            name: resolute
           - image: debian
             tag: "trixie"
             name: trixie

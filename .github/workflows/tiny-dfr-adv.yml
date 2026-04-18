@@ -20,6 +20,10 @@ jobs:
             tag: "25.10"
             name: questing
             excluded_patches: "&& rm 0002*"
+          - image: ubuntu
+            tag: "26.04"
+            name: resolute
+            excluded_patches: "&& rm 0002*"
           - image: debian
             tag: "12"
             name: bookworm

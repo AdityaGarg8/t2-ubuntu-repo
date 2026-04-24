@@ -29,16 +29,18 @@ Now after you have added the common apt repo, you additionally have to add a **r
 
     c) `questing` for **Ubuntu 25.10**
 
-    d) `bookworm` for **Debian 12**
+    d) `resolute` for **Ubuntu 26.04**
 
-    e) `trixie` for **Debian 13**
+    e) `bookworm` for **Debian 12**
 
-    f) `testing` for **Debian testing**
+    f) `trixie` for **Debian 13**
 
-3. Run the following (taking `noble` as the example, just replace it with your release codename in the first line):
+    g) `testing` for **Debian testing**
+
+3. Run the following (taking `resolute` as the example, just replace it with your release codename in the first line):
 
 ```bash
-CODENAME=noble
+CODENAME=resolute
 echo "deb [signed-by=/etc/apt/trusted.gpg.d/t2-ubuntu-repo.gpg] https://github.com/AdityaGarg8/t2-ubuntu-repo/releases/download/${CODENAME} ./" | sudo tee -a /etc/apt/sources.list.d/t2.list
 sudo apt update
 ```

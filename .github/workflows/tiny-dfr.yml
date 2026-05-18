@@ -63,8 +63,8 @@ jobs:
           && apt-get install -y -qq -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" gh && \
           curl https://sh.rustup.rs -sSf | sh -s -- -y && \
           REPO=https://github.com/AsahiLinux/tiny-dfr.git && \
-          COMMIT_HASH=c3ead36d2aec512c7529803e2fe5b63f84078cbe && \
-          VERSION=0.3.7-3 && \
+          COMMIT_HASH=f4f8fb71bd16a95b3d52b8b0d34d08e8df7b5972 && \
+          VERSION=0.3.7-4 && \
           cat /repo/key | gpg --import && \
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com" && \
           git config --global user.name "github-actions[bot]" && \

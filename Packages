@@ -165,6 +165,17 @@ SHA1: 9e73433af8784aca1a66fa3dccc67cc96d0430cd
 SHA256: 862bdda00f9015a48dd3f554ef0f43ff6ce878422eb541f87f827c3de7f24e6f
 Description: Audio configuration files for T2 Macs
 
+Package: apple-t2-audio-config
+Version: 0.5
+Architecture: amd64
+Maintainer: Aditya Garg
+Filename: ./apple-t2-audio-config_0.5_amd64.deb
+Size: 1196
+MD5sum: e4b86fd4ca1fe882008ffe43b04dc952
+SHA1: b764349140aa0701346127b77eafacafacc05b77
+SHA256: 3c5d4e8002dcabd94089fa413690e43ea212e4328e5dd8e150eeef3109682ee6
+Description: Audio configuration files for T2 Macs
+
 Package: apple-touchbar
 Version: 0.1-2
 Architecture: amd64

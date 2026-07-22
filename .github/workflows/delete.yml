@@ -13,8 +13,6 @@ jobs:
             name: jammy
           - info: "Ubuntu 24.04 Noble Numbat"
             name: noble
-          - info: "Ubuntu 25.10 Questing Quokka"
-            name: questing
           - info: "Ubuntu 26.04 Resolute Raccoon"
             name: resolute
           - info: "Debian 12 Bookworm"

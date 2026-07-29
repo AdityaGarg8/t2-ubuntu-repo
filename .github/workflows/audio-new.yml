@@ -1,0 +1,97 @@
+---
+name: Release Audio - New
+
+on:
+  workflow_dispatch:
+
+jobs:
+  Release-Audio:
+    strategy:
+      fail-fast: false
+      matrix:
+        target:
+          - image: ubuntu
+            tag: "26.04"
+            name: resolute
+          - image: debian
+            tag: "trixie"
+            name: trixie
+          - image: debian
+            tag: testing
+            name: testing
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout Repo"
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Configure GPG Key
+        run: |
+          echo -n "$GPG_SIGNING_KEY" | base64 -di | gpg --import
+          echo -n "$GPG_SIGNING_KEY" | base64 -di > key
+        env:
+          GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
+
+      - name: Release audio
+        id: publish
+        run: |
+          DOCKER_IMAGE=${{ matrix.target.image }}:${{ matrix.target.tag }}
+          docker pull ${DOCKER_IMAGE}
+          docker run \
+          -e GH_TOKEN=${{ secrets.PAT }} \
+          -e GPG_SIGNING_EMAIL=${{ secrets.GPG_SIGNING_EMAIL }} \
+          -e VERSION=${VERSION} \
+          -e KVER=${KVER} \
+          -e REL=${REL} \
+          -t \
+          -v "$(pwd)":/repo \
+          ${DOCKER_IMAGE} \
+          /bin/bash -c 'apt-get update && \
+          apt-get install -y ca-certificates wget git gpg apt-utils dpkg-dev lsb-release base-files && \
+          CODENAME=$(lsb_release -c | cut -d ":" -f 2 | xargs) && \
+          mkdir -p -m 755 /etc/apt/keyrings && wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
+          && chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
+          && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+          && apt update \
+          && apt install gh -y && \
+          cat /repo/key | gpg --import && \
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com" && \
+          git config --global user.name "github-actions[bot]" && \
+          git clone https://github.com/deqrocks/t2bce.git && \
+          mkdir -p deb/DEBIAN && \
+          mkdir -p deb/usr/share/alsa && \
+          cp -r t2bce/t2bce_audio-alsa-ucm-conf/ucm2 deb/usr/share/alsa && \
+          cd deb/DEBIAN && \
+          echo "Package: apple-t2-audio-config" > control && \
+          echo "Version: 0.5.2-${CODENAME}" >> control && \
+          echo "Maintainer: Aditya Garg" >> control && \
+          echo "Architecture: amd64" >> control && \
+          echo "Description: Audio configuration files for T2 Macs" >> control && \
+
+          echo "echo \"Restart to make the configuration files effective.\"" > postinst && \
+          chmod a+x ./postinst && \
+
+          cd .. && \
+          cd .. && \
+          dpkg-deb --build --root-owner-group -Zgzip deb && \
+
+          mv ./deb.deb /repo && \
+          cd /repo && \
+          gh release download ${{ matrix.target.name }} -D ${{ matrix.target.name }} -R AdityaGarg8/t2-ubuntu-repo && \
+          cd ${{ matrix.target.name }} && \
+          shopt -s nullglob && old_debs=(*.deb) && \
+          mv ../deb.deb ./ && \
+          dpkg-name ./deb.deb && rm ./deb.deb \
+
+          dpkg-scanpackages --multiversion . > Packages && \
+          gzip -k -f Packages && \
+
+          apt-ftparchive release . > Release && \
+          gpg --default-key "${GPG_SIGNING_EMAIL}" -abs -o - Release > Release.gpg && \
+          gpg --default-key "${GPG_SIGNING_EMAIL}" --clearsign -o - Release > InRelease && \
+          for f in "${old_debs[@]}"; do [ -e "$f" ] && rm -- "$f"; done && \
+          gh release upload ${{ matrix.target.name }} ./* --clobber -R AdityaGarg8/t2-ubuntu-repo'
+
+          cd ${{ github.workspace }}
+          rm key

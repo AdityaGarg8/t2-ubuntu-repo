@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  Release-Mainline-Kernel:
+  Release-Audio:
     strategy:
       fail-fast: false
       matrix:
@@ -33,18 +33,9 @@ jobs:
         env:
           GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
 
-      - name: Release kernel
+      - name: Release audio
         id: publish
         run: |
-          VERSION=$(cat ${{ github.workspace }}/.github/kernel/linux-t2 | grep "VERSION" | cut -d "=" -f 2)
-          REL=$(cat ${{ github.workspace }}/.github/kernel/linux-t2 | grep "REL" | cut -d "=" -f 2)
-          if [[ (${#VERSION} = 3) || (${#VERSION} = 4) ]]
-          then
-          KVER=${VERSION}.0
-          else
-          KVER=${VERSION}
-          fi
-
           DOCKER_IMAGE=${{ matrix.target.image }}:${{ matrix.target.tag }}
           docker pull ${DOCKER_IMAGE}
           docker run \
@@ -80,8 +71,6 @@ jobs:
           gh release download ${{ matrix.target.name }} -D ${{ matrix.target.name }} -R AdityaGarg8/t2-ubuntu-repo && \
           cd ${{ matrix.target.name }} && \
           shopt -s nullglob && old_debs=(*.deb) && \
-          wget https://github.com/t2linux/T2-Debian-and-Ubuntu-Kernel/releases/download/v${VERSION}-${REL}/linux-headers-${KVER}-${REL}-t2-${CODENAME}_${KVER}-${REL}_amd64.deb && \
-          wget https://github.com/t2linux/T2-Debian-and-Ubuntu-Kernel/releases/download/v${VERSION}-${REL}/linux-image-${KVER}-${REL}-t2-${CODENAME}_${KVER}-${REL}_amd64.deb && \
           mv ../deb.deb ./ && \
           dpkg-name ./deb.deb && rm ./deb.deb \
 

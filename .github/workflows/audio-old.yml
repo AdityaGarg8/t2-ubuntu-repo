@@ -1,10 +1,7 @@
 ---
-name: Release audio (Old)
+name: Release audio - Old
 
 on:
-  push:
-    paths:
-      - ".github/kernel/linux-t2"
   workflow_dispatch:
 
 jobs:

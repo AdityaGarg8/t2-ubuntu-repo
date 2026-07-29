@@ -1,5 +1,5 @@
 ---
-name: Release audio - Old
+name: Release Audio - Old
 
 on:
   workflow_dispatch:

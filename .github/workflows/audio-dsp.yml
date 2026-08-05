@@ -1,0 +1,41 @@
+---
+name: Build model-specific T2 audio DSP packages
+
+on:
+  workflow_dispatch:
+    inputs:
+      kait2en_ref:
+        description: KaiT2en branch, tag, or commit to package
+        required: true
+        default: main
+      version:
+        description: Debian package version
+        required: true
+        default: 1.0.0
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out packaging repository
+        uses: actions/checkout@v7
+
+      - name: Check out KaiT2en DSP source
+        uses: actions/checkout@v7
+        with:
+          repository: kaiT2en/KaiT2en-Fedora
+          ref: ${{ inputs.kait2en_ref }}
+          path: kait2en
+
+      - name: Build Debian packages
+        env:
+          VERSION: ${{ inputs.version }}
+        run: |
+          .github/scripts/build-audio-dsp-packages.sh kait2en packages
+
+      - name: Upload Debian packages
+        uses: actions/upload-artifact@v7
+        with:
+          name: t2-apple-audio-dsp-packages
+          path: packages/*.deb
+          if-no-files-found: error

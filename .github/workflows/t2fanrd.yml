@@ -44,7 +44,6 @@ jobs:
           DEBIAN_FRONTEND: noninteractive
 
       - name: Build package
-        id: publish
         run: |
           SERVICE_URL=https://raw.githubusercontent.com/t2linux/fedora/main/t2fanrd/t2fanrd.service
           REPO=https://github.com/GnomedDev/T2FanRD.git

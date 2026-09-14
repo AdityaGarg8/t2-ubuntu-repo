@@ -7,89 +7,93 @@ on:
 jobs:
   Publish:
     runs-on: ubuntu-latest
-    steps:
+    defaults:
+      run:
+        shell: bash
 
-      - name: 'Checkout Repo'
+    steps:
+      - name: Checkout Repo
         uses: actions/checkout@v7
         with:
           persist-credentials: false
           fetch-depth: 0
+
       - name: Configure GPG Key
         run: |
           echo -n "$GPG_SIGNING_KEY" | base64 -di | gpg --import
         env:
           GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
 
-      - name: Get the source code
-        id: publish
+      - name: Configure GIT
         run: |
-          REPO=https://github.com/GnomedDev/T2FanRD.git
-          COMMIT_HASH=5b1c0c10785b8e8dfe124a4d6aaa7c2becdac65c
-          VERSION=0.1.0-3
-          #curl -s --compressed "https://adityagarg8.github.io/t2-ubuntu-repo/KEY.gpg" | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/t2-ubuntu-repo.gpg >/dev/null
-          #sudo curl -s --compressed -o /etc/apt/sources.list.d/t2.list "https://adityagarg8.github.io/t2-ubuntu-repo/t2.list"
-          sudo apt update -y
-          #sudo apt upgrade -y
-          sudo apt-get install -y cargo
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
-          git clone ${REPO}
-          cd T2FanRD
-          git checkout ${COMMIT_HASH}
-          cargo b --release
-          mkdir deb
-          cd deb
-          mkdir usr
-          cd usr
-          mkdir bin
-          cd ..
-          cd ..
-          mkdir -p ./etc/systemd/system
-          wget https://raw.githubusercontent.com/t2linux/fedora/main/t2fanrd/t2fanrd.service
-          cp ./t2fanrd.service ./etc/systemd/system/t2fanrd.service
-          cp -r ./etc ./deb
-          cp ./target/release/t2fanrd ./deb/usr/bin
-          chmod a+x ./deb/usr/bin/t2fanrd
-          cd deb
-          mkdir DEBIAN
-          cd DEBIAN
+          git config --global advice.detachedHead false
 
-          echo "Package: t2fanrd" > control
-          echo "Version: ${VERSION}" >> control
-          echo "Maintainer: Aditya Garg" >> control
-          echo "Architecture: amd64" >> control
-          echo "Description: Fan Daemon for T2 Macs" >> control
-          echo "Depends: systemd" >> control
+      - name: Install cargo-deb
+        run: |
+          VERSION=3.8.0
+          URL=https://github.com/kornelski/cargo-deb/releases/download/v${VERSION}/cargo-deb_${VERSION}-1_amd64.deb
+          PACKAGE=$(mktemp --suffix=.deb)
+          trap 'rm -f "${PACKAGE}"' EXIT
 
-          echo "chmod a+x /etc/systemd/system/t2fanrd.service" > postinst
-          echo "chmod a+x /usr/bin/t2fanrd" >> postinst
-          echo "systemctl enable --now t2fanrd.service" >> postinst
+          set -e
+          curl -fsSL "${URL}" -o "${PACKAGE}"
+          sudo apt-get install -qy "${PACKAGE}"
+        env:
+          DEBIAN_FRONTEND: noninteractive
 
-          echo "systemctl disable --now t2fanrd.service" > prerm
+      - name: Build package
+        id: publish
+        run: |
+          SERVICE_URL=https://raw.githubusercontent.com/t2linux/fedora/main/t2fanrd/t2fanrd.service
+          REPO=https://github.com/GnomedDev/T2FanRD.git
+          COMMIT_HASH=5b1c0c10785b8e8dfe124a4d6aaa7c2becdac65c
+          REVISION=4
+          TARGET=$(mktemp --directory)
+          trap 'rm -rf "${TARGET}"' EXIT
 
-          chmod 755 ./postinst
-          chmod 755 ./prerm
+          set -e
+          sudo apt-get install -qy cargo debhelper
+          git clone "${REPO}" "${TARGET}"
+          curl -fssL "${SERVICE_URL}" -o t2fanrd.service
 
-          cd ${{ github.workspace }}/T2FanRD
-          dpkg-deb --build --root-owner-group -Zgzip deb
+          (
+            set -e
+            pushd "${TARGET}"
+            mkdir debian
+            curl -fssL "${SERVICE_URL}" -o debian/service
 
-          mv ./deb.deb ${{ github.workspace }}
-          cd ${{ github.workspace }}
-          # Packages & Packages.gz
-          rm ./t2fanrd*.deb || true
-          dpkg-name ./deb.deb
-          dpkg-scanpackages --multiversion . > Packages
+            echo '[package.metadata.deb]' >>Cargo.toml
+            echo 'maintainer = "Aditya Garg"' >>Cargo.toml
+            echo 'maintainer-scripts = "debian/"' >>Cargo.toml
+            echo 'license-file = ["LICENCE"]' >>Cargo.toml
+            echo 'extended-description = "Simple Fan Daemon for T2 Macs"' >>Cargo.toml
+            echo 'depends = "$auto"' >>Cargo.toml
+            echo 'section = "utility"' >>Cargo.toml
+            echo 'priority = "optional"' >>Cargo.toml
+            echo 'systemd-units = { enable = true }' >>Cargo.toml
+
+            cargo-deb --deb-revision "${REVISION}"
+            mv target/debian/t2fanrd_*.deb "$(dirs -l +1)/"
+          )
+        env:
+          DEBIAN_FRONTEND: noninteractive
+
+      - name: Sign and release
+        id: publish
+        run: |
+          dpkg-scanpackages --multiversion . >Packages
           gzip -k -f Packages
-          # Release, Release.gpg & InRelease
-          apt-ftparchive release . > Release
+          apt-ftparchive release . >Release
           gpg --default-key "${GPG_SIGNING_EMAIL}" -abs -o - Release > Release.gpg
           gpg --default-key "${GPG_SIGNING_EMAIL}" --clearsign -o - Release > InRelease
           cd ${{ github.workspace }}
-          rm -r ./T2FanRD
           git add .
           git commit -m "Update t2fanrd to ${VERSION}"
         env:
           GPG_SIGNING_EMAIL: ${{ secrets.GPG_SIGNING_EMAIL }}
+
       - name: Push changes to the repo
         uses: ad-m/github-push-action@master
         with:

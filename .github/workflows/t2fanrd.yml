@@ -48,6 +48,7 @@ jobs:
           set -e
           sudo apt-get install -qy cargo debhelper
           git clone "${REPO}" "${TARGET}"
+          VERSION=$(cat "${TARGET}"/Cargo.toml | grep version | grep -v { | cut -d '"' -f 2 | xargs)
           curl -fssL "${SERVICE_URL}" -o t2fanrd.service
 
           (
@@ -69,12 +70,14 @@ jobs:
             cargo-deb --deb-revision "${REVISION}"
             mv target/debian/t2fanrd_*.deb "$(dirs -l +1)/"
           )
+          echo "version=${VERSION}-${REVISION}" >> $GITHUB_ENV
         env:
           DEBIAN_FRONTEND: noninteractive
 
       - name: Sign and release
         id: publish
         run: |
+          rm t2fanrd.service
           dpkg-scanpackages --multiversion . >Packages
           gzip -k -f Packages
           apt-ftparchive release . >Release
@@ -82,7 +85,7 @@ jobs:
           gpg --default-key "${GPG_SIGNING_EMAIL}" --clearsign -o - Release > InRelease
           cd ${{ github.workspace }}
           git add .
-          git commit -m "Update t2fanrd to ${VERSION}"
+          git commit -m "Update t2fanrd to ${{ env.version }}"
         env:
           GPG_SIGNING_EMAIL: ${{ secrets.GPG_SIGNING_EMAIL }}
 

@@ -347,3 +347,20 @@ SHA1: a7115a42553773ea95391d93f2a34c30ef7f5431
 SHA256: a231c390f9e3ed86be44e333429ec10a1954f471d8af582332aea785aeb9b264
 Description: Fan Daemon for T2 Macs
 
+Package: t2fanrd
+Version: 0.1.0-4
+Architecture: amd64
+Maintainer: Aditya Garg
+Installed-Size: 545
+Depends: libc6 (>= 2.34)
+Filename: ./t2fanrd_0.1.0-4_amd64.deb
+Size: 217092
+MD5sum: d2eab80fa68b235f246980835af0d807
+SHA1: c9fd803729677245951538c366aff81ba9d28ff2
+SHA256: bc3ce5ca337fbb365a4676560872fa4cbe2cb124e1c3d5f0758ac98e90db14c0
+Section: utility
+Priority: optional
+Homepage: https://github.com/GnomedDev/T2FanRD
+Description: Simple Fan Daemon for T2 Macs
+ Simple Fan Daemon for T2 Macs
+

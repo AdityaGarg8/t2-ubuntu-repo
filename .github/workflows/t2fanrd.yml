@@ -32,14 +32,7 @@ jobs:
 
       - name: Install cargo-deb
         run: |
-          VERSION=3.8.0
-          URL=https://github.com/kornelski/cargo-deb/releases/download/v${VERSION}/cargo-deb_${VERSION}-1_amd64.deb
-          PACKAGE=$(mktemp --suffix=.deb)
-          trap 'rm -f "${PACKAGE}"' EXIT
-
-          set -e
-          curl -fsSL "${URL}" -o "${PACKAGE}"
-          sudo apt-get install -qy "${PACKAGE}"
+          cargo install cargo-deb
         env:
           DEBIAN_FRONTEND: noninteractive
 

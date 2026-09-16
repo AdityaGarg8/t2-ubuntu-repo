@@ -38,10 +38,11 @@ jobs:
           sudo apt-get install -y cargo
           cp -r ./sources/t2-touchid ./deb
           sed -i "s/VERSION/${VERSION}-${REVISION}/g" ./deb/DEBIAN/control
-          git clone https://github.com/kaiT2en/KaiT2en-Fedora.git
+          git clone --depth 1 https://github.com/kaiT2en/KaiT2en-Fedora.git
           cd KaiT2en-Fedora/apps/t2-touchid
           cargo build --release
           cd ${{ github.workspace }}
+          mkdir -p deb/usr/bin
           cp KaiT2en-Fedora/apps/t2-touchid/target/release/t2-touchid deb/usr/bin/t2-touchid
 
           dpkg-deb --build --root-owner-group -Zgzip deb

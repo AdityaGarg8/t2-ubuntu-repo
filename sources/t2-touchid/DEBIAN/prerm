@@ -2,5 +2,4 @@
 
 set -euo pipefail
 
-systemctl disable kait2en-t2-touchid.service
-systemctl restart fprintd.service
+systemctl disable --now kait2en-t2-touchid.service

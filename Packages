@@ -341,10 +341,10 @@ Architecture: amd64
 Maintainer: Aditya Garg
 Depends: network-manager
 Filename: ./t2-ncm_0.1.0-2_amd64.deb
-Size: 3176
-MD5sum: ab320eb9842e7fbfdddf8551af944eb5
-SHA1: 7035f0a30f0eba99f4d21af8c6294d38091306a7
-SHA256: 6f74f1b02c40e81c8d63a4147ace9d243e219fdac3710bc6783f34bc8b8c894f
+Size: 3184
+MD5sum: 8423baf2bae518e94cde93278b6c1818
+SHA1: 749966f00db31b7c6b1bbdbfa73e26f575c2cb92
+SHA256: 81593ebc382b0613e52ec961899cf33f950b1edf155c8964bbb8b525ed120281
 Description: NetworkManager settings to establish communication with the T2
 
 Package: t2fanrd

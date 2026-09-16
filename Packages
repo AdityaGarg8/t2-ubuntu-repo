@@ -336,15 +336,15 @@ Homepage: https://github.com/lemmyg/t2-apple-audio-dsp/tree/speakers_161
 Description: Pipewire filterchain config for Macbook Pro 16 2019
 
 Package: t2-ncm
-Version: 0.1.0-1
+Version: 0.1.0-2
 Architecture: amd64
 Maintainer: Aditya Garg
 Depends: network-manager
-Filename: ./t2-ncm_0.1.0-1_amd64.deb
-Size: 3178
-MD5sum: f7f5121739bd8e577521a148626d7366
-SHA1: b98e0025ff3399bc91a1d861f89b8a70f38f4831
-SHA256: 6321bd927872081f4276b2bda12f2e98e99daca515cde335698dbb4aa250ec73
+Filename: ./t2-ncm_0.1.0-2_amd64.deb
+Size: 3176
+MD5sum: ab320eb9842e7fbfdddf8551af944eb5
+SHA1: 7035f0a30f0eba99f4d21af8c6294d38091306a7
+SHA256: 6f74f1b02c40e81c8d63a4147ace9d243e219fdac3710bc6783f34bc8b8c894f
 Description: NetworkManager settings to establish communication with the T2
 
 Package: t2fanrd

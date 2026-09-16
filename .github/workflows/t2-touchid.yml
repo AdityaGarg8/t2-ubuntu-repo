@@ -42,7 +42,7 @@ jobs:
           cd KaiT2en-Fedora/apps/t2-touchid
           cargo build --release
           cd ${{ github.workspace }}
-          cp KaiT2en-Fedora/apps/t2-touchid/target/release/t2-touchid deb/usr/bin
+          cp KaiT2en-Fedora/apps/t2-touchid/target/release/t2-touchid deb/usr/bin/t2-touchid
 
           dpkg-deb --build --root-owner-group -Zgzip deb
 

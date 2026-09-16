@@ -1,0 +1,23 @@
+[Unit]
+Description=KaiT2en Touch ID bridge for fprintd
+After=NetworkManager.service network-online.target
+Wants=NetworkManager.service network-online.target
+
+[Service]
+Type=simple
+EnvironmentFile=-/usr/share/kait2en/t2-touchid.conf
+EnvironmentFile=-/etc/kait2en/t2-touchid.conf
+ExecStart=/usr/bin/t2-touchid --socket ${T2_TOUCHID_SOCKET} --uid ${T2_TOUCHID_UID} --flags ${T2_TOUCHID_FLAGS} --bind-user ${T2_TOUCHID_BIND_USER}
+Restart=on-failure
+RestartSec=5
+
+RuntimeDirectory=t2-touchid
+RuntimeDirectoryMode=0700
+RuntimeDirectoryPreserve=yes
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

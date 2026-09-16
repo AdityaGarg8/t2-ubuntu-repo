@@ -1,0 +1,6 @@
+Package: t2-touchid
+Version: VERSION
+Maintainer: Aditya Garg
+Architecture: amd64
+Description: Apple Touch ID daemon for T2 Macs
+Depends: t2-ncm

@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+systemctl disable kait2en-t2-touchid.service
+systemctl restart fprintd.service

@@ -1,0 +1,115 @@
+#!/usr/bin/env bash
+
+# Copyright (C) 2026 André Eikmeyer <andre.eikmeyer@kait2en.org>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# Modification History:
+# 2026-09-15  Aditya Garg     Modified for use with Ubuntu/Debian
+
+set -euo pipefail
+
+# Fixed address of the T2 bridge CDC-NCM interface, the same on every T2 Mac.
+readonly T2_NCM_MAC="ac:de:48:00:11:22"
+
+# Get the T2 interface name.
+interfaces=()
+for net in /sys/class/net/*; do
+	[[ -e "$net/device/driver" ]] || continue
+	driver="$(readlink -f "$net/device/driver")"
+	[[ "${driver##*/}" == cdc_ncm ]] || continue
+	parent="$(readlink -f "$net/device")"
+	while [[ "$parent" != / ]]; do
+		if [[ -r "$parent/idVendor" && -r "$parent/idProduct" &&
+		      "$(<"$parent/idVendor")" == 05ac && "$(<"$parent/idProduct")" == 8233 ]]; then
+			interfaces+=("${net##*/}")
+			break
+		fi
+		parent="${parent%/*}"
+		[[ -n "$parent" ]] || break
+	done
+done
+
+(( ${#interfaces[@]} <= 1 )) || (echo "multiple Apple CDC-NCM interfaces found; refusing ambiguous profile changes" && exit 1)
+
+readonly INTERFACE="${interfaces[0]:-}"
+MAC=""
+if [[ -n "$INTERFACE" ]]; then
+	MAC="$(<"/sys/class/net/$INTERFACE/address")"
+fi
+
+# Prefer Apple T2 Bridge even when the accidentally created profile is active.
+# Collect every profile that belongs to the NCM device so the duplicates
+# NetworkManager auto-creates can be removed, keeping only the best one.
+profile=""
+best_rank=0
+ncm_profiles=()
+
+	uuids="$(nmcli --get-values UUID connection show)"
+	for uuid in $uuids; do
+		type="$(nmcli --get-values connection.type connection show uuid "$uuid")"
+		[[ "$type" == 802-3-ethernet ]] || continue
+		name="$(nmcli --get-values connection.id connection show uuid "$uuid")"
+		bound_if="$(nmcli --get-values connection.interface-name connection show uuid "$uuid")"
+		bound_mac="$(nmcli --get-values 802-3-ethernet.mac-address connection show uuid "$uuid")"
+		rank=0
+		if [[ "$name" == "Apple T2 Bridge" ]]; then
+			rank=2
+		elif [[ ( -n "$INTERFACE" && "$bound_if" == "$INTERFACE" ) ||
+		        "$bound_if" == t2_ncm ||
+		        ( -n "$MAC" && "${bound_mac,,}" == "${MAC,,}" ) ||
+		        "${bound_mac,,}" == "$T2_NCM_MAC" ]]; then
+			rank=1
+		fi
+		(( rank == 0 )) || ncm_profiles+=("$uuid")
+		if (( rank > best_rank )); then
+			profile="$uuid"
+			best_rank=$rank
+		fi
+	done
+
+if [[ -z "$profile" && -z "$MAC" ]]; then
+	warn "T2 service installed; no NCM device or existing profile available to configure"
+	exit 0
+fi
+
+if [[ -z "$profile" ]]; then
+	echo "creating IPv6 link-local profile for $INTERFACE"
+	profile="$(< /proc/sys/kernel/random/uuid)"
+	nmcli connection add type ethernet con-name "Apple T2 Bridge" \
+		connection.uuid "$profile" ifname "*" \
+		802-3-ethernet.mac-address "$MAC" \
+		connection.autoconnect no ipv4.method disabled ipv6.method link-local
+fi
+
+binding=()
+if [[ -n "$MAC" ]]; then
+	binding=(connection.interface-name "" 802-3-ethernet.mac-address "$MAC")
+fi
+nmcli connection modify uuid "$profile" \
+	connection.id "Apple T2 Bridge" \
+	"${binding[@]}" \
+	connection.permissions "" \
+	connection.autoconnect yes \
+	connection.autoconnect-retries 0 \
+	ipv4.method disabled ipv6.method link-local
+
+# Remove the other NCM profiles (NetworkManager's auto-created generics and
+# old-name leftovers), after the replacement profile has been saved. An active
+# connection may end here.
+for uuid in "${ncm_profiles[@]}"; do
+	[[ "$uuid" != "$profile" ]] || continue
+	nmcli connection delete uuid "$uuid"
+done
+echo "T2 profile $profile configured; automatic connection and service start on next boot."

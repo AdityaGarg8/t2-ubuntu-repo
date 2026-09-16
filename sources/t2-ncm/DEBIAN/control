@@ -1,0 +1,6 @@
+Package: t2-ncm
+Version: VERSION
+Maintainer: Aditya Garg
+Architecture: amd64
+Description: NetworkManager settings to establish communication with the T2
+Depends: network-manager

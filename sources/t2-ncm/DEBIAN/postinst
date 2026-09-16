@@ -80,7 +80,7 @@ ncm_profiles=()
 	done
 
 if [[ -z "$profile" && -z "$MAC" ]]; then
-	warn "T2 service installed; no NCM device or existing profile available to configure"
+	echo "T2 service installed; no NCM device or existing profile available to configure"
 	exit 0
 fi
 

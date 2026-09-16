@@ -347,6 +347,18 @@ SHA1: 749966f00db31b7c6b1bbdbfa73e26f575c2cb92
 SHA256: 81593ebc382b0613e52ec961899cf33f950b1edf155c8964bbb8b525ed120281
 Description: NetworkManager settings to establish communication with the T2
 
+Package: t2-touchid
+Version: 0.1.0-1
+Architecture: amd64
+Maintainer: Aditya Garg
+Depends: t2-ncm
+Filename: ./t2-touchid_0.1.0-1_amd64.deb
+Size: 1628976
+MD5sum: 0b395783c76a506d8ee2b262a3ae4b90
+SHA1: a4021e99c5057d3d9b9c1e046b73398b0b34af5d
+SHA256: a920fcd65de69800809d600d32ab44c5c0aa4f9cbea29da1b3959fe93635c747
+Description: Apple Touch ID daemon for T2 Macs
+
 Package: t2fanrd
 Version: 0.1.0-3
 Architecture: amd64

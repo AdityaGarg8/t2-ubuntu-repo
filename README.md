@@ -66,6 +66,7 @@ You should be then be able to install and update the following packages with `ap
 - **t2-apple-audio-dsp-mic**: Mic configuration files for T2 Macs.
 - **t2-apple-audio-dsp-speakers161**: Pipewire filterchain configuration files for Macbook Pro 16 inch, 2019
 - **tiny-dfr**: Function row daemon for touchbar on Macs
+- **t2-touchid**: Support to use fingerprints enrolled in macOS on Linux.
 
 ## Donate
 

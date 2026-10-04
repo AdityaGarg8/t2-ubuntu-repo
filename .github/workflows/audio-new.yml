@@ -58,7 +58,7 @@ jobs:
           cat /repo/key | gpg --import && \
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com" && \
           git config --global user.name "github-actions[bot]" && \
-          git clone https://github.com/deqrocks/t2bce.git && \
+          git clone https://github.com/AdityaGarg8/t2bce.git && \
           mkdir -p deb/DEBIAN && \
           mkdir -p deb/usr/share/alsa && \
           cp -r t2bce/t2bce_audio-alsa-ucm-conf/ucm2 deb/usr/share/alsa && \

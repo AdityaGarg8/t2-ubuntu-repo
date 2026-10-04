@@ -64,7 +64,7 @@ jobs:
           cp -r t2bce/t2bce_audio-alsa-ucm-conf/ucm2 deb/usr/share/alsa && \
           cd deb/DEBIAN && \
           echo "Package: apple-t2-audio-config" > control && \
-          echo "Version: 0.5.2-${CODENAME}" >> control && \
+          echo "Version: 0.5.3-${CODENAME}" >> control && \
           echo "Maintainer: Aditya Garg" >> control && \
           echo "Architecture: amd64" >> control && \
           echo "Description: Audio configuration files for T2 Macs" >> control && \

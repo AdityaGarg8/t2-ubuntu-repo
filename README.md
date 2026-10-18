@@ -27,15 +27,15 @@ Now after you have added the common apt repo, you additionally have to add a **r
 
     b) `noble` for **Ubuntu 24.04**
 
-    c) `questing` for **Ubuntu 25.10**
-
     d) `resolute` for **Ubuntu 26.04**
+    
+    e) `stonking` for **Ubuntu 26.10**
 
-    e) `bookworm` for **Debian 12**
+    f) `bookworm` for **Debian 12**
 
-    f) `trixie` for **Debian 13**
+    g) `trixie` for **Debian 13**
 
-    g) `testing` for **Debian testing**
+    h) `testing` for **Debian testing**
 
 3. Run the following (taking `resolute` as the example, just replace it with your release codename in the first line):
 

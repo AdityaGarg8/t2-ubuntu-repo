@@ -39,9 +39,9 @@ jobs:
       - name: Build package
         run: |
           SERVICE_URL=https://raw.githubusercontent.com/t2linux/fedora/main/t2fanrd/t2fanrd.service
-          REPO=https://github.com/GnomedDev/T2FanRD.git
+          REPO=https://github.com/AdityaGarg8/T2FanRD
           COMMIT_HASH=5b1c0c10785b8e8dfe124a4d6aaa7c2becdac65c
-          REVISION=4
+          REVISION=5
           TARGET=$(mktemp --directory)
           trap 'rm -rf "${TARGET}"' EXIT
 

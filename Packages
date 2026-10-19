@@ -436,3 +436,20 @@ Homepage: https://github.com/GnomedDev/T2FanRD
 Description: Simple Fan Daemon for T2 Macs
  Simple Fan Daemon for T2 Macs
 
+Package: t2fanrd
+Version: 0.1.0-5
+Architecture: amd64
+Maintainer: Aditya Garg
+Installed-Size: 534
+Depends: libc6 (>= 2.34)
+Filename: ./t2fanrd_0.1.0-5_amd64.deb
+Size: 213268
+MD5sum: a90d867d1464328e8ffb6643cff4445f
+SHA1: d6cb03291e463c6ff69c50fb539c6838cb5e1827
+SHA256: 1fbb8a7802f6c8adcfd6e1bff4efb0099862d61360895ef702ba191fc740fed2
+Section: utility
+Priority: optional
+Homepage: https://github.com/GnomedDev/T2FanRD
+Description: Simple Fan Daemon for T2 Macs
+ Simple Fan Daemon for T2 Macs
+

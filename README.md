@@ -57,7 +57,7 @@ You should be then be able to install and update the following packages with `ap
 - **apple-t2-audio-config**: Audio config files for the audio device apple-bce has.
 - **apple-firmware-script**: Debian package for the [script](https://wiki.t2linux.org/tools/firmware.sh) to get Wi-Fi and Bluetooth firmware from macOS. Run using `get-apple-firmware`.
 - **apfs-dkms**: Debian package for the [linux-apfs-rw](https://github.com/linux-apfs/linux-apfs-rw) driver. (DO NOT USE IF INSTALLING `linux-t2`, `linux-t2-lts`, `linux-t2-xanmod` or `linux-t2-xanmod-lts`)
-- **bcm5974-t2**: Driver for trackpad gestures. (DO NOT USE IF INSTALLING `linux-t2` or `linux-t2-lts`)
+- **bcm5974-t2**: Driver for trackpad gestures. (DO NOT USE IF INSTALLING `linux-t2`, `linux-t2-lts`, `linux-t2-xanmod` or `linux-t2-xanmod-lts`)
 - **linux-t2**: Kernel package for Mainline kernels.
 - **linux-t2-lts**: Kernel package for LTS kernels.
 - **linux-t2-xanmod**: Kernel package for Mainline [Xanmod](https://xanmod.org/) kernels.

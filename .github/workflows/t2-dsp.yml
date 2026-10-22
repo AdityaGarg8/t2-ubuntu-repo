@@ -1,0 +1,69 @@
+---
+name: Create t2-dsp package
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version'
+        required: true
+      revision:
+        description: 'Revision (default = 1)'
+        required: false
+jobs:
+  Publish:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: 'Checkout Repo'
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Configure GPG Key
+        run: |
+          echo -n "$GPG_SIGNING_KEY" | base64 -di | gpg --import
+        env:
+          GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
+
+      - name: Get the source code
+        id: publish
+        run: |
+          VERSION="${{ github.event.inputs.version }}"
+          REVISION="${{ github.event.inputs.revision }}"
+          if [ -z "$REVISION" ]; then
+          REVISION=1
+          fi
+          sudo apt update
+          sudo apt-get install -y debhelper-compat python3
+          git clone --depth 1 https://github.com/kaiT2en/KaiT2en-Fedora.git
+          cd KaiT2en-Fedora
+          sed -i 's/0.1.0-1/${VERSION}-${REVISION}/g' ./dsp/packaging/debian/changelog
+          bash dsp/packaging/source-archive.sh ./t2-dsp-0.1.0.tar.gz
+          tar -xf ./t2-dsp-0.1.0.tar.gz
+          cp -r ./dsp/packaging/debian ./t2-dsp-0.1.0/
+          mv ./t2-dsp-0.1.0.tar.gz ./t2-dsp_${VERSION}.orig.tar.gz
+          cd t2-dsp-0.1.0
+          dpkg-buildpackage -us -uc
+          cd ..
+          mv ./t2-dsp_${VERSION}-${REVISION}_all.deb ${{ github.workspace }}
+          cd ${{ github.workspace }}
+
+          rm -rf ./KaiT2en-Fedora
+          dpkg-scanpackages --multiversion . > Packages
+          gzip -k -f Packages
+          # Release, Release.gpg & InRelease
+          apt-ftparchive release . > Release
+          gpg --default-key "${GPG_SIGNING_EMAIL}" -abs -o - Release > Release.gpg
+          gpg --default-key "${GPG_SIGNING_EMAIL}" --clearsign -o - Release > InRelease
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git add .
+          git commit -m "Update t2-dsp to ${VERSION}-${REVISION}"
+        env:
+          GPG_SIGNING_EMAIL: ${{ secrets.GPG_SIGNING_EMAIL }}
+      - name: Push changes to the repo
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}

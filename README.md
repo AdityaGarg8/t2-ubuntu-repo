@@ -63,8 +63,9 @@ You should be then be able to install and update the following packages with `ap
 - **linux-t2-xanmod**: Kernel package for Mainline [Xanmod](https://xanmod.org/) kernels.
 - **linux-t2-xanmod-lts**: Kernel package for LTS [Xanmod](https://xanmod.org/) kernels.
 - **t2fanrd**: Daemon to control fan speed on T2 Macs. For configuration instructions, refer to [this page](https://github.com/GnomedDev/T2FanRD).
-- **t2-apple-audio-dsp-mic**: Mic configuration files for T2 Macs.
-- **t2-apple-audio-dsp-speakers161**: Pipewire filterchain configuration files for Macbook Pro 16 inch, 2019
+- **t2-dsp**: Pipewire filterchain configuration files for better Speakers and Mic experience.
+- **t2-apple-audio-dsp-mic**: Mic configuration files for T2 Macs. (DEPRECIATED! Use `t2-dsp` instead)
+- **t2-apple-audio-dsp-speakers161**: Pipewire filterchain configuration files for Macbook Pro 16 inch, 2019 (DEPRECIATED! Use `t2-dsp` instead)
 - **tiny-dfr**: Function row daemon for touchbar on Macs
 - **t2-touchid**: Support to use fingerprints enrolled in macOS on Linux.
 

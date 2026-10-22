@@ -73,6 +73,7 @@ jobs:
           dpkg-buildpackage -us -uc && \
           cd .. && \
           mv ./t2-dsp_${VERSION}-${REVISION}_all.deb /repo && \
+          cat /repo/key | gpg --import && \
           cd /repo && \
           gh release download ${{ matrix.target.name }} -D ${{ matrix.target.name }} -R AdityaGarg8/t2-ubuntu-repo && \
           cd ${{ matrix.target.name }} && \

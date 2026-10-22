@@ -12,6 +12,22 @@ on:
         required: false
 jobs:
   Publish:
+    strategy:
+      fail-fast: false
+      matrix:
+        target:
+          - image: ubuntu
+            tag: "26.04"
+            name: resolute
+          - image: ubuntu
+            tag: "26.10"
+            name: stonking
+          - image: debian
+            tag: "trixie"
+            name: trixie
+          - image: debian
+            tag: testing
+            name: testing
     runs-on: ubuntu-latest
     steps:
 
@@ -34,36 +50,42 @@ jobs:
           if [ -z "$REVISION" ]; then
           REVISION=1
           fi
-          sudo apt update
-          sudo apt-get install -y debhelper-compat python3
-          git clone --depth 1 https://github.com/kaiT2en/KaiT2en-Fedora.git
-          cd KaiT2en-Fedora
-          sed -i 's/0.1.0-1/${VERSION}-${REVISION}/g' ./dsp/packaging/debian/changelog
-          bash dsp/packaging/source-archive.sh ./t2-dsp-0.1.0.tar.gz
-          tar -xf ./t2-dsp-0.1.0.tar.gz
-          cp -r ./dsp/packaging/debian ./t2-dsp-0.1.0/
-          mv ./t2-dsp-0.1.0.tar.gz ./t2-dsp_${VERSION}.orig.tar.gz
-          cd t2-dsp-0.1.0
-          dpkg-buildpackage -us -uc
-          cd ..
-          mv ./t2-dsp_${VERSION}-${REVISION}_all.deb ${{ github.workspace }}
-          cd ${{ github.workspace }}
+          DOCKER_IMAGE=${{ matrix.target.image }}:${{ matrix.target.tag }}
+          docker pull ${DOCKER_IMAGE}
+          docker run \
+          -e GH_TOKEN=${{ secrets.PAT }} \
+          -e GPG_SIGNING_EMAIL=${{ secrets.GPG_SIGNING_EMAIL }} \
+          -e VERSION=${VERSION} \
+          -e REVISION=${REVISION} \
+          -t \
+          -v "$(pwd)":/repo \
+          ${DOCKER_IMAGE} \
+          /bin/bash -c 'apt-get update && \
+          apt-get install -y debhelper-compat python3 && \
+          git clone --depth 1 https://github.com/kaiT2en/KaiT2en-Fedora.git && \
+          cd KaiT2en-Fedora && \
+          sed -i 's/0.1.0-1/${VERSION}-${REVISION}/g' ./dsp/packaging/debian/changelog && \
+          bash dsp/packaging/source-archive.sh ./t2-dsp-0.1.0.tar.gz && \
+          tar -xf ./t2-dsp-0.1.0.tar.gz && \
+          cp -r ./dsp/packaging/debian ./t2-dsp-0.1.0/ && \
+          mv ./t2-dsp-0.1.0.tar.gz ./t2-dsp_${VERSION}.orig.tar.gz && \
+          cd t2-dsp-0.1.0 && \
+          dpkg-buildpackage -us -uc && \
+          cd .. && \
+          mv ./t2-dsp_${VERSION}-${REVISION}_all.deb /repo && \
+          cd /repo && \
+          gh release download ${{ matrix.target.name }} -D ${{ matrix.target.name }} -R AdityaGarg8/t2-ubuntu-repo && \
+          cd ${{ matrix.target.name }} && \
+          shopt -s nullglob && old_debs=(*.deb) && \
+          mv ../t2-dsp_${VERSION}-${REVISION}_all.deb ./ && \
+          dpkg-scanpackages --multiversion . > Packages && \
+          gzip -k -f Packages && \
 
-          rm -rf ./KaiT2en-Fedora
-          dpkg-scanpackages --multiversion . > Packages
-          gzip -k -f Packages
-          # Release, Release.gpg & InRelease
-          apt-ftparchive release . > Release
-          gpg --default-key "${GPG_SIGNING_EMAIL}" -abs -o - Release > Release.gpg
-          gpg --default-key "${GPG_SIGNING_EMAIL}" --clearsign -o - Release > InRelease
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "github-actions[bot]"
-          git add .
-          git commit -m "Update t2-dsp to ${VERSION}-${REVISION}"
-        env:
-          GPG_SIGNING_EMAIL: ${{ secrets.GPG_SIGNING_EMAIL }}
-      - name: Push changes to the repo
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.ref }}
+          apt-ftparchive release . > Release && \
+          gpg --default-key "${GPG_SIGNING_EMAIL}" -abs -o - Release > Release.gpg && \
+          gpg --default-key "${GPG_SIGNING_EMAIL}" --clearsign -o - Release > InRelease && \
+          for f in "${old_debs[@]}"; do [ -e "$f" ] && rm -- "$f"; done && \
+          gh release upload ${{ matrix.target.name }} ./* --clobber -R AdityaGarg8/t2-ubuntu-repo'
+
+          cd ${{ github.workspace }}
+          rm key

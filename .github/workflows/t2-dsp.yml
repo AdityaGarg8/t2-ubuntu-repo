@@ -61,7 +61,7 @@ jobs:
           -v "$(pwd)":/repo \
           ${DOCKER_IMAGE} \
           /bin/bash -c 'apt-get update && \
-          DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get install -y debhelper-compat python3 git && \
+          DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get install -y debhelper-compat python3 git apt-utils dpkg-dev gh && \
           git clone --depth 1 https://github.com/kaiT2en/KaiT2en-Fedora.git && \
           cd KaiT2en-Fedora && \
           sed -i 's/0.1.0-1/${VERSION}-${REVISION}/g' ./dsp/packaging/debian/changelog && \

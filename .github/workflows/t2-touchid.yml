@@ -20,6 +20,8 @@ jobs:
         with:
           persist-credentials: false
           fetch-depth: 0
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
       - name: Configure GPG Key
         run: |
           echo -n "$GPG_SIGNING_KEY" | base64 -di | gpg --import
@@ -35,15 +37,28 @@ jobs:
           REVISION=1
           fi
           sudo apt update
-          sudo apt-get install -y cargo
+          sudo apt-get install -y build-essential dpkg-dev libinput-dev libudev-dev pkg-config
           cp -r ./sources/t2-touchid ./deb
           sed -i "s/VERSION/${VERSION}-${REVISION}/g" ./deb/DEBIAN/control
           git clone --depth 1 https://github.com/kaiT2en/KaiT2en-Fedora.git
-          cd KaiT2en-Fedora/apps/t2-touchid
-          cargo build --release
+          cd KaiT2en-Fedora/t2-services/t2-touchid
+          cargo build --release --locked --target-dir target
           cd ${{ github.workspace }}
           mkdir -p deb/usr/bin
-          cp KaiT2en-Fedora/apps/t2-touchid/target/release/t2-touchid deb/usr/bin/t2-touchid
+          cp KaiT2en-Fedora/t2-services/t2-touchid/target/release/t2-touchid deb/usr/bin/t2-touchid
+          install -Dm0644 KaiT2en-Fedora/t2-services/t2-touchid/integration/dbus/org.kait2en.TouchId.conf \
+            deb/usr/share/dbus-1/system.d/org.kait2en.TouchId.conf
+
+          # Record the ABI requirements of the libraries used by this build.
+          SHLIBS_DIR="$(mktemp -d)"
+          mkdir -p "$SHLIBS_DIR/debian"
+          printf 'Source: t2-touchid\n\nPackage: t2-touchid\nArchitecture: amd64\n' > "$SHLIBS_DIR/debian/control"
+          ln -s "${{ github.workspace }}/deb" "$SHLIBS_DIR/debian/t2-touchid"
+          SHLIBS_DEPENDS="$(cd "$SHLIBS_DIR" && dpkg-shlibdeps -O debian/t2-touchid/usr/bin/t2-touchid)"
+          SHLIBS_DEPENDS="${SHLIBS_DEPENDS#shlibs:Depends=}"
+          test -n "$SHLIBS_DEPENDS"
+          sed -i "s/SHLIBS_DEPENDS/${SHLIBS_DEPENDS}/g" ./deb/DEBIAN/control
+          rm -rf "$SHLIBS_DIR"
 
           dpkg-deb --build --root-owner-group -Zgzip deb
 

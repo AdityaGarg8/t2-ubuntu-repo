@@ -215,6 +215,18 @@ SHA256: a15c4a200ef7c696f7e0f8d911cd78914292c525becb82f719fb1af630bbd917
 Description: Apple File System driver for Linux
 
 Package: apfs-dkms
+Version: 0.3.22-10
+Architecture: all
+Maintainer: Aditya Garg
+Depends: dkms
+Filename: ./apfs-dkms_0.3.22-10_all.deb
+Size: 151472
+MD5sum: 46afaf8e35d028820a97f3d8c9515b59
+SHA1: b43000e0e055540d06cd3eebbfca91b58ce2d792
+SHA256: 147a3688c9d374362278047d0c9f012e823f68605656339b043c228b0664c3a4
+Description: Apple File System driver for Linux
+
+Package: apfs-dkms
 Version: 0.3.22-2
 Architecture: all
 Maintainer: Aditya Garg
